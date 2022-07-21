@@ -1,8 +1,14 @@
 # Compose Before-After
 
 Composables to display Images, or Composables as before and after composables to display
-differences or animate progress between 2 layout or Composables with overlay and
+differences or animate progress between 2 layouts or Composables with overlay and
 customization options and progress observe properties for animating before-after progress
+
+
+
+https://user-images.githubusercontent.com/35650605/180228396-ef6e8af1-14e9-4d69-b505-2d70f9c5c764.mp4
+
+
 
 ## Gradle Setup
 
@@ -146,28 +152,18 @@ BeforeAfterImage(
 
 ### Parameters
 
-* beforeImage image that show initial progress
-* afterImage image that show final progress
-* enableProgressWithTouch flag to enable drag and change progress with touch
-* enableZoom when enabled images are zoomable and pannable
-* contentOrder order of images to be drawn
-* alignment determines where image will be aligned inside `BoxWithConstraints`
-* This is observable when bitmap image/width ratio differs from `Canvas` that draws `ImageBitmap`
-* contentDescription text used by accessibility services to describe what this image
-* represents. This should always be provided unless this image is used for decorative purposes,
-* and does not represent a meaningful action that a user can take. This text should be
-* localized, such as by using `androidx.compose.ui.res.stringResource` or similar
-* contentScale how image should be scaled inside Canvas to match parent dimensions.
+* **beforeImage** image that show initial progress
+* **afterImage** image that show final progress
+* **enableProgressWithTouch** flag to enable drag and change progress with touch
+* **enableZoom** when enabled images are zoomable and pannable
+* **contentOrder** order of images to be drawn
+* **alignment** determines where image will be aligned inside `BoxWithConstraints`
+* **contentScale** how image should be scaled inside Canvas to match parent dimensions.
 * `ContentScale.Fit` for instance maintains src ratio and scales image to fit inside the parent.
-* alpha Opacity to be applied to `beforeImage` from 0.0f to 1.0f representing
-* fully transparent to fully opaque respectively
-* colorFilter ColorFilter to apply to the `beforeImage` when drawn into the destination
-* filterQuality Sampling algorithm applied to the `beforeImage` when it is scaled and drawn
-* into the destination. The default is `FilterQuality.Low` which scales using a bilinear
-* sampling algorithm
-* overlay is a Composable that can be matched at exact position where `beforeImage``` is drawn.
-* This is useful for drawing thumbs, cropping or another layout that should match position
-  with the image that is scaled is drawn
+* **alpha** Opacity to be applied to `beforeImage` from 0.0f to 1.0f representing fully transparent to fully opaque respectively
+* **colorFilter** ColorFilter to apply to the `beforeImage` when drawn into the destination
+* **filterQuality** Sampling algorithm applied to the `beforeImage` when it is scaled and drawn  into the destination. The default is `FilterQuality.Low` which scales using a bilinear sampling algorithm
+* **overlay** is a Composable that can be matched at exact position where `beforeImage` is drawn. This is useful for drawing thumbs, cropping or another layout that should match position with the image that is scaled is drawn
 
 ## BeforeAfterLayout
 
@@ -236,7 +232,7 @@ also offers `DefaultOverlayo`
 )
 ```
 
-** Display Layouts with M2 and M3 together
+**Display difference between Composables with Material Design2 and M3**
 
 ```kotlin
         BeforeAfterLayout(
@@ -296,8 +292,9 @@ BeforeAfterLayout(
 ```
 
 **Display before and after videos with Exoplayer**
-Note there is a bug with Exoplayer2. If you have a fix please open a PR or
-answer 
+
+### ⚠️ Note there is a bug with Exoplayer2. 
+If you have a fix please open a PR or answer 
 [this question](https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used)
 Both are appreciated greatly
 
