@@ -1,5 +1,8 @@
 # Compose Before-After
 
+[![](https://jitpack.io/v/SmartToolFactory/Compose-BeforeAfter.svg)](https://jitpack.io/#SmartToolFactory/Compose-BeforeAfter)
+
+
 Composables to display Images, or Composables as before and after composables to display
 differences or animate progress between 2 layouts or Composables with overlay and
 customization options and progress observe properties for animating before-after progress
@@ -11,6 +14,28 @@ https://user-images.githubusercontent.com/35650605/180228396-ef6e8af1-14e9-4d69-
 
 
 ## Gradle Setup
+
+To get a Git project into your build:
+
+* Step 1. Add the JitPack repository to your build file Add it in your root build.gradle at the end
+  of repositories:
+
+```
+allprojects {
+  repositories {
+      ...
+      maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+* Step 2. Add the dependency
+
+```
+dependencies {
+    implementation 'com.github.SmartToolFactory:Compose-BeforeAfter:<version>'
+}
+```
 
 ## BeforeAfterImage
 
