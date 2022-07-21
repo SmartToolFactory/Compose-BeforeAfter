@@ -16,12 +16,46 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntRect
 
-
 /**
  * Scope for before-after images that returns touch position on Composable
  */
+interface BeforeAfterImageScope : ImageScope {
+    /**
+     * Touch position on screen
+     */
+    var position: Offset
+}
+
+class BeforeAfterImageScopeImpl(
+    private val density: Density,
+    override val constraints: Constraints,
+    override val imageWidth: Dp,
+    override val imageHeight: Dp,
+    override val rect: IntRect,
+    override var position: Offset,
+) : BeforeAfterImageScope {
+
+    override val minWidth: Dp get() = with(density) { constraints.minWidth.toDp() }
+
+    override val maxWidth: Dp
+        get() = with(density) {
+            if (constraints.hasBoundedWidth) constraints.maxWidth.toDp() else Dp.Infinity
+        }
+
+    override val minHeight: Dp get() = with(density) { constraints.minHeight.toDp() }
+
+    override val maxHeight: Dp
+        get() = with(density) {
+            if (constraints.hasBoundedHeight) constraints.maxHeight.toDp() else Dp.Infinity
+        }
+}
+
+
+/**
+ * Receiver scope for [BeforeAfterImageScope]
+ */
 @Stable
-internal interface BeforeAfterImageScope {
+interface ImageScope {
     /**
      * The constraints given by the parent layout in pixels.
      *
@@ -73,21 +107,15 @@ internal interface BeforeAfterImageScope {
      * [IntRect] that covers boundaries of [ImageBitmap]
      */
     val rect: IntRect
-
-    /**
-     * Touch position on screen
-     */
-    var position: Offset
 }
 
-internal data class BeforeAfterImageScopeImpl(
+internal data class ImageScopeImpl(
     private val density: Density,
     override val constraints: Constraints,
     override val imageWidth: Dp,
     override val imageHeight: Dp,
     override val rect: IntRect,
-    override var position: Offset,
-    ) : BeforeAfterImageScope {
+) : ImageScope {
 
     override val minWidth: Dp get() = with(density) { constraints.minWidth.toDp() }
 
@@ -105,7 +133,7 @@ internal data class BeforeAfterImageScopeImpl(
 }
 
 @Composable
-internal fun BeforeAfterImageScope.getScaledImageBitmap(
+internal fun ImageScope.getScaledImageBitmap(
     bitmap: ImageBitmap,
     contentScale: ContentScale
 ): ImageBitmap {
