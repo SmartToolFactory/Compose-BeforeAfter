@@ -37,7 +37,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.2.0-beta01'
+        kotlinCompilerExtensionVersion '1.2.0'
     }
     packagingOptions {
         resources {
@@ -48,12 +48,41 @@ android {
 
 dependencies {
 
+    implementation project(':beforeafter')
+
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
-    implementation 'androidx.activity:activity-compose:1.5.0'
+
+
     implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha14'
+    // Tooling support (Previews, etc.)
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    // Material Design
+    implementation "androidx.compose.material:material:$compose_version"
+    // Material design icons
+    implementation "androidx.compose.material:material-icons-core:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    // Integration with activities
+    implementation 'androidx.activity:activity-compose:1.5.0'
+    // Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0'
+
+    // Material Design 3 for Compose
+    implementation "androidx.compose.material3:material3:1.0.0-alpha14"
+
+    // Photo Picker
+    implementation("com.google.modernstorage:modernstorage-photopicker:1.0.0-alpha06")
+
+    // ExoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.0'
+
+    def accompanist_version = "0.24.12-rc"
+    // Accompanist
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
