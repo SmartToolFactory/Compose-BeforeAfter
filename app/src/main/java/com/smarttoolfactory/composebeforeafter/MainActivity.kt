@@ -1,19 +1,25 @@
+@file:OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
+
 package com.smarttoolfactory.composebeforeafter
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.Animatable
-import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.*
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
+import com.smarttoolfactory.composebeforeafter.demo.BeforeAfterImageDemo
+import com.smarttoolfactory.composebeforeafter.demo.BeforeAfterLayoutDemo
 import com.smarttoolfactory.composebeforeafter.ui.theme.ComposeBeforeAfterTheme
 import kotlinx.coroutines.launch
 
@@ -27,22 +33,69 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    HomeContent()
                 }
             }
         }
     }
 }
 
+@ExperimentalPagerApi
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
+private fun HomeContent() {
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposeBeforeAfterTheme {
-        Greeting("Android")
+    val pagerState: PagerState = rememberPagerState(initialPage = 0)
+
+    val coroutineScope = rememberCoroutineScope()
+
+    Scaffold(
+        topBar = {
+            TabRow(
+                modifier = Modifier.fillMaxWidth(),
+                // Our selected tab is our current page
+                selectedTabIndex = pagerState.currentPage,
+                // Override the indicator, using the provided pagerTabIndicatorOffset modifier
+                indicator = { tabPositions: List<TabPosition> ->
+                    TabRowDefaults.Indicator(
+                        modifier = Modifier.tabIndicatorOffset(
+                            tabPositions[pagerState.currentPage]
+                        ),
+                        height = 4.dp
+                    )
+                }
+            ) {
+                // Add tabs for all of our pages
+                tabList.forEachIndexed { index, title ->
+                    Tab(
+                        text = { Text(title) },
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    ) {
+
+        HorizontalPager(
+            modifier = Modifier.padding(it),
+            state = pagerState,
+            count = tabList.size
+        ) { page: Int ->
+
+            when (page) {
+                0 -> BeforeAfterImageDemo()
+                else -> BeforeAfterLayoutDemo()
+            }
+        }
     }
 }
+
+internal val tabList =
+    listOf(
+        "Before/After Image",
+        "Before/After Layout",
+    )
