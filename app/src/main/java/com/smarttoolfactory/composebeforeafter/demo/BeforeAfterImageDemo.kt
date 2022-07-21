@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.ContentOrder
+import com.smarttoolfactory.beforeafter.OverlayStyle
 import com.smarttoolfactory.composebeforeafter.ContentScaleSelectionMenu
 import com.smarttoolfactory.composebeforeafter.R
 
@@ -83,7 +83,7 @@ fun BeforeAfterImageDemo() {
 
         BeforeAfterImage(
             modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(10.dp))
+                .clip( RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
             beforeImage = imageBefore,
@@ -91,20 +91,21 @@ fun BeforeAfterImageDemo() {
             contentScale = contentScale
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
         BeforeAfterImage(
             modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(10.dp))
+                .clip( RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
             beforeImage = imageBefore,
             afterImage = imageAfter,
             contentOrder = ContentOrder.AfterBefore,
-            contentScale = contentScale
+            contentScale = contentScale,
+            overlayStyle = OverlayStyle()
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Zoom(Pinch gesture)",
             fontSize = 16.sp,
@@ -115,7 +116,7 @@ fun BeforeAfterImageDemo() {
 
         BeforeAfterImage(
             modifier = Modifier
-                .shadow(1.dp, RoundedCornerShape(10.dp))
+                .clip( RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
             beforeImage = imageBefore2,
@@ -125,7 +126,7 @@ fun BeforeAfterImageDemo() {
         )
 
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Progress animation",
             fontSize = 16.sp,
@@ -149,26 +150,26 @@ fun BeforeAfterImageDemo() {
             )
         )
 
-        BeforeAfterImage(
-            modifier = Modifier
-                .clip(RoundedCornerShape(10.dp))
-                .border(3.dp, Color(0xffE91E63), RoundedCornerShape(10.dp))
-                .fillMaxWidth()
-                .aspectRatio(4 / 3f),
-            beforeImage = imageBefore3,
-            afterImage = imageAfter3,
-            progress = progress,
-            onProgressChange = {},
-            contentScale = contentScale,
-            beforeLabel = {},
-            afterLabel = {},
-        ) {
-            Text(
-                "${(progress).roundToInt()}%",
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xff03A9F4)
-            )
-        }
+BeforeAfterImage(
+    modifier = Modifier
+        .clip(RoundedCornerShape(10.dp))
+        .border(3.dp, Color(0xffE91E63), RoundedCornerShape(10.dp))
+        .fillMaxWidth()
+        .aspectRatio(4 / 3f),
+    beforeImage = imageBefore3,
+    afterImage = imageAfter3,
+    progress = progress,
+    onProgressChange = {},
+    contentScale = contentScale,
+    beforeLabel = {},
+    afterLabel = {},
+) {
+    Text(
+        "${(progress).roundToInt()}%",
+        fontSize = 50.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color(0xff03A9F4)
+    )
+}
     }
 }

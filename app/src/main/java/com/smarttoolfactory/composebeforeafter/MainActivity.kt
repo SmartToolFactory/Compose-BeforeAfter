@@ -83,6 +83,7 @@ private fun HomeContent() {
         HorizontalPager(
             modifier = Modifier.padding(it),
             state = pagerState,
+            userScrollEnabled = false,
             count = tabList.size
         ) { page: Int ->
 

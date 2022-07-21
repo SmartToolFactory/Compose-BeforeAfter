@@ -88,7 +88,7 @@ fun BeforeAfterLayoutDemo() {
         )
 
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Zoom(Pinch gesture)",
             fontSize = 16.sp,
@@ -111,7 +111,7 @@ fun BeforeAfterLayoutDemo() {
             contentOrder = ContentOrder.AfterBefore
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
         val transition: InfiniteTransition = rememberInfiniteTransition()
 
@@ -154,7 +154,7 @@ fun BeforeAfterLayoutDemo() {
             overlay = null
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
         Text(
             text = "Layout",
@@ -186,7 +186,7 @@ fun BeforeAfterLayoutDemo() {
         //  If you find an answer feel free to open a PR or answer question below
         // https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Video",
             fontSize = 16.sp,
