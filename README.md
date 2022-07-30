@@ -229,7 +229,6 @@ fun BeforeAfterLayout(
 ) 
 ```
 
-also offers `DefaultOverlayo`
 
 ### Usage
 
