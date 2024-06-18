@@ -9,7 +9,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntSize
 import kotlinx.coroutines.coroutineScope
 
-
 /**
  * * Create and [remember] the [ZoomState] based on the currently appropriate transform
  * configuration to allow changing pan, zoom, and rotation.
@@ -38,7 +37,7 @@ fun rememberZoomState(
     panEnabled: Boolean = true,
     rotationEnabled: Boolean = false,
     limitPan: Boolean = false,
-    key1: Any? = Unit
+    key1: Any? = Unit,
 ): ZoomState {
     return remember(key1) {
         ZoomState(
@@ -49,7 +48,7 @@ fun rememberZoomState(
             zoomEnabled = zoomEnabled,
             panEnabled = panEnabled,
             rotationEnabled = rotationEnabled,
-            limitPan = limitPan
+            limitPan = limitPan,
         )
     }
 }
@@ -94,7 +93,7 @@ fun rememberZoomState(
             zoomEnabled = zoomEnabled,
             panEnabled = panEnabled,
             rotationEnabled = rotationEnabled,
-            limitPan = limitPan
+            limitPan = limitPan,
         )
     }
 }
@@ -126,7 +125,7 @@ fun rememberZoomState(
     panEnabled: Boolean = true,
     rotationEnabled: Boolean = false,
     limitPan: Boolean = false,
-    vararg keys: Any?
+    vararg keys: Any?,
 ): ZoomState {
     return remember(keys) {
         ZoomState(
@@ -137,7 +136,7 @@ fun rememberZoomState(
             zoomEnabled = zoomEnabled,
             panEnabled = panEnabled,
             rotationEnabled = rotationEnabled,
-            limitPan = limitPan
+            limitPan = limitPan,
         )
     }
 }
@@ -154,7 +153,7 @@ fun rememberZoomState(
  * @param rotationEnabled when set to true rotation is enabled
  */
 @Immutable
-class ZoomState internal constructor(
+open class ZoomState internal constructor(
     initialZoom: Float = 1f,
     initialRotation: Float = 0f,
     minZoom: Float = 1f,
@@ -162,9 +161,8 @@ class ZoomState internal constructor(
     private val zoomEnabled: Boolean = true,
     private val panEnabled: Boolean = true,
     internal val rotationEnabled: Boolean = true,
-    internal val limitPan: Boolean = false
+    internal val limitPan: Boolean = false,
 ) {
-
     internal val zoomMin = minZoom.coerceAtLeast(.5f)
     internal val zoomMax = maxZoom.coerceAtLeast(1f)
     internal val zoomInitial = initialZoom.coerceIn(zoomMin, zoomMax)
@@ -188,12 +186,12 @@ class ZoomState internal constructor(
         get() = animatableRotation.value
 
     val zoomData: ZoomData
-        get() = ZoomData(
-            zoom = animatableZoom.value,
-            pan = animatablePan.value,
-            rotation = animatableRotation.value
-        )
-
+        get() =
+            ZoomData(
+                zoom = animatableZoom.value,
+                pan = animatablePan.value,
+                rotation = animatableRotation.value,
+            )
 
     internal open suspend fun updateZoomState(
         size: IntSize,
@@ -202,11 +200,12 @@ class ZoomState internal constructor(
         gestureRotate: Float = 1f,
     ) {
         val zoom = (zoom * gestureZoom).coerceIn(zoomMin, zoomMax)
-        val rotation = if (rotationEnabled) {
-            rotation + gestureRotate
-        } else {
-            0f
-        }
+        val rotation =
+            if (rotationEnabled) {
+                rotation + gestureRotate
+            } else {
+                0f
+            }
 
         if (panEnabled) {
             val offset = pan
@@ -214,14 +213,17 @@ class ZoomState internal constructor(
             val boundPan = limitPan && !rotationEnabled
 
             if (boundPan) {
-                val maxX = (size.width * (zoom - 1) / 2f)
-                    .coerceAtLeast(0f)
-                val maxY = (size.height * (zoom - 1) / 2f)
-                    .coerceAtLeast(0f)
-                newOffset = Offset(
-                    newOffset.x.coerceIn(-maxX, maxX),
-                    newOffset.y.coerceIn(-maxY, maxY)
-                )
+                val maxX =
+                    (size.width * (zoom - 1) / 2f)
+                        .coerceAtLeast(0f)
+                val maxY =
+                    (size.height * (zoom - 1) / 2f)
+                        .coerceAtLeast(0f)
+                newOffset =
+                    Offset(
+                        newOffset.x.coerceIn(-maxX, maxX),
+                        newOffset.y.coerceIn(-maxY, maxY),
+                    )
             }
             snapPanTo(newOffset)
         }
@@ -235,33 +237,39 @@ class ZoomState internal constructor(
         }
     }
 
-    internal suspend fun animatePanTo(pan: Offset) = coroutineScope {
-        animatablePan.animateTo(pan)
-    }
-
-    internal suspend fun animateZoomTo(zoom: Float) = coroutineScope {
-        animatableZoom.animateTo(zoom)
-    }
-
-    internal suspend fun animateRotationTo(rotation: Float) = coroutineScope {
-        animatableRotation.animateTo(rotation)
-    }
-
-    internal suspend fun snapPanTo(offset: Offset) = coroutineScope {
-        if (panEnabled) {
-            animatablePan.snapTo(offset)
+    internal suspend fun animatePanTo(pan: Offset) =
+        coroutineScope {
+            animatablePan.animateTo(pan)
         }
-    }
 
-    internal suspend fun snapZoomTo(zoom: Float) = coroutineScope {
-        if (zoomEnabled) {
-            animatableZoom.snapTo(zoom)
+    internal suspend fun animateZoomTo(zoom: Float) =
+        coroutineScope {
+            animatableZoom.animateTo(zoom)
         }
-    }
 
-    internal suspend fun snapRotationTo(rotation: Float) = coroutineScope {
-        if (rotationEnabled) {
-            animatableRotation.snapTo(rotation)
+    internal suspend fun animateRotationTo(rotation: Float) =
+        coroutineScope {
+            animatableRotation.animateTo(rotation)
         }
-    }
+
+    internal suspend fun snapPanTo(offset: Offset) =
+        coroutineScope {
+            if (panEnabled) {
+                animatablePan.snapTo(offset)
+            }
+        }
+
+    internal suspend fun snapZoomTo(zoom: Float) =
+        coroutineScope {
+            if (zoomEnabled) {
+                animatableZoom.snapTo(zoom)
+            }
+        }
+
+    internal suspend fun snapRotationTo(rotation: Float) =
+        coroutineScope {
+            if (rotationEnabled) {
+                animatableRotation.snapTo(rotation)
+            }
+        }
 }

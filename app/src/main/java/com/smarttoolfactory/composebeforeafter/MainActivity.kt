@@ -1,23 +1,28 @@
-@file:OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
-
 package com.smarttoolfactory.composebeforeafter
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabPosition
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import com.smarttoolfactory.composebeforeafter.demo.BeforeAfterImageDemo
 import com.smarttoolfactory.composebeforeafter.demo.BeforeAfterLayoutDemo
 import com.smarttoolfactory.composebeforeafter.ui.theme.ComposeBeforeAfterTheme
@@ -31,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     HomeContent()
                 }
@@ -40,11 +45,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@ExperimentalPagerApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HomeContent() {
-
-    val pagerState: PagerState = rememberPagerState(initialPage = 0)
+    val pagerState: PagerState =
+        rememberPagerState(
+            initialPage = 0,
+            pageCount = {
+                tabList.size
+            },
+        )
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -57,12 +67,13 @@ private fun HomeContent() {
                 // Override the indicator, using the provided pagerTabIndicatorOffset modifier
                 indicator = { tabPositions: List<TabPosition> ->
                     TabRowDefaults.Indicator(
-                        modifier = Modifier.tabIndicatorOffset(
-                            tabPositions[pagerState.currentPage]
-                        ),
-                        height = 4.dp
+                        modifier =
+                            Modifier.tabIndicatorOffset(
+                                tabPositions[pagerState.currentPage],
+                            ),
+                        height = 4.dp,
                     )
-                }
+                },
             ) {
                 // Add tabs for all of our pages
                 tabList.forEachIndexed { index, title ->
@@ -73,18 +84,16 @@ private fun HomeContent() {
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(index)
                             }
-                        }
+                        },
                     )
                 }
             }
-        }
+        },
     ) {
-
         HorizontalPager(
             modifier = Modifier.padding(it),
             state = pagerState,
             userScrollEnabled = false,
-            count = tabList.size
         ) { page: Int ->
 
             when (page) {

@@ -6,33 +6,38 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
-import com.google.android.exoplayer2.ui.PlayerView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 
+@UnstableApi
 @Composable
 fun MyPlayer(modifier: Modifier, uri: String) {
     val context = LocalContext.current
-    val player = SimpleExoPlayer.Builder(context).build()
+    val exoPlayer = ExoPlayer.Builder(context).build()
     val playerView = remember {
         PlayerView(context)
     }
 
 
-    println("🚀 MyPlayer URI $uri, player: $player, playerView: $playerView")
+    println("🚀 MyPlayer URI $uri, player: $exoPlayer, playerView: $playerView")
 
-    LaunchedEffect(player, uri) {
-        playerView.useController = false
-        playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-        val mediaItem = MediaItem.fromUri(uri)
-
-        player.setMediaItem(mediaItem)
-        playerView.player = player
-        player.repeatMode = Player.REPEAT_MODE_ONE
-        player.prepare()
-        player.playWhenReady = true
+    LaunchedEffect(exoPlayer, uri) {
+        with(exoPlayer) {
+            setMediaItem(MediaItem.fromUri(uri))
+            repeatMode = Player.REPEAT_MODE_ALL
+            prepare()
+            playWhenReady = true
+        }
+        
+        with(playerView) {
+            useController = false
+            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+            player = exoPlayer
+        }
     }
 
     AndroidView(
