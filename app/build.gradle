@@ -42,8 +42,13 @@ dependencies {
     // Photo Picker
     implementation("com.google.modernstorage:modernstorage-photopicker:1.0.0-alpha06")
 
-    // ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+    final media3_version = "1.3.1"
+    // For media playback using ExoPlayer
+    implementation "androidx.media3:media3-exoplayer:$media3_version"
+    // For building media playback UIs
+    implementation "androidx.media3:media3-ui:$media3_version"
+    // Common functionality used across multiple media libraries
+    implementation "androidx.media3:media3-common:$media3_version"
 
     def accompanist_version = "0.32.0"
     // Accompanist
