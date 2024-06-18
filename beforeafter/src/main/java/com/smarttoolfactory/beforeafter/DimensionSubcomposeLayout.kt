@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.Constraints
 @Composable
 fun DimensionSubcomposeLayout(
     modifier: Modifier = Modifier,
-    placeMainContent:Boolean = true,
+    placeMainContent: Boolean = true,
     mainContent: @Composable () -> Unit,
     dependentContent: @Composable (Size) -> Unit
 ) {
@@ -63,7 +63,7 @@ fun DimensionSubcomposeLayout(
 
         layout(maxWidth, maxHeight) {
 
-            if(placeMainContent){
+            if (placeMainContent) {
                 mainPlaceables.forEach { placeable: Placeable ->
                     placeable.placeRelative(0, 0)
                 }
