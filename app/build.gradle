@@ -35,7 +35,7 @@ dependencies {
     // Integration with activities
     implementation 'androidx.activity:activity-compose:1.9.0'
     // Integration with ViewModels
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3'
 
     // Material Design 3 for Compose
     implementation "androidx.compose.material3:material3"
