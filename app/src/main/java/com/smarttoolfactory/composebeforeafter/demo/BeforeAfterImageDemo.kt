@@ -112,7 +112,7 @@ fun BeforeAfterImageDemo() {
                         Color.Blue,
 			        ),
 		        ),
-                dividerWidth = 4.dp,
+                dividerWidth = 8.dp,
 	        )
         )
 
