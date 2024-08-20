@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
@@ -45,6 +46,7 @@ internal fun DefaultOverlay(
 
     val verticalThumbMove = overlayStyle.verticalThumbMove
     val dividerColor = overlayStyle.dividerColor
+    val dividerBrush = overlayStyle.dividerBrush
     val dividerWidth = overlayStyle.dividerWidth
     val thumbBackgroundColor = overlayStyle.thumbBackgroundColor
     val thumbTintColor = overlayStyle.thumbTintColor
@@ -90,7 +92,14 @@ internal fun DefaultOverlay(
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
 
-            drawLine(
+            dividerBrush?.let {
+                drawLine(
+                    dividerBrush,
+                    strokeWidth = dividerWidth.toPx(),
+                    start = Offset(linePosition, 0f),
+                    end = Offset(linePosition, size.height)
+                )
+            } ?: drawLine(
                 dividerColor,
                 strokeWidth = dividerWidth.toPx(),
                 start = Offset(linePosition, 0f),
@@ -117,8 +126,9 @@ internal fun DefaultOverlay(
 /**
  * Values for styling [DefaultOverlay]
  *  @param verticalThumbMove when true thumb can move vertically based on user touch
- * @param dividerColor color if divider line
- * @param dividerWidth width if divider line
+ * @param dividerColor color of divider line
+ * @param dividerBrush brush to set color gradiant in divider line
+ * @param dividerWidth width of divider line
  * @param thumbBackgroundColor background color of thumb [Icon]
  * @param thumbTintColor tint color of thumb [Icon]
  * @param thumbShape shape of thumb [Icon]
@@ -131,6 +141,7 @@ internal fun DefaultOverlay(
 @Immutable
 class OverlayStyle(
     val dividerColor: Color = Color.White,
+    val dividerBrush: Brush? = null,
     val dividerWidth: Dp = 1.5.dp,
     val verticalThumbMove: Boolean = false,
     val thumbBackgroundColor: Color = Color.White,
