@@ -1,7 +1,9 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id "org.jetbrains.kotlin.plugin.compose"
+    alias(libs.plugins.android.application)
+
+    alias(libs.plugins.kotlin.android)
+
+    alias(libs.plugins.compose.compiler)
 }
 
 apply from: file("../common-config.gradle")
@@ -18,36 +20,35 @@ android {
 }
 
 dependencies {
-    implementation project(':beforeafter')
+    implementation projects.beforeafter
 
     // Lifecycle
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.3'
+    implementation libs.androidx.lifecycle.runtime.ktx
 
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation 'androidx.compose.foundation:foundation'
+    implementation libs.androidx.foundation
 
     // Material design icons
-    implementation 'androidx.compose.material:material-icons-core'
-    implementation 'androidx.compose.material:material-icons-extended'
+    implementation libs.androidx.material.icons.core
+    implementation libs.androidx.material.icons.extended
 
     // Optional - Add window size utils
-    implementation 'androidx.compose.material3:material3-window-size-class'
+    implementation libs.androidx.material3.window.size
     // Integration with activities
-    implementation 'androidx.activity:activity-compose:1.9.0'
+    implementation libs.androidx.activity.compose
     // Integration with ViewModels
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3'
+    implementation libs.androidx.lifecycle.viewmodel.compose
 
     // Material Design 3 for Compose
-    implementation "androidx.compose.material3:material3"
+    implementation libs.material3
 
     // Photo Picker
-    implementation("com.google.modernstorage:modernstorage-photopicker:1.0.0-alpha06")
+    implementation(libs.modernstorage.photopicker)
 
-    final media3_version = "1.3.1"
     // For media playback using ExoPlayer
-    implementation "androidx.media3:media3-exoplayer:$media3_version"
+    implementation libs.androidx.media3.exoplayer
     // For building media playback UIs
-    implementation "androidx.media3:media3-ui:$media3_version"
+    implementation libs.androidx.media3.ui
     // Common functionality used across multiple media libraries
-    implementation "androidx.media3:media3-common:$media3_version"
+    implementation libs.androidx.media3.common
 }

@@ -35,30 +35,29 @@ composeCompiler {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation libs.androidx.core.ktx
 
     // Jetpack Compose
-    def composeBom = platform('androidx.compose:compose-bom:2024.06.00')
-    implementation composeBom
-    androidTestImplementation composeBom
+    implementation platform(libs.androidx.compose.bom)
+    androidTestImplementation platform(libs.androidx.compose.bom)
 
     // Tooling support (Previews, etc.)
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
+    implementation libs.ui.tooling.preview
+    debugImplementation libs.ui.tooling
 
-    implementation 'androidx.compose.ui:ui'
+    implementation libs.ui
 
     // Material Design
-    implementation "androidx.compose.material:material"
+    implementation libs.androidx.material
 
     // Jetpack Compose - Testing
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    androidTestImplementation libs.ui.test.junit4
+    debugImplementation libs.ui.test.manifest
 
     // Testing
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
 
 
 }
