@@ -37,6 +37,8 @@ dependencies {
 }
 ```
 
+where `<version>` is one available in [![](https://www.jitpack.io/v/SmartToolFactory/Compose-BeforeAfter.svg)](https://www.jitpack.io/#SmartToolFactory/Compose-BeforeAfter)
+
 ## BeforeAfterImage
 
 Image that takes two `ImageBitmaps as parameter and displays them based on specified order.
@@ -93,7 +95,7 @@ internal fun DefaultOverlay(
     height: Dp,
     position: Offset,
     overlayStyle: OverlayStyle
-) 
+)
 ```
 
 ```kotlin
@@ -226,7 +228,7 @@ fun BeforeAfterLayout(
     afterContent: @Composable () -> Unit,
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
-) 
+)
 ```
 
 
@@ -317,8 +319,8 @@ BeforeAfterLayout(
 
 **Display before and after videos with Exoplayer**
 
-### ⚠️ Note there is a bug with Exoplayer2. 
-If you have a fix please open a PR or answer 
+### ⚠️ Note there is a bug with Exoplayer2.
+If you have a fix please open a PR or answer
 [this question](https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used)
 Both are appreciated greatly
 
