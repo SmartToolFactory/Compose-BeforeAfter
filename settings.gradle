@@ -21,6 +21,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Compose BeforeAfter"
+// For accessing modules as type safe values
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+rootProject.name = "Compose-BeforeAfter"
 include ':app'
 include ':beforeafter'
