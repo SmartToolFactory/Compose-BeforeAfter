@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
 
     alias(libs.plugins.compose.compiler)
+
+    alias(libs.plugins.dokkatoo.html)
 }
 
 apply from: file("../common-config.gradle")
@@ -21,4 +23,16 @@ dependencies {
 
     implementation libs.androidx.compose.ui.ui.tooling
     implementation libs.androidx.runtime
+}
+
+
+dokkatoo {
+    moduleName.set("Compose-BeforeAfter")
+
+    dokkatooPublications.configureEach {
+        suppressObviousFunctions.set(true)
+        suppressInheritedMembers.set(false)
+        outputDirectory = new File(projectDir, "../docs")
+    }
+
 }

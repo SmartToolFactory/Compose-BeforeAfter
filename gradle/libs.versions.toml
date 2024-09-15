@@ -28,6 +28,8 @@ media3Exoplayer = "1.4.1"
 media3Ui = "1.4.0"
 modernstoragePhotopicker = "1.0.0-alpha06"
 
+dokkatoo = "2.4.0"
+
 [libraries]
 
 # build-logic
@@ -81,3 +83,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+dokkatoo-html = { id = "dev.adamko.dokkatoo-html", version.ref = "dokkatoo" }
