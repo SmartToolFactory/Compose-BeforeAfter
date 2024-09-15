@@ -113,7 +113,9 @@ fun BeforeAfterImageDemo() {
 			        ),
 		        ),
                 dividerWidth = 8.dp,
-	        )
+	        ),
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -127,7 +129,9 @@ fun BeforeAfterImageDemo() {
             afterImage = imageAfter,
             contentOrder = ContentOrder.AfterBefore,
             contentScale = contentScale,
-            overlayStyle = OverlayStyle()
+            overlayStyle = OverlayStyle(),
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -147,7 +151,9 @@ fun BeforeAfterImageDemo() {
             beforeImage = imageBefore2,
             afterImage = imageAfter2,
             contentOrder = ContentOrder.AfterBefore,
-            contentScale = contentScale
+            contentScale = contentScale,
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         )
 
 
@@ -188,6 +194,8 @@ fun BeforeAfterImageDemo() {
             contentScale = contentScale,
             beforeLabel = {},
             afterLabel = {},
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         ) {
             Text(
                 "${(progress).roundToInt()}%",

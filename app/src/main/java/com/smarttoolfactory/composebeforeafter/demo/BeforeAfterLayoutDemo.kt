@@ -1,5 +1,6 @@
 package com.smarttoolfactory.composebeforeafter.demo
 
+import androidx.annotation.OptIn
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.InfiniteTransition
 import androidx.compose.animation.core.RepeatMode
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.common.util.UnstableApi
 import com.smarttoolfactory.beforeafter.AfterLabel
 import com.smarttoolfactory.beforeafter.BeforeAfterLayout
 import com.smarttoolfactory.beforeafter.BeforeLabel
@@ -45,6 +47,7 @@ import com.smarttoolfactory.beforeafter.OverlayStyle
 import com.smarttoolfactory.composebeforeafter.R
 import kotlin.math.roundToInt
 
+@OptIn(UnstableApi::class)
 @Composable
 fun BeforeAfterLayoutDemo() {
 
@@ -52,31 +55,31 @@ fun BeforeAfterLayoutDemo() {
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
 
         val imageBefore = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_a
+            LocalContext.current.resources, R.drawable.image_before_after_shoes_a,
         )
 
         val imageAfter = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_b
+            LocalContext.current.resources, R.drawable.image_before_after_shoes_b,
         )
 
 
         val imageBefore2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5_before
+            LocalContext.current.resources, R.drawable.landscape5_before,
         )
 
         val imageAfter2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5
+            LocalContext.current.resources, R.drawable.landscape5,
         )
         Text(
             text = "BeforeAfterLayout",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
 
         Text(
@@ -84,7 +87,7 @@ fun BeforeAfterLayoutDemo() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
 
         BeforeAfterLayout(
@@ -103,8 +106,10 @@ fun BeforeAfterLayoutDemo() {
                 dividerWidth = 2.dp,
                 thumbShape = CutCornerShape(8.dp),
                 thumbBackgroundColor = Color.Red,
-                thumbTintColor = Color.White
-            )
+                thumbTintColor = Color.White,
+            ),
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         )
 
 
@@ -114,7 +119,7 @@ fun BeforeAfterLayoutDemo() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
 
         BeforeAfterLayout(
@@ -128,7 +133,9 @@ fun BeforeAfterLayoutDemo() {
             afterContent = {
                 DemoImage(imageBitmap = imageAfter2)
             },
-            contentOrder = ContentOrder.AfterBefore
+            contentOrder = ContentOrder.AfterBefore,
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -142,10 +149,10 @@ fun BeforeAfterLayoutDemo() {
             animationSpec = infiniteRepeatable(
                 animation = tween(
                     durationMillis = 4000,
-                    easing = FastOutSlowInEasing
+                    easing = FastOutSlowInEasing,
                 ),
-                repeatMode = RepeatMode.Reverse
-            )
+                repeatMode = RepeatMode.Reverse,
+            ),
         )
 
 
@@ -154,7 +161,7 @@ fun BeforeAfterLayoutDemo() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
         BeforeAfterLayout(
             modifier = Modifier
@@ -171,7 +178,9 @@ fun BeforeAfterLayoutDemo() {
             enableZoom = false,
             beforeLabel = null,
             afterLabel = null,
-            overlay = null
+            overlay = null,
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -181,7 +190,7 @@ fun BeforeAfterLayoutDemo() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
 
         BeforeAfterLayout(
@@ -199,7 +208,7 @@ fun BeforeAfterLayoutDemo() {
                 AfterLabel(text = "Material Design3")
             },
             enableZoom = false,
-            overlayStyle = OverlayStyle(thumbPositionPercent = 60f)
+            overlayStyle = OverlayStyle(thumbPositionPercent = 60f),
         )
 
         // FIXME There is a bug with Exoplayer2 and setting Modifier.graphicsLayer
@@ -212,7 +221,7 @@ fun BeforeAfterLayoutDemo() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
         BeforeAfterLayout(
             modifier = Modifier
@@ -222,17 +231,19 @@ fun BeforeAfterLayoutDemo() {
                 MyPlayer(
                     modifier = Modifier
                         .border(3.dp, Color.Red),
-                    uri = "asset:///floodplain_dirty.mp4"
+                    uri = "asset:///floodplain_dirty.mp4",
                 )
             },
             afterContent = {
                 MyPlayer(
                     modifier = Modifier
                         .border(3.dp, Color.Yellow),
-                    uri = "asset:///floodplain_clean.mp4"
+                    uri = "asset:///floodplain_clean.mp4",
                 )
             },
-            enableZoom = false
+            enableZoom = false,
+            onProgressStart = { println("Slider move: Start") },
+            onProgressEnd = {  println("Slider move: End") },
         )
     }
 }
@@ -245,7 +256,7 @@ private fun DemoImage(imageBitmap: ImageBitmap) {
             .aspectRatio(4 / 3f),
         bitmap = imageBitmap,
         contentDescription = null,
-        contentScale = ContentScale.FillBounds
+        contentScale = ContentScale.FillBounds,
     )
 }
 
@@ -258,12 +269,12 @@ private fun BeforeComposable(progress: Float) {
             .clip(RoundedCornerShape(50))
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.primary),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "${(progress).roundToInt()}%",
             fontSize = 40.sp,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 
@@ -274,14 +285,14 @@ private fun AfterComposable(progress: Float) {
     Column(
         modifier = Modifier
             .border(3.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(50))
-//            .clip(RoundedCornerShape(50))
+            .clip(RoundedCornerShape(50))
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "${(progress).roundToInt()}%",
             fontSize = 40.sp,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
