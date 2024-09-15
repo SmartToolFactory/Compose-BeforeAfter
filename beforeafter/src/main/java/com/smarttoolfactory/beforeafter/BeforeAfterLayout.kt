@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.DpSize
  * based on [contentOrder]. This overload uses [DefaultOverlay] to draw vertical slider and thumb.
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
@@ -30,6 +32,8 @@ import androidx.compose.ui.unit.DpSize
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     overlayStyle: OverlayStyle = OverlayStyle(),
@@ -50,6 +54,8 @@ fun BeforeAfterLayout(
         onProgressChange = {
             progress = it
         },
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
         enableZoom = enableZoom,
@@ -71,6 +77,8 @@ fun BeforeAfterLayout(
  * [progress] value.
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param progress current position or progress of before/after
@@ -86,6 +94,8 @@ fun BeforeAfterLayout(
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
@@ -105,6 +115,8 @@ fun BeforeAfterLayout(
         afterLabel = afterLabel,
         progress = progress,
         onProgressChange = onProgressChange,
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
         enableZoom = enableZoom,
@@ -124,6 +136,8 @@ fun BeforeAfterLayout(
  * based on [contentOrder].
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
 
@@ -139,6 +153,8 @@ fun BeforeAfterLayout(
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     beforeContent: @Composable () -> Unit,
@@ -159,6 +175,8 @@ fun BeforeAfterLayout(
         onProgressChange = {
             progress = it
         },
+        onProgressEnd = onProgressEnd,
+        onProgressStart  = onProgressStart,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
         enableZoom = enableZoom,
@@ -176,6 +194,8 @@ fun BeforeAfterLayout(
  * @param progress current position or progress of before/after
  * @param onProgressChange current position or progress of before/after
  * It's between [0f-100f] to set thumb's vertical position in layout
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param beforeContent content to be drawn as before Composable
  * @param afterContent content to be drawn as after Composable
  * @param beforeLabel label for [beforeContent]. It's [BeforeLabel] by default
@@ -188,6 +208,8 @@ fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -206,6 +228,8 @@ fun BeforeAfterLayout(
         afterLabel = afterLabel,
         progress = progress,
         onProgressChange = onProgressChange,
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
         enableZoom = enableZoom,

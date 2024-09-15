@@ -29,6 +29,8 @@ import androidx.compose.ui.layout.ContentScale
  * @param beforeImage image that show initial progress
  * @param afterImage image that show final progress
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
  * elevation and other properties
@@ -48,6 +50,8 @@ fun BeforeAfterImage(
     beforeImage: ImageBitmap,
     afterImage: ImageBitmap,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     overlayStyle: OverlayStyle = OverlayStyle(),
@@ -70,18 +74,19 @@ fun BeforeAfterImage(
         onProgressChange = {
             progress = it
         },
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
         contentScale = contentScale,
         alignment = alignment,
         beforeLabel = beforeLabel,
         afterLabel = afterLabel,
         contentDescription = contentDescription,
     ) {
-
         DefaultOverlay(
             width = imageWidth,
             height = imageHeight,
             position = position,
-            overlayStyle = overlayStyle
+            overlayStyle = overlayStyle,
         )
     }
 }
@@ -100,14 +105,21 @@ fun BeforeAfterImage(
  * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
  * elevation and other properties
  * @param contentOrder order of images to be drawn
+ * @param progress progress value that will be used to show progress
+ * @param onProgressChange callback that will be called when progress value changes
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
+ * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size, elevation and other properties
+ * @param beforeLabel text that will be shown on top of image
+ * @param afterLabel text that will be shown on bottom of image
+ * @param contentScale how image should be scaled inside Canvas to match parent dimensions.
+  * [ContentScale.Fit] for instance maintains src ratio and scales image to fit inside the parent.
  * @param alignment determines where image will be aligned inside [BoxWithConstraints]
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
  * and does not represent a meaningful action that a user can take. This text should be
  * localized, such as by using [androidx.compose.ui.res.stringResource] or similar
- * @param contentScale how image should be scaled inside Canvas to match parent dimensions.
- * [ContentScale.Fit] for instance maintains src ratio and scales image to fit inside the parent.
  */
 @Composable
 fun BeforeAfterImage(
@@ -119,6 +131,8 @@ fun BeforeAfterImage(
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     overlayStyle: OverlayStyle = OverlayStyle(),
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
@@ -135,18 +149,19 @@ fun BeforeAfterImage(
         contentOrder = contentOrder,
         progress = progress,
         onProgressChange = onProgressChange,
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
         contentScale = contentScale,
         alignment = alignment,
         beforeLabel = beforeLabel,
         afterLabel = afterLabel,
         contentDescription = contentDescription,
     ) {
-
         DefaultOverlay(
             width = imageWidth,
             height = imageHeight,
             position = position,
-            overlayStyle = overlayStyle
+            overlayStyle = overlayStyle,
         )
     }
 }
@@ -163,6 +178,10 @@ fun BeforeAfterImage(
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
+ * @param progress progress value between 0.0f and 1.0f representing progress of image
+ * @param onProgressChange callback that is called when progress value changes
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param alignment determines where image will be aligned inside [BoxWithConstraints]
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
@@ -191,6 +210,8 @@ fun BeforeAfterImage(
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     alignment: Alignment = Alignment.Center,
     contentScale: ContentScale = ContentScale.Fit,
     contentDescription: String? = null,
@@ -199,15 +220,16 @@ fun BeforeAfterImage(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
-    overlay: @Composable BeforeAfterImageScope.() -> Unit
+    overlay: @Composable BeforeAfterImageScope.() -> Unit,
 ) {
-
     BeforeAfterImageImpl(
         modifier = modifier,
         beforeImage = beforeImage,
         afterImage = afterImage,
         progress = progress,
         onProgressChange = onProgressChange,
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
         enableZoom = enableZoom,
@@ -219,7 +241,7 @@ fun BeforeAfterImage(
         filterQuality = filterQuality,
         beforeLabel = beforeLabel,
         afterLabel = afterLabel,
-        overlay = overlay
+        overlay = overlay,
     )
 }
 
@@ -233,6 +255,8 @@ fun BeforeAfterImage(
  * @param beforeImage image that show initial progress
  * @param afterImage image that show final progress
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
+ * @param onProgressStart callback to be called when user starts dragging the slider with touch
+ * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
  * @param alignment determines where image will be aligned inside [BoxWithConstraints]
@@ -259,6 +283,8 @@ fun BeforeAfterImage(
     beforeImage: ImageBitmap,
     afterImage: ImageBitmap,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     alignment: Alignment = Alignment.Center,
@@ -269,7 +295,7 @@ fun BeforeAfterImage(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
-    overlay: @Composable BeforeAfterImageScope.() -> Unit
+    overlay: @Composable BeforeAfterImageScope.() -> Unit,
 ) {
     var progress by remember { mutableStateOf(50f) }
 
@@ -281,6 +307,8 @@ fun BeforeAfterImage(
         onProgressChange = {
             progress = it
         },
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
         enableZoom = enableZoom,
@@ -292,6 +320,6 @@ fun BeforeAfterImage(
         filterQuality = filterQuality,
         beforeLabel = beforeLabel,
         afterLabel = afterLabel,
-        overlay = overlay
+        overlay = overlay,
     )
 }
