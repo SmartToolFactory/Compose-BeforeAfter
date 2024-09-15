@@ -9,23 +9,23 @@ ksp = "2.0.20-1.0.25"
 #endregion
 
 #region ---- Android Core
-agp = "8.5.2"
+agp = "8.6.0"
 androidTools = "31.6.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.4"
+lifecycleRuntimeKtx = "2.8.5"
 activityCompose = "1.9.2"
-composeBom = "2024.06.00"
+composeBom = "2024.09.01"
 appcompat = "1.7.0"
-lifecycleViewmodelCompose = "2.8.4"
+lifecycleViewmodelCompose = "2.8.5"
 material = "1.12.0"
 #endregion
 
-media3Common = "1.4.0"
+media3Common = "1.4.1"
 media3Exoplayer = "1.4.1"
-media3Ui = "1.4.0"
+media3Ui = "1.4.1"
 modernstoragePhotopicker = "1.0.0-alpha06"
 
 [libraries]
