@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>OverlayStyle</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Compose-BeforeAfter
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":beforeafter/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Compose-BeforeAfter::com.smarttoolfactory.beforeafter/OverlayStyle///PointingToDeclaration//1566008054">
+  <div class="breadcrumbs"><a href="../../../index.html">Compose-BeforeAfter</a><span class="delimiter">/</span><a href="../index.html">com.smarttoolfactory.beforeafter</a><span class="delimiter">/</span><span class="current">OverlayStyle</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Overlay</span><wbr></wbr><span><span>Style</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable.html"><span class="token annotation builtin">Immutable</span></a></div></div><span class="token keyword">class </span><a href="index.html">OverlayStyle</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>dividerColor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a><span class="token operator"> = </span>Color.White<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>dividerBrush<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Brush.html">Brush</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>dividerWidth<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a><span class="token operator"> = </span>1.5.dp<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>verticalThumbMove<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>thumbBackgroundColor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a><span class="token operator"> = </span>Color.White<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>thumbTintColor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a><span class="token operator"> = </span>Color.Gray<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>thumbShape<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html">Shape</a><span class="token operator"> = </span>CircleShape<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>thumbElevation<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a><span class="token operator"> = </span>2.dp<span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/DrawableRes.html"><span class="token annotation builtin">DrawableRes</span></a> </span><span class="token keyword">val </span>thumbResource<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>R.drawable.baseline_swap_horiz_24<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>thumbSize<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a><span class="token operator"> = </span>36.dp<span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/FloatRange.html"><span class="token annotation builtin">FloatRange</span></a><span class="token punctuation">(</span><span>from<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">0.0</span></span><span class="token punctuation">, </span></span><wbr></wbr><span>to<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">100.0</span></span></span><wbr></wbr><span class="token punctuation">)</span> </span><span class="token keyword">val </span>thumbPositionPercent<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token operator"> = </span><span class="token constant">85.0f</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Values for styling <span data-unresolved-link="com.smarttoolfactory.beforeafter//DefaultOverlay/#androidx.compose.ui.unit.Dp#androidx.compose.ui.unit.Dp#androidx.compose.ui.geometry.Offset#com.smarttoolfactory.beforeafter.OverlayStyle/PointingToDeclaration/">DefaultOverlay</span></p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>vertical</span><wbr></wbr><span>Thumb</span><wbr></wbr><span><span>Move</span></span></u></div></span></div><div><div class="title"><p class="paragraph">when true thumb can move vertically based on user touch</p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>divider</span><wbr></wbr><span><span>Color</span></span></u></div></span></div><div><div class="title"><p class="paragraph">color of divider line</p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>divider</span><wbr></wbr><span><span>Brush</span></span></u></div></span></div><div><div class="title"><p class="paragraph">brush to set color gradiant in divider line</p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>divider</span><wbr></wbr><span><span>Width</span></span></u></div></span></div><div><div class="title"><p class="paragraph">width of divider line</p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>thumb</span><wbr></wbr><span>Background</span><wbr></wbr><span><span>Color</span></span></u></div></span></div><div><div class="title"><p class="paragraph">background color of thumb <a href="https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary.html">Icon</a></p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>thumb</span><wbr></wbr><span>Tint</span><wbr></wbr><span><span>Color</span></span></u></div></span></div><div><div class="title"><p class="paragraph">tint color of thumb <a href="https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary.html">Icon</a></p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>thumb</span><wbr></wbr><span><span>Shape</span></span></u></div></span></div><div><div class="title"><p class="paragraph">shape of thumb <a href="https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary.html">Icon</a></p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>thumb</span><wbr></wbr><span><span>Elevation</span></span></u></div></span></div><div><div class="title"><p class="paragraph">elevation of thumb <a href="https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary.html">Icon</a></p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>thumb</span><wbr></wbr><span><span>Resource</span></span></u></div></span></div><div><div class="title"><p class="paragraph">drawable resource that should be used with thumb</p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>thumb</span><wbr></wbr><span><span>Size</span></span></u></div></span></div><div><div class="title"><p class="paragraph">size of the thumb in dp</p></div></div></div></div><div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>thumb</span><wbr></wbr><span>Position</span><wbr></wbr><span><span>Percent</span></span></u></div></span></div><div><div class="title"><p class="paragraph">vertical position of thumb if <a href="vertical-thumb-move.html">verticalThumbMove</a> is false It's between 0f-100f to set thumb's vertical position in layout</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1531299184%2FConstructors%2F1566008054" anchor-label="OverlayStyle" id="-1531299184%2FConstructors%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-overlay-style.html"><span>Overlay</span><wbr></wbr><span><span>Style</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1531299184%2FConstructors%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">dividerColor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a><span class="token operator"> = </span>Color.White<span class="token punctuation">, </span></span><span class="parameter ">dividerBrush<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Brush.html">Brush</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">dividerWidth<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a><span class="token operator"> = </span>1.5.dp<span class="token punctuation">, </span></span><span class="parameter ">verticalThumbMove<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">thumbBackgroundColor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a><span class="token operator"> = </span>Color.White<span class="token punctuation">, </span></span><span class="parameter ">thumbTintColor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a><span class="token operator"> = </span>Color.Gray<span class="token punctuation">, </span></span><span class="parameter ">thumbShape<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html">Shape</a><span class="token operator"> = </span>CircleShape<span class="token punctuation">, </span></span><span class="parameter ">thumbElevation<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a><span class="token operator"> = </span>2.dp<span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/DrawableRes.html"><span class="token annotation builtin">DrawableRes</span></a> </span>thumbResource<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>R.drawable.baseline_swap_horiz_24<span class="token punctuation">, </span></span><span class="parameter ">thumbSize<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a><span class="token operator"> = </span>36.dp<span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/FloatRange.html"><span class="token annotation builtin">FloatRange</span></a><span class="token punctuation">(</span><span>from<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">0.0</span></span><span class="token punctuation">, </span></span><wbr></wbr><span>to<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">100.0</span></span></span><wbr></wbr><span class="token punctuation">)</span> </span>thumbPositionPercent<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token operator"> = </span><span class="token constant">85.0f</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1409203640%2FProperties%2F1566008054" anchor-label="dividerBrush" id="1409203640%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="divider-brush.html"><span>divider</span><wbr></wbr><span><span>Brush</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1409203640%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="divider-brush.html">dividerBrush</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Brush.html">Brush</a><span class="token operator">?</span><span class="token operator"> = </span>null</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1902414417%2FProperties%2F1566008054" anchor-label="dividerColor" id="-1902414417%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="divider-color.html"><span>divider</span><wbr></wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1902414417%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="divider-color.html">dividerColor</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="701062316%2FProperties%2F1566008054" anchor-label="dividerWidth" id="701062316%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="divider-width.html"><span>divider</span><wbr></wbr><span><span>Width</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="701062316%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="divider-width.html">dividerWidth</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1983057670%2FProperties%2F1566008054" anchor-label="thumbBackgroundColor" id="-1983057670%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="thumb-background-color.html"><span>thumb</span><wbr></wbr><span>Background</span><wbr></wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1983057670%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="thumb-background-color.html">thumbBackgroundColor</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1839136782%2FProperties%2F1566008054" anchor-label="thumbElevation" id="-1839136782%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="thumb-elevation.html"><span>thumb</span><wbr></wbr><span><span>Elevation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1839136782%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="thumb-elevation.html">thumbElevation</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1779877165%2FProperties%2F1566008054" anchor-label="thumbPositionPercent" id="-1779877165%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="thumb-position-percent.html"><span>thumb</span><wbr></wbr><span>Position</span><wbr></wbr><span><span>Percent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1779877165%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="thumb-position-percent.html">thumbPositionPercent</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token operator"> = </span><span class="token constant">85.0f</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-882668227%2FProperties%2F1566008054" anchor-label="thumbResource" id="-882668227%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="thumb-resource.html"><span>thumb</span><wbr></wbr><span><span>Resource</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-882668227%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="thumb-resource.html">thumbResource</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-530064338%2FProperties%2F1566008054" anchor-label="thumbShape" id="-530064338%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="thumb-shape.html"><span>thumb</span><wbr></wbr><span><span>Shape</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-530064338%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="thumb-shape.html">thumbShape</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html">Shape</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1500303274%2FProperties%2F1566008054" anchor-label="thumbSize" id="1500303274%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="thumb-size.html"><span>thumb</span><wbr></wbr><span><span>Size</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1500303274%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="thumb-size.html">thumbSize</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html">Dp</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1151584135%2FProperties%2F1566008054" anchor-label="thumbTintColor" id="1151584135%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="thumb-tint-color.html"><span>thumb</span><wbr></wbr><span>Tint</span><wbr></wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1151584135%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="thumb-tint-color.html">thumbTintColor</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1333747728%2FProperties%2F1566008054" anchor-label="verticalThumbMove" id="-1333747728%2FProperties%2F1566008054" data-filterable-set=":beforeafter/release"></a>
+          <div class="table-row" data-filterable-current=":beforeafter/release" data-filterable-set=":beforeafter/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="vertical-thumb-move.html"><span>vertical</span><wbr></wbr><span>Thumb</span><wbr></wbr><span><span>Move</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1333747728%2FProperties%2F1566008054"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":beforeafter/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="vertical-thumb-move.html">verticalThumbMove</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
