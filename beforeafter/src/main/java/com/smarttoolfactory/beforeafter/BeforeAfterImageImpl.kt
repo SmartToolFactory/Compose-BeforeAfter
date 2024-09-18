@@ -88,6 +88,8 @@ internal fun BeforeAfterImageImpl(
     afterImage: ImageBitmap,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,
+    onProgressStart: (() -> Unit)? = null,
+    onProgressEnd: (() -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -199,6 +201,9 @@ internal fun BeforeAfterImageImpl(
 
                     isHandleTouched =
                         ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
+
+                    onProgressStart?.invoke()
+                    it.consume()
                 },
                 onMove = {
                     if (isHandleTouched) {
@@ -211,6 +216,8 @@ internal fun BeforeAfterImageImpl(
                 },
                 onUp = {
                     isHandleTouched = false
+                    onProgressEnd?.invoke()
+                    it.consume()
                 }
             )
         }
