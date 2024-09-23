@@ -1,13 +1,28 @@
 version: 2
 updates:
-    - package-ecosystem: "gradle"
-      directory: "/"
-      schedule:
-          interval: "weekly"
-      rebase-strategy: "disabled"
-
-    - package-ecosystem: "github-actions"
-      directory: "/"
-      schedule:
-          interval: "weekly"
-      rebase-strategy: "disabled"
+  - package-ecosystem: "gradle"
+    directory: "/"
+    registries: "*"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    commit-message:
+      prefix: "Gradle"
+      include: "scope"
+    # limit amount of concurrent PRs or disable using 0
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    registries: "*"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "Github-Actions"
+      include: "scope"
+    # limit amount of concurrent PRs or disable using 0
+    open-pull-requests-limit: 1
+    labels:
+      - "dependencies"
