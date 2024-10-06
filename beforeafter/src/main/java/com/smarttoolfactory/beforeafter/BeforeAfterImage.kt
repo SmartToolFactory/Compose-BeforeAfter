@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -61,7 +62,7 @@ fun BeforeAfterImage(
     alignment: Alignment = Alignment.Center,
     contentDescription: String? = null,
 ) {
-    var progress by remember { mutableStateOf(50f) }
+    var progress by remember { mutableFloatStateOf(50f) }
 
     BeforeAfterImageImpl(
         modifier = modifier,

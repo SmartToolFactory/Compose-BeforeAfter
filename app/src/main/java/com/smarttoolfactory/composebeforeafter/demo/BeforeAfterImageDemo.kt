@@ -132,7 +132,7 @@ internal fun BeforeAfterImageDemo() {
             text = "Progress animation",
         )
 
-        val transition: InfiniteTransition = rememberInfiniteTransition()
+        val transition: InfiniteTransition = rememberInfiniteTransition(label = "Transition")
 
         // Infinite progress animation
         val progress by transition.animateFloat(
