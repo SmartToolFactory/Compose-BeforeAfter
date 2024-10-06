@@ -13,8 +13,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -56,6 +60,15 @@ internal fun DefaultOverlay(
     val thumbSize = overlayStyle.thumbSize
     val thumbPositionPercent = overlayStyle.thumbPositionPercent
 
+    val shadow by remember {
+        derivedStateOf {
+            if (thumbBackgroundColor == Color.Transparent) {
+                0.dp
+            } else {
+                thumbElevation
+            }
+        }
+    }
 
     var thumbPosX = position.x
     var thumbPosY = position.y
@@ -72,17 +85,16 @@ internal fun DefaultOverlay(
         val horizontalOffset = imageWidthInPx / 2
         val verticalOffset = imageHeightInPx / 2
 
+        val thumbMinY = -verticalOffset + thumbRadius
+        val thumbMaxY = verticalOffset - thumbRadius
+
         linePosition = thumbPosX.coerceIn(0f, imageWidthInPx)
         thumbPosX -= horizontalOffset
 
         thumbPosY = if (verticalThumbMove) {
-            (thumbPosY - verticalOffset)
-                .coerceIn(
-                    -verticalOffset + thumbRadius,
-                    verticalOffset - thumbRadius
-                )
+            (thumbPosY - verticalOffset).coerceIn(thumbMinY, thumbMaxY)
         } else {
-            ((imageHeightInPx * thumbPositionPercent / 100f - thumbRadius) - verticalOffset)
+            (imageHeightInPx * thumbPositionPercent / 100f) - verticalOffset
         }
     }
 
@@ -115,7 +127,8 @@ internal fun DefaultOverlay(
                 .offset {
                     IntOffset(thumbPosX.toInt(), thumbPosY.toInt())
                 }
-                .shadow(thumbElevation, thumbShape)
+                .clip(thumbShape)
+                .shadow(shadow)
                 .background(thumbBackgroundColor)
                 .size(thumbSize)
                 .padding(4.dp)
@@ -150,5 +163,5 @@ class OverlayStyle(
     val thumbElevation: Dp = 2.dp,
     @DrawableRes val thumbResource: Int = R.drawable.baseline_swap_horiz_24,
     val thumbSize: Dp = 36.dp,
-    @FloatRange(from = 0.0, to = 100.0) val thumbPositionPercent: Float = 85f,
+    @FloatRange(from = 0.0, to = 100.0) val thumbPositionPercent: Float = 50f,
 )
