@@ -44,10 +44,11 @@ import kotlin.math.roundToInt
 @Composable
 internal fun BeforeAfterImageDemo() {
     Column(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxSize()
             .padding(10.dp)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
         val imageBefore = imageBitmapFromRes(R.drawable.image_before_after_shoes_a)
         val imageAfter = imageBitmapFromRes(R.drawable.image_before_after_shoes_b)
@@ -55,39 +56,48 @@ internal fun BeforeAfterImageDemo() {
         val imageAfter2 = imageBitmapFromRes(R.drawable.landscape5)
         val imageBefore3 = imageBitmapFromRes(R.drawable.image_before_after_elements_a)
         val imageAfter3 = imageBitmapFromRes(R.drawable.image_before_after_elements_b)
-
         var contentScale by remember { mutableStateOf(ContentScale.FillBounds) }
-        ContentScaleSelectionMenu(contentScale = contentScale) {
-            contentScale = it
-        }
+
+        SectionTitle(text = "Content Scale", fontSize = 20.sp)
+
+        ContentScaleSelectionMenu(
+            selectedContentScale = contentScale,
+            onContentScaleChanged = { contentScale = it },
+        )
+
+        SectionDividerSpace()
 
         SectionTitle(text = "Order")
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
             beforeImage = imageBefore,
             afterImage = imageAfter,
             contentScale = contentScale,
-            overlayStyle = OverlayStyle(
-                dividerBrush = Brush.verticalGradient(
-                    listOf(
-                        Color.Red,
-                        Color.Blue,
-			        ),
-		        ),
-                dividerWidth = 8.dp,
-	        ),
+            overlayStyle =
+                OverlayStyle(
+                    dividerBrush =
+                        Brush.verticalGradient(
+                            listOf(
+                                Color.Red,
+                                Color.Blue,
+                            ),
+                        ),
+                    dividerWidth = 8.dp,
+                ),
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         )
 
         SectionDividerSpace()
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
@@ -97,15 +107,16 @@ internal fun BeforeAfterImageDemo() {
             contentScale = contentScale,
             overlayStyle = OverlayStyle(),
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         )
 
         SectionTitle(
-            text = "Zoom(Pinch gesture)"
+            text = "Zoom(Pinch gesture)",
         )
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
@@ -114,11 +125,11 @@ internal fun BeforeAfterImageDemo() {
             contentOrder = ContentOrder.AfterBefore,
             contentScale = contentScale,
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         )
 
         SectionTitle(
-            text = "Progress animation"
+            text = "Progress animation",
         )
 
         val transition: InfiniteTransition = rememberInfiniteTransition()
@@ -127,17 +138,21 @@ internal fun BeforeAfterImageDemo() {
         val progress by transition.animateFloat(
             initialValue = 0f,
             targetValue = 100f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(
-                    durationMillis = 4000,
-                    easing = FastOutSlowInEasing
+            animationSpec =
+                infiniteRepeatable(
+                    animation =
+                        tween(
+                            durationMillis = 4000,
+                            easing = FastOutSlowInEasing,
+                        ),
+                    repeatMode = RepeatMode.Reverse,
                 ),
-                repeatMode = RepeatMode.Reverse
-            ), label = "Infinite progress animation"
+            label = "Infinite progress animation",
         )
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .border(3.dp, Color(0xffE91E63), RoundedCornerShape(10.dp))
                 .fillMaxWidth()
@@ -150,13 +165,13 @@ internal fun BeforeAfterImageDemo() {
             beforeLabel = {},
             afterLabel = {},
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         ) {
             Text(
                 "${(progress).roundToInt()}%",
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xff03A9F4)
+                color = Color(0xff03A9F4),
             )
         }
 

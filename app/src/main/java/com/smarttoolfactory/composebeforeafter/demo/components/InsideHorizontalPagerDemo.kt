@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
-import com.smarttoolfactory.beforeafter.OverlayStyle
 
 @Composable
 internal fun InsideHorizontalPagerDemo(
