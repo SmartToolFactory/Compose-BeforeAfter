@@ -85,17 +85,16 @@ internal fun DefaultOverlay(
         val horizontalOffset = imageWidthInPx / 2
         val verticalOffset = imageHeightInPx / 2
 
+        val thumbMinY = -verticalOffset + thumbRadius
+        val thumbMaxY = verticalOffset - thumbRadius
+
         linePosition = thumbPosX.coerceIn(0f, imageWidthInPx)
         thumbPosX -= horizontalOffset
 
         thumbPosY = if (verticalThumbMove) {
-            (thumbPosY - verticalOffset)
-                .coerceIn(
-                    -verticalOffset + thumbRadius,
-                    verticalOffset - thumbRadius
-                )
+            (thumbPosY - verticalOffset).coerceIn(thumbMinY, thumbMaxY)
         } else {
-            ((imageHeightInPx * thumbPositionPercent / 100f - thumbRadius) - verticalOffset)
+            (imageHeightInPx * thumbPositionPercent / 100f) - verticalOffset
         }
     }
 
@@ -164,5 +163,5 @@ class OverlayStyle(
     val thumbElevation: Dp = 2.dp,
     @DrawableRes val thumbResource: Int = R.drawable.baseline_swap_horiz_24,
     val thumbSize: Dp = 36.dp,
-    @FloatRange(from = 0.0, to = 100.0) val thumbPositionPercent: Float = 85f,
+    @FloatRange(from = 0.0, to = 100.0) val thumbPositionPercent: Float = 50f,
 )
