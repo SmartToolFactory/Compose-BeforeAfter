@@ -202,7 +202,9 @@ internal fun BeforeAfterImageImpl(
                     isHandleTouched =
                         ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
 
-                    onProgressStart?.invoke()
+                    if (isHandleTouched) {
+                        onProgressStart?.invoke()
+                    }
                     it.consume()
                 },
                 onMove = {
@@ -215,8 +217,10 @@ internal fun BeforeAfterImageImpl(
                     }
                 },
                 onUp = {
+                    if(isHandleTouched) {
+                        onProgressEnd?.invoke()
+                    }
                     isHandleTouched = false
-                    onProgressEnd?.invoke()
                     it.consume()
                 }
             )
