@@ -1,4 +1,4 @@
-package com.smarttoolfactory.composebeforeafter.demo
+package com.smarttoolfactory.composebeforeafter.demo.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -39,7 +39,7 @@ import com.smarttoolfactory.composebeforeafter.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun M2BeforeSample() {
+internal fun M2BeforeSample() {
     Column(
         modifier = Modifier
             .fillMaxSize()

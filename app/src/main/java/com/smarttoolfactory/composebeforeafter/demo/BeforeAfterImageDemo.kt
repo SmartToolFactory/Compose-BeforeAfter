@@ -9,16 +9,13 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,73 +26,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.ContentOrder
 import com.smarttoolfactory.beforeafter.OverlayStyle
-import com.smarttoolfactory.composebeforeafter.ContentScaleSelectionMenu
 import com.smarttoolfactory.composebeforeafter.R
+import com.smarttoolfactory.composebeforeafter.demo.components.ContentScaleSelectionMenu
+import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionDividerSpace
+import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionTitle
+import com.smarttoolfactory.composebeforeafter.demo.helpers.imageBitmapFromRes
 import kotlin.math.roundToInt
 
 @Composable
-fun BeforeAfterImageDemo() {
+internal fun BeforeAfterImageDemo() {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        val imageBefore = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_a
-        )
+        val imageBefore = imageBitmapFromRes(R.drawable.image_before_after_shoes_a)
+        val imageAfter = imageBitmapFromRes(R.drawable.image_before_after_shoes_b)
+        val imageBefore2 = imageBitmapFromRes(R.drawable.landscape5_before)
+        val imageAfter2 = imageBitmapFromRes(R.drawable.landscape5)
+        val imageBefore3 = imageBitmapFromRes(R.drawable.image_before_after_elements_a)
+        val imageAfter3 = imageBitmapFromRes(R.drawable.image_before_after_elements_b)
 
-        val imageAfter = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_b
-        )
-
-        val imageBefore2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5_before
-        )
-
-        val imageAfter2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5
-        )
-
-        val imageBefore3 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_elements_a
-        )
-
-        val imageAfter3 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_elements_b
-        )
-
-        Text(
-            text = "BeforeAfterImage",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
-        )
+        SectionTitle(text = "BeforeAfterImage", fontSize = 20.sp)
 
         var contentScale by remember { mutableStateOf(ContentScale.FillBounds) }
         ContentScaleSelectionMenu(contentScale = contentScale) {
             contentScale = it
         }
 
-
-        Text(
-            text = "Order",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
-        )
+        SectionTitle(text = "Order")
 
         BeforeAfterImage(
             modifier = Modifier
@@ -118,7 +85,7 @@ fun BeforeAfterImageDemo() {
             onProgressEnd = {  println("Slider move: End") },
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
+        SectionDividerSpace()
 
         BeforeAfterImage(
             modifier = Modifier
@@ -134,13 +101,8 @@ fun BeforeAfterImageDemo() {
             onProgressEnd = {  println("Slider move: End") },
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
-            text = "Zoom(Pinch gesture)",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+        SectionTitle(
+            text = "Zoom(Pinch gesture)"
         )
 
         BeforeAfterImage(
@@ -156,14 +118,8 @@ fun BeforeAfterImageDemo() {
             onProgressEnd = {  println("Slider move: End") },
         )
 
-
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
-            text = "Progress animation",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+        SectionTitle(
+            text = "Progress animation"
         )
 
         val transition: InfiniteTransition = rememberInfiniteTransition()

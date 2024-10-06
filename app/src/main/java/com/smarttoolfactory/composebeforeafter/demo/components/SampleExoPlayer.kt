@@ -1,4 +1,4 @@
-package com.smarttoolfactory.composebeforeafter.demo
+package com.smarttoolfactory.composebeforeafter.demo.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,7 +15,7 @@ import androidx.media3.ui.PlayerView
 
 @UnstableApi
 @Composable
-fun MyPlayer(modifier: Modifier, uri: String) {
+internal fun MyPlayer(modifier: Modifier, uri: String) {
     val context = LocalContext.current
     val exoPlayer = ExoPlayer.Builder(context).build()
     val playerView = remember {
@@ -32,7 +32,7 @@ fun MyPlayer(modifier: Modifier, uri: String) {
             prepare()
             playWhenReady = true
         }
-        
+
         with(playerView) {
             useController = false
             resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL

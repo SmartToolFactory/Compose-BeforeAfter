@@ -1,4 +1,4 @@
-package com.smarttoolfactory.composebeforeafter
+package com.smarttoolfactory.composebeforeafter.demo.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,11 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-val contentScaleOptions =
+private val contentScaleOptions =
     listOf("None", "Fit", "Crop", "FillBounds", "FillWidth", "FillHeight", "Inside")
 
 @Composable
-fun ContentScaleSelectionMenu(
+internal fun ContentScaleSelectionMenu(
     contentScale: ContentScale,
     onContentScaleChanged: (ContentScale) -> Unit
 ) {
