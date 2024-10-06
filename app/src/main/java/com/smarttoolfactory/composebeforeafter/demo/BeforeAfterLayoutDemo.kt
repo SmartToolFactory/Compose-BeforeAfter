@@ -63,8 +63,6 @@ internal fun BeforeAfterLayoutDemo() {
         val imageBefore2 = imageBitmapFromRes(R.drawable.landscape5_before)
         val imageAfter2 = imageBitmapFromRes(R.drawable.landscape5)
 
-        SectionTitle(text = "BeforeAfterLayout", fontSize = 20.sp)
-
         SectionTitle(text = "Customization")
 
         BeforeAfterLayout(

@@ -56,8 +56,6 @@ internal fun BeforeAfterImageDemo() {
         val imageBefore3 = imageBitmapFromRes(R.drawable.image_before_after_elements_a)
         val imageAfter3 = imageBitmapFromRes(R.drawable.image_before_after_elements_b)
 
-        SectionTitle(text = "BeforeAfterImage", fontSize = 20.sp)
-
         var contentScale by remember { mutableStateOf(ContentScale.FillBounds) }
         ContentScaleSelectionMenu(contentScale = contentScale) {
             contentScale = it
