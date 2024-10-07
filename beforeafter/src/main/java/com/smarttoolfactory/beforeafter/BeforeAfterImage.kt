@@ -298,7 +298,7 @@ fun BeforeAfterImage(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable BeforeAfterImageScope.() -> Unit,
 ) {
-    var progress by remember { mutableStateOf(50f) }
+    var progress by remember { mutableFloatStateOf(50f) }
 
     BeforeAfterImageImpl(
         modifier = modifier,

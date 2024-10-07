@@ -4,6 +4,7 @@ import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -163,7 +164,7 @@ fun BeforeAfterLayout(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable ((DpSize, Offset) -> Unit)?
 ) {
-    var progress by remember { mutableStateOf(50f) }
+    var progress by remember { mutableFloatStateOf(50f) }
 
     Layout(
         modifier = modifier,
