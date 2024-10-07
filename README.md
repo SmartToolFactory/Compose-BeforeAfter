@@ -2,7 +2,6 @@
 
 [![](https://jitpack.io/v/SmartToolFactory/Compose-BeforeAfter.svg)](https://jitpack.io/#SmartToolFactory/Compose-BeforeAfter)
 
-
 Composables to display Images, or Composables as before and after composables to display
 differences or animate progress between 2 layouts or Composables with overlay and
 customization options and progress observe properties for animating before-after progress
@@ -13,8 +12,8 @@ customization options and progress observe properties for animating before-after
 
 To get a Git project into your build:
 
-* Step 1. Add the JitPack repository to your build file Add it in your root build.gradle at the end
-  of repositories:
+-   Step 1. Add the JitPack repository to your build file Add it in your root build.gradle at the end
+    of repositories:
 
 ```
 allprojects {
@@ -25,7 +24,7 @@ allprojects {
 }
 ```
 
-* Step 2. Add the dependency
+-   Step 2. Add the dependency
 
 ```
 dependencies {
@@ -72,7 +71,7 @@ fun BeforeAfterImage(
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
-    onProgressChange: ((Float) -> Unit)? = null,
+    onProgressChange: ((progress: Float) -> Unit)? = null,
     overlayStyle: OverlayStyle = OverlayStyle(),
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
@@ -127,7 +126,7 @@ fun BeforeAfterImage(
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
-    onProgressChange: ((Float) -> Unit)? = null,
+    onProgressChange: ((progress: Float) -> Unit)? = null,
     alignment: Alignment = Alignment.Center,
     contentScale: ContentScale = ContentScale.Fit,
     contentDescription: String? = null,
@@ -175,18 +174,18 @@ BeforeAfterImage(
 
 ### Parameters
 
-* **beforeImage** image that show initial progress
-* **afterImage** image that show final progress
-* **enableProgressWithTouch** flag to enable drag and change progress with touch
-* **enableZoom** when enabled images are zoomable and pannable
-* **contentOrder** order of images to be drawn
-* **alignment** determines where image will be aligned inside `BoxWithConstraints`
-* **contentScale** how image should be scaled inside Canvas to match parent dimensions.
-* `ContentScale.Fit` for instance maintains src ratio and scales image to fit inside the parent.
-* **alpha** Opacity to be applied to `beforeImage` from 0.0f to 1.0f representing fully transparent to fully opaque respectively
-* **colorFilter** ColorFilter to apply to the `beforeImage` when drawn into the destination
-* **filterQuality** Sampling algorithm applied to the `beforeImage` when it is scaled and drawn  into the destination. The default is `FilterQuality.Low` which scales using a bilinear sampling algorithm
-* **overlay** is a Composable that can be matched at exact position where `beforeImage` is drawn. This is useful for drawing thumbs, cropping or another layout that should match position with the image that is scaled is drawn
+-   **beforeImage** image that show initial progress
+-   **afterImage** image that show final progress
+-   **enableProgressWithTouch** flag to enable drag and change progress with touch
+-   **enableZoom** when enabled images are zoomable and pannable
+-   **contentOrder** order of images to be drawn
+-   **alignment** determines where image will be aligned inside `BoxWithConstraints`
+-   **contentScale** how image should be scaled inside Canvas to match parent dimensions.
+-   `ContentScale.Fit` for instance maintains src ratio and scales image to fit inside the parent.
+-   **alpha** Opacity to be applied to `beforeImage` from 0.0f to 1.0f representing fully transparent to fully opaque respectively
+-   **colorFilter** ColorFilter to apply to the `beforeImage` when drawn into the destination
+-   **filterQuality** Sampling algorithm applied to the `beforeImage` when it is scaled and drawn into the destination. The default is `FilterQuality.Low` which scales using a bilinear sampling algorithm
+-   **overlay** is a Composable that can be matched at exact position where `beforeImage` is drawn. This is useful for drawing thumbs, cropping or another layout that should match position with the image that is scaled is drawn
 
 ## BeforeAfterLayout
 
@@ -218,7 +217,7 @@ fun BeforeAfterLayout(
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
-    onProgressChange: ((Float) -> Unit)? = null,
+    onProgressChange: ((progress: Float) -> Unit)? = null,
     overlayStyle: OverlayStyle = OverlayStyle(),
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
@@ -227,10 +226,9 @@ fun BeforeAfterLayout(
 )
 ```
 
+## Usage
 
-### Usage
-
-**Customize**
+### Customize
 
 ```kotlin
         BeforeAfterLayout(
@@ -254,7 +252,7 @@ fun BeforeAfterLayout(
 )
 ```
 
-**Display difference between Composables with Material Design2 and M3**
+### Display difference between Composables with Material Design2 and M3
 
 ```kotlin
         BeforeAfterLayout(
@@ -276,7 +274,7 @@ fun BeforeAfterLayout(
 )
 ```
 
-**Animate like a ProgressBar**
+### Animate like a ProgressBar
 
 ```kotlin
 val transition: InfiniteTransition = rememberInfiniteTransition()
@@ -313,9 +311,11 @@ BeforeAfterLayout(
 )
 ```
 
-**Display before and after videos with Exoplayer**
+### Display before and after videos with Exoplayer
 
-### ⚠️ Note there is a bug with Exoplayer2.
+> [!WARNING]  
+> Note there is a bug with Exoplayer2
+
 If you have a fix please open a PR or answer
 [this question](https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used)
 Both are appreciated greatly
