@@ -12,11 +12,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
@@ -33,9 +31,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
@@ -45,11 +40,17 @@ import com.smarttoolfactory.beforeafter.BeforeLabel
 import com.smarttoolfactory.beforeafter.ContentOrder
 import com.smarttoolfactory.beforeafter.OverlayStyle
 import com.smarttoolfactory.composebeforeafter.R
+import com.smarttoolfactory.composebeforeafter.demo.components.M2BeforeSample
+import com.smarttoolfactory.composebeforeafter.demo.components.M3AfterSample
+import com.smarttoolfactory.composebeforeafter.demo.components.MyPlayer
+import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionDividerSpace
+import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionTitle
+import com.smarttoolfactory.composebeforeafter.demo.helpers.imageBitmapFromRes
 import kotlin.math.roundToInt
 
 @OptIn(UnstableApi::class)
 @Composable
-fun BeforeAfterLayoutDemo() {
+internal fun BeforeAfterLayoutDemo() {
 
     Column(
         modifier = Modifier
@@ -57,38 +58,12 @@ fun BeforeAfterLayoutDemo() {
             .padding(10.dp)
             .verticalScroll(rememberScrollState()),
     ) {
+        val imageBefore = imageBitmapFromRes(R.drawable.image_before_after_shoes_a)
+        val imageAfter = imageBitmapFromRes(R.drawable.image_before_after_shoes_b)
+        val imageBefore2 = imageBitmapFromRes(R.drawable.landscape5_before)
+        val imageAfter2 = imageBitmapFromRes(R.drawable.landscape5)
 
-        val imageBefore = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_a,
-        )
-
-        val imageAfter = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_b,
-        )
-
-
-        val imageBefore2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5_before,
-        )
-
-        val imageAfter2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5,
-        )
-        Text(
-            text = "BeforeAfterLayout",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp),
-        )
-
-        Text(
-            text = "Customization",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp),
-        )
+        SectionTitle(text = "Customization")
 
         BeforeAfterLayout(
             modifier = Modifier
@@ -113,14 +88,9 @@ fun BeforeAfterLayoutDemo() {
         )
 
 
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
-            text = "Zoom(Pinch gesture)",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp),
-        )
+        SectionDividerSpace()
+
+        SectionTitle(text = "Zoom (Pinch gesture)")
 
         BeforeAfterLayout(
             modifier = Modifier
@@ -138,7 +108,7 @@ fun BeforeAfterLayoutDemo() {
             onProgressEnd = {  println("Slider move: End") },
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
+        SectionDividerSpace()
 
         val transition: InfiniteTransition = rememberInfiniteTransition()
 
@@ -153,16 +123,11 @@ fun BeforeAfterLayoutDemo() {
                 ),
                 repeatMode = RepeatMode.Reverse,
             ),
+            label = "Progress",
         )
 
+        SectionTitle(text = "Progress animation")
 
-        Text(
-            text = "Progress animation",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp),
-        )
         BeforeAfterLayout(
             modifier = Modifier
                 .padding(8.dp)
@@ -183,15 +148,9 @@ fun BeforeAfterLayoutDemo() {
             onProgressEnd = {  println("Slider move: End") },
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
+        SectionDividerSpace()
 
-        Text(
-            text = "Layout",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp),
-        )
+        SectionTitle(text = "Layout")
 
         BeforeAfterLayout(
             modifier = Modifier.fillMaxWidth(),
@@ -215,14 +174,10 @@ fun BeforeAfterLayoutDemo() {
         //  If you find an answer feel free to open a PR or answer question below
         // https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used
 
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
-            text = "Video",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp),
-        )
+        SectionDividerSpace()
+
+        SectionTitle(text = "Video")
+
         BeforeAfterLayout(
             modifier = Modifier
                 .fillMaxSize()

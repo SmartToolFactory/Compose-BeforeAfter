@@ -7,11 +7,7 @@ Composables to display Images, or Composables as before and after composables to
 differences or animate progress between 2 layouts or Composables with overlay and
 customization options and progress observe properties for animating before-after progress
 
-
-
-https://user-images.githubusercontent.com/35650605/180228396-ef6e8af1-14e9-4d69-b505-2d70f9c5c764.mp4
-
-
+<video src="assets/video.mp4" width="320"></video>
 
 ## Gradle Setup
 

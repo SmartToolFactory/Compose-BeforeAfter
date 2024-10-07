@@ -9,16 +9,13 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,99 +26,78 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.ContentOrder
 import com.smarttoolfactory.beforeafter.OverlayStyle
-import com.smarttoolfactory.composebeforeafter.ContentScaleSelectionMenu
 import com.smarttoolfactory.composebeforeafter.R
+import com.smarttoolfactory.composebeforeafter.demo.components.ContentScaleSelectionMenu
+import com.smarttoolfactory.composebeforeafter.demo.components.InsideHorizontalPagerDemo
+import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionDividerSpace
+import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionTitle
+import com.smarttoolfactory.composebeforeafter.demo.helpers.imageBitmapFromRes
 import kotlin.math.roundToInt
 
 @Composable
-fun BeforeAfterImageDemo() {
+internal fun BeforeAfterImageDemo() {
     Column(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxSize()
             .padding(10.dp)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
-        val imageBefore = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_a
-        )
-
-        val imageAfter = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_shoes_b
-        )
-
-        val imageBefore2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5_before
-        )
-
-        val imageAfter2 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.landscape5
-        )
-
-        val imageBefore3 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_elements_a
-        )
-
-        val imageAfter3 = ImageBitmap.imageResource(
-            LocalContext.current.resources, R.drawable.image_before_after_elements_b
-        )
-
-        Text(
-            text = "BeforeAfterImage",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
-        )
-
+        val imageBefore = imageBitmapFromRes(R.drawable.image_before_after_shoes_a)
+        val imageAfter = imageBitmapFromRes(R.drawable.image_before_after_shoes_b)
+        val imageBefore2 = imageBitmapFromRes(R.drawable.landscape5_before)
+        val imageAfter2 = imageBitmapFromRes(R.drawable.landscape5)
+        val imageBefore3 = imageBitmapFromRes(R.drawable.image_before_after_elements_a)
+        val imageAfter3 = imageBitmapFromRes(R.drawable.image_before_after_elements_b)
         var contentScale by remember { mutableStateOf(ContentScale.FillBounds) }
-        ContentScaleSelectionMenu(contentScale = contentScale) {
-            contentScale = it
-        }
 
+        SectionTitle(text = "Content Scale", fontSize = 20.sp)
 
-        Text(
-            text = "Order",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+        ContentScaleSelectionMenu(
+            selectedContentScale = contentScale,
+            onContentScaleChanged = { contentScale = it },
         )
+
+        SectionDividerSpace()
+
+        SectionTitle(text = "Order")
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
             beforeImage = imageBefore,
             afterImage = imageAfter,
             contentScale = contentScale,
-            overlayStyle = OverlayStyle(
-                dividerBrush = Brush.verticalGradient(
-                    listOf(
-                        Color.Red,
-                        Color.Blue,
-			        ),
-		        ),
-                dividerWidth = 8.dp,
-	        ),
+            overlayStyle =
+                OverlayStyle(
+                    dividerBrush =
+                        Brush.verticalGradient(
+                            listOf(
+                                Color.Red,
+                                Color.Blue,
+                            ),
+                        ),
+                    dividerWidth = 8.dp,
+                ),
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
+        SectionDividerSpace()
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
@@ -131,20 +107,16 @@ fun BeforeAfterImageDemo() {
             contentScale = contentScale,
             overlayStyle = OverlayStyle(),
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
+        SectionTitle(
             text = "Zoom(Pinch gesture)",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
         )
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
@@ -153,36 +125,34 @@ fun BeforeAfterImageDemo() {
             contentOrder = ContentOrder.AfterBefore,
             contentScale = contentScale,
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         )
 
-
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
+        SectionTitle(
             text = "Progress animation",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
         )
 
-        val transition: InfiniteTransition = rememberInfiniteTransition()
+        val transition: InfiniteTransition = rememberInfiniteTransition(label = "Transition")
 
         // Infinite progress animation
         val progress by transition.animateFloat(
             initialValue = 0f,
             targetValue = 100f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(
-                    durationMillis = 4000,
-                    easing = FastOutSlowInEasing
+            animationSpec =
+                infiniteRepeatable(
+                    animation =
+                        tween(
+                            durationMillis = 4000,
+                            easing = FastOutSlowInEasing,
+                        ),
+                    repeatMode = RepeatMode.Reverse,
                 ),
-                repeatMode = RepeatMode.Reverse
-            ), label = "Infinite progress animation"
+            label = "Infinite progress animation",
         )
 
         BeforeAfterImage(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .border(3.dp, Color(0xffE91E63), RoundedCornerShape(10.dp))
                 .fillMaxWidth()
@@ -195,14 +165,22 @@ fun BeforeAfterImageDemo() {
             beforeLabel = {},
             afterLabel = {},
             onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressEnd = { println("Slider move: End") },
         ) {
             Text(
                 "${(progress).roundToInt()}%",
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xff03A9F4)
+                color = Color(0xff03A9F4),
             )
         }
+
+        SectionTitle(text = "Inside Horizontal Pager")
+
+        InsideHorizontalPagerDemo(
+            beforeImage = imageBefore3,
+            afterImage = imageAfter3,
+            contentScale = contentScale,
+        )
     }
 }
