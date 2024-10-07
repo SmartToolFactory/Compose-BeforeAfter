@@ -34,9 +34,9 @@ import kotlinx.coroutines.launch
 internal fun Layout(
     modifier: Modifier = Modifier,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
-    onProgressChange: ((Float) -> Unit)? = null,
-    onProgressStart: (() -> Unit)? = null,
-    onProgressEnd: (() -> Unit)? = null,
+    onProgressChange: ((progress: Float) -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -114,7 +114,9 @@ internal fun Layout(
                             ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
 
                         if (isHandleTouched) {
-                            onProgressStart?.invoke()
+                            onProgressStart?.invoke(
+                                scaleToUserValue(rawOffset.x)
+                            )
                         }
                         it.consume()
                     },
@@ -129,7 +131,9 @@ internal fun Layout(
                     },
                     onUp = {
                         if(isHandleTouched) {
-                            onProgressEnd?.invoke()
+                            onProgressEnd?.invoke(
+                                scaleToUserValue(rawOffset.x)
+                            )
                         }
                         isHandleTouched = false
                         it.consume()
