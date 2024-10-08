@@ -4,6 +4,7 @@ import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,8 +33,8 @@ import androidx.compose.ui.unit.DpSize
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
-    onProgressStart: (() -> Unit)? = null,
-    onProgressEnd: (() -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     overlayStyle: OverlayStyle = OverlayStyle(),
@@ -94,12 +95,12 @@ fun BeforeAfterLayout(
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
-    onProgressStart: (() -> Unit)? = null,
-    onProgressEnd: (() -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
-    onProgressChange: ((Float) -> Unit)? = null,
+    onProgressChange: ((progress: Float) -> Unit)? = null,
     overlayStyle: OverlayStyle = OverlayStyle(),
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
@@ -153,8 +154,8 @@ fun BeforeAfterLayout(
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
-    onProgressStart: (() -> Unit)? = null,
-    onProgressEnd: (() -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     beforeContent: @Composable () -> Unit,
@@ -163,7 +164,7 @@ fun BeforeAfterLayout(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable ((DpSize, Offset) -> Unit)?
 ) {
-    var progress by remember { mutableStateOf(50f) }
+    var progress by remember { mutableFloatStateOf(50f) }
 
     Layout(
         modifier = modifier,
@@ -207,9 +208,9 @@ fun BeforeAfterLayout(
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
-    onProgressChange: ((Float) -> Unit)? = null,
-    onProgressStart: (() -> Unit)? = null,
-    onProgressEnd: (() -> Unit)? = null,
+    onProgressChange: ((progress: Float) -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,

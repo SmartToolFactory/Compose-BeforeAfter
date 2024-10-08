@@ -89,8 +89,8 @@ internal fun BeforeAfterImageDemo() {
                         ),
                     dividerWidth = 8.dp,
                 ),
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = { println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
 
         SectionDividerSpace()
@@ -106,8 +106,8 @@ internal fun BeforeAfterImageDemo() {
             contentOrder = ContentOrder.AfterBefore,
             contentScale = contentScale,
             overlayStyle = OverlayStyle(),
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = { println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
 
         SectionTitle(
@@ -124,8 +124,8 @@ internal fun BeforeAfterImageDemo() {
             afterImage = imageAfter2,
             contentOrder = ContentOrder.AfterBefore,
             contentScale = contentScale,
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = { println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
 
         SectionTitle(
@@ -164,8 +164,8 @@ internal fun BeforeAfterImageDemo() {
             contentScale = contentScale,
             beforeLabel = {},
             afterLabel = {},
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = { println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         ) {
             Text(
                 "${(progress).roundToInt()}%",

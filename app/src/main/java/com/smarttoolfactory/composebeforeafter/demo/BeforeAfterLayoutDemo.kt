@@ -83,8 +83,8 @@ internal fun BeforeAfterLayoutDemo() {
                 thumbBackgroundColor = Color.Red,
                 thumbTintColor = Color.White,
             ),
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
 
 
@@ -104,8 +104,8 @@ internal fun BeforeAfterLayoutDemo() {
                 DemoImage(imageBitmap = imageAfter2)
             },
             contentOrder = ContentOrder.AfterBefore,
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
 
         SectionDividerSpace()
@@ -144,8 +144,8 @@ internal fun BeforeAfterLayoutDemo() {
             beforeLabel = null,
             afterLabel = null,
             overlay = null,
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
 
         SectionDividerSpace()
@@ -197,8 +197,8 @@ internal fun BeforeAfterLayoutDemo() {
                 )
             },
             enableZoom = false,
-            onProgressStart = { println("Slider move: Start") },
-            onProgressEnd = {  println("Slider move: End") },
+            onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
+            onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
     }
 }
