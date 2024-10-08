@@ -6,16 +6,16 @@ Composables to display Images, or Composables as before and after composables to
 differences or animate progress between 2 layouts or Composables with overlay and
 customization options and progress observe properties for animating before-after progress
 
-<video src="assets/video.mp4" width="320"></video>
+https://github.com/user-attachments/assets/60a3b755-046f-4683-b3eb-cd89fb728d64
 
 ## Gradle Setup
 
 To get a Git project into your build:
 
--   Step 1. Add the JitPack repository to your build file Add it in your root build.gradle at the end
-    of repositories:
+**Step 1:** Add the JitPack repository to your build file Add it in your root build.gradle at the end
+  of repositories:
 
-```
+```gradle
 allprojects {
   repositories {
       ...
@@ -24,9 +24,9 @@ allprojects {
 }
 ```
 
--   Step 2. Add the dependency
+**Step 2:** Add the dependency
 
-```
+```gradle
 dependencies {
     implementation 'com.github.SmartToolFactory:Compose-BeforeAfter:<version>'
 }
