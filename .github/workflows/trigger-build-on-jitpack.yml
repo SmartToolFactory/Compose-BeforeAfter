@@ -1,0 +1,33 @@
+name: Trigger Build on Jitpack
+
+env:
+  SDK_NAME: "Compose-BeforeAfter" # Define the repository name (SDK)
+  USERNAME: "SmartToolFactory" # GitHub username for the Maven coordinates
+
+on:
+  push:
+    paths-ignore:
+      - "**/*.md" # Ignore markdown files to prevent unnecessary builds
+    branches:
+      - master # Trigger build when a commit lands on the master branch
+    tags:
+      - "*" # Trigger build when a new tag is pushed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Jitpack Build for Tagged Release
+        if: startsWith(github.ref, 'refs/tags/') # Only trigger for new tags
+        run: |
+          # Request Jitpack to build the SDK for the specific tag version
+          curl https://jitpack.io/api/builds/com.github.${{ env.USERNAME }}/${{ env.SDK_NAME }}/${{ github.ref_name }}
+
+      - name: Trigger Jitpack Build for Master-SNAPSHOT
+        if: github.ref == 'refs/heads/master' # Only trigger when a commit is pushed to master
+        run: |
+          # Request Jitpack to build the latest snapshot for master
+          curl https://jitpack.io/api/builds/com.github.${{ env.USERNAME }}/${{ env.SDK_NAME }}/master-SNAPSHOT
