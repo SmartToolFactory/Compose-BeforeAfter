@@ -9,7 +9,7 @@ ksp = "2.1.0-1.0.29"
 #endregion
 
 #region ---- Android Core
-agp = "8.8.0"
+agp = "8.9.1"
 androidTools = "31.8.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
