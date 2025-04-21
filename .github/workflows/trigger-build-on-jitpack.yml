@@ -1,34 +1,33 @@
 name: Trigger Build on Jitpack
 
-env:
-  SDK_NAME: "Compose-BeforeAfter" # Define the repository name (SDK)
-  USERNAME: "SmartToolFactory" # GitHub username for the Maven coordinates
-  BASE_URL: "https://jitpack.io/api/builds/com.github.${{ env.USERNAME }}/${{ env.SDK_NAME }}" # Common base URL for Jitpack builds
-
 on:
   push:
     paths-ignore:
-      - "**/*.md" # Ignore markdown files to prevent unnecessary builds
+      - "**/*.md"
     branches:
-      - master # Trigger build when a commit lands on the master branch
+      - master
     tags:
-      - "*" # Trigger build when a new tag is pushed
+      - "*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SDK_NAME: "Compose-BeforeAfter"
+      USERNAME: "SmartToolFactory"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set BASE_URL Variable
+        run: echo "BASE_URL=https://jitpack.io/api/builds/com.github.${USERNAME}/${SDK_NAME}" >> $GITHUB_ENV
+
       - name: Trigger Jitpack Build for Tagged Release
-        if: startsWith(github.ref, 'refs/tags/') # Only trigger for new tags
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
-          # Request Jitpack to build the SDK for the specific tag version
-          curl "${{ env.BASE_URL }}/${{ github.ref_name }}"
+          curl "${BASE_URL}/${github.ref_name}"
 
       - name: Trigger Jitpack Build for Master-SNAPSHOT
-        if: github.ref == 'refs/heads/master' # Only trigger when a commit is pushed to master
+        if: github.ref == 'refs/heads/master'
         run: |
-          # Request Jitpack to build the latest snapshot for master
-          curl "${{ env.BASE_URL }}/master-SNAPSHOT"
+          curl "${BASE_URL}/master-SNAPSHOT"
