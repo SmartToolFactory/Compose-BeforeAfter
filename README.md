@@ -12,8 +12,7 @@ https://github.com/user-attachments/assets/60a3b755-046f-4683-b3eb-cd89fb728d64
 
 To get a Git project into your build:
 
-**Step 1:** Add the JitPack repository to your build file Add it in your root build.gradle at the end
-  of repositories:
+**Step 1:** Add the JitPack repository to your build file Add it in your root build.gradle at the end of repositories:
 
 ```gradle
 allprojects {
@@ -313,12 +312,7 @@ BeforeAfterLayout(
 
 ### Display before and after videos with Exoplayer
 
-> [!WARNING]  
-> Note there is a bug with Exoplayer2
-
-If you have a fix please open a PR or answer
-[this question](https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used)
-Both are appreciated greatly
+There is `ExoPlayerUsingTextureView` composable that you can use to display before and after videos.
 
 ```kotlin
 BeforeAfterLayout(
@@ -326,19 +320,25 @@ BeforeAfterLayout(
         .fillMaxSize()
         .aspectRatio(4 / 3f),
     beforeContent = {
-        MyPlayer(
-            modifier = Modifier
-                .border(3.dp, Color.Red),
+        ExoPlayerUsingTextureView(
             uri = "asset:///floodplain_dirty.mp4"
         )
     },
     afterContent = {
-        MyPlayer(
-            modifier = Modifier
-                .border(3.dp, Color.Yellow),
+        ExoPlayerUsingTextureView(
             uri = "asset:///floodplain_clean.mp4"
         )
     },
     enableZoom = false
 )
 ```
+
+> [!NOTE]  
+> If you would like the ability to customize and build your own VideoPlayer composable using Exoplayer, then take a look at the implementation of `ExoPlayerUsingTextureView` composable. You can duplicate the composable and modify the behaviour.
+>
+> Only thing to take care of is that `BeforeAfterLayout` requires Exoplayer that works with a TextureView.
+> Inside the `ExoPlayerUtil` is a public extension function named `ExoPlayer.createTextureView` that you should use with your ExoPlayer.
+
+## License
+
+[Apache License, Version 2.0](LICENSE.md)

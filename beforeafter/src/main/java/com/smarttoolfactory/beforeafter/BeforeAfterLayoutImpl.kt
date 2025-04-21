@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -196,18 +197,12 @@ internal fun Layout(
 
             val beforeModifier = Modifier
                 .fillMaxSize()
-                .graphicsLayer {
-                    this.clip = true
-                    this.shape = shapeBefore
-                }
+                .clip(shapeBefore)
 
 
             val afterModifier = Modifier
                 .fillMaxSize()
-                .graphicsLayer {
-                    this.clip = true
-                    this.shape = shapeAfter
-                }
+                .clip(shapeAfter)
 
             LayoutImpl(
                 modifier = parentModifier,

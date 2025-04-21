@@ -23,6 +23,8 @@ dependencies {
 
     implementation libs.androidx.compose.ui.ui.tooling
     implementation libs.androidx.runtime
+
+    compileOnly libs.androidx.media3.exoplayer
 }
 
 
