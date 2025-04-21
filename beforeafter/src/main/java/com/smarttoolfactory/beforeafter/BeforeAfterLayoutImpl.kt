@@ -165,7 +165,7 @@ internal fun Layout(
 
             val shapeBefore by remember(handlePosition, zoom, pan) {
                 mutableStateOf(
-                    GenericShape { size: Size, layoutDirection: LayoutDirection ->
+                    GenericShape { size: Size, _: LayoutDirection ->
                         moveTo(0f, 0f)
                         lineTo(handlePosition, 0f)
                         lineTo(handlePosition, size.height)
@@ -177,7 +177,7 @@ internal fun Layout(
 
             val shapeAfter by remember(handlePosition, zoom, pan) {
                 mutableStateOf(
-                    GenericShape { size: Size, layoutDirection: LayoutDirection ->
+                    GenericShape { size: Size, _: LayoutDirection ->
                         moveTo(handlePosition, 0f)
                         lineTo(size.width, 0f)
                         lineTo(size.width, size.height)
