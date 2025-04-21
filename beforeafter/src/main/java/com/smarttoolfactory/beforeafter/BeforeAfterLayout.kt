@@ -43,7 +43,7 @@ fun BeforeAfterLayout(
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
 ) {
-    var progress by remember { mutableStateOf(50f) }
+    var progress by remember { mutableFloatStateOf(50f) }
 
     Layout(
         modifier = modifier,
