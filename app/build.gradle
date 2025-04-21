@@ -47,8 +47,4 @@ dependencies {
 
     // For media playback using ExoPlayer
     implementation libs.androidx.media3.exoplayer
-    // For building media playback UIs
-    implementation libs.androidx.media3.ui
-    // Common functionality used across multiple media libraries
-    implementation libs.androidx.media3.common
 }

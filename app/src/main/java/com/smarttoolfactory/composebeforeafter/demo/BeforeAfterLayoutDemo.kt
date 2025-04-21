@@ -39,10 +39,10 @@ import com.smarttoolfactory.beforeafter.BeforeAfterLayout
 import com.smarttoolfactory.beforeafter.BeforeLabel
 import com.smarttoolfactory.beforeafter.ContentOrder
 import com.smarttoolfactory.beforeafter.OverlayStyle
+import com.smarttoolfactory.beforeafter.util.ExoPlayerUsingTextureView
 import com.smarttoolfactory.composebeforeafter.R
 import com.smarttoolfactory.composebeforeafter.demo.components.M2BeforeSample
 import com.smarttoolfactory.composebeforeafter.demo.components.M3AfterSample
-import com.smarttoolfactory.composebeforeafter.demo.components.MyPlayer
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionDividerSpace
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionTitle
 import com.smarttoolfactory.composebeforeafter.demo.helpers.imageBitmapFromRes
@@ -183,16 +183,12 @@ internal fun BeforeAfterLayoutDemo() {
                 .fillMaxSize()
                 .aspectRatio(4 / 3f),
             beforeContent = {
-                MyPlayer(
-                    modifier = Modifier
-                        .border(3.dp, Color.Red),
+                ExoPlayerUsingTextureView(
                     uri = "asset:///floodplain_dirty.mp4",
                 )
             },
             afterContent = {
-                MyPlayer(
-                    modifier = Modifier
-                        .border(3.dp, Color.Yellow),
+                ExoPlayerUsingTextureView(
                     uri = "asset:///floodplain_clean.mp4",
                 )
             },

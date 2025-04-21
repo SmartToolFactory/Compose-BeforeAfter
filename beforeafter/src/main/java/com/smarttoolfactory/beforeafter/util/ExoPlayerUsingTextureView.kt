@@ -1,4 +1,4 @@
-package com.smarttoolfactory.composebeforeafter.demo.components
+package com.smarttoolfactory.beforeafter.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -9,22 +9,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.AspectRatioFrameLayout
-import androidx.media3.ui.PlayerView
 
-@UnstableApi
 @Composable
-internal fun MyPlayer(modifier: Modifier, uri: String) {
+fun ExoPlayerUsingTextureView(modifier: Modifier = Modifier, uri: String) {
     val context = LocalContext.current
     val exoPlayer = ExoPlayer.Builder(context).build()
-    val playerView = remember {
-        PlayerView(context)
-    }
-
-
-    println("🚀 MyPlayer URI $uri, player: $exoPlayer, playerView: $playerView")
+    val textureView = remember { exoPlayer.createTextureView(context) }
 
     LaunchedEffect(exoPlayer, uri) {
         with(exoPlayer) {
@@ -33,26 +24,21 @@ internal fun MyPlayer(modifier: Modifier, uri: String) {
             prepare()
             playWhenReady = true
         }
-
-        with(playerView) {
-            useController = false
-            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-            player = exoPlayer
-        }
     }
 
     AndroidView(
         modifier = modifier,
-        factory = {
-            playerView
-        },
+        factory = { textureView },
     )
 
     // Clean up the ExoPlayer when the composable is disposed
     DisposableEffect(Unit) {
         onDispose {
             exoPlayer.release()
-            playerView.player = null
         }
     }
 }
+
+
+
+
