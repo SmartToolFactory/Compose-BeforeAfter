@@ -1,6 +1,7 @@
 package com.smarttoolfactory.composebeforeafter.demo.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -44,6 +45,14 @@ internal fun MyPlayer(modifier: Modifier, uri: String) {
         modifier = modifier,
         factory = {
             playerView
-        }
+        },
     )
+
+    // Clean up the ExoPlayer when the composable is disposed
+    DisposableEffect(Unit) {
+        onDispose {
+            exoPlayer.release()
+            playerView.player = null
+        }
+    }
 }
