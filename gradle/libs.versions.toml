@@ -25,7 +25,7 @@ material = "1.12.0"
 
 media3Common = "1.7.1"
 media3Exoplayer = "1.7.1"
-media3Ui = "1.7.1"
+media3Ui = "1.8.0"
 modernstoragePhotopicker = "1.0.0-alpha06"
 
 dokkatoo = "2.4.0"
