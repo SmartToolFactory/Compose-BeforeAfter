@@ -43,6 +43,7 @@ import com.smarttoolfactory.beforeafter.util.ExoPlayerUsingTextureView
 import com.smarttoolfactory.composebeforeafter.R
 import com.smarttoolfactory.composebeforeafter.demo.components.M2BeforeSample
 import com.smarttoolfactory.composebeforeafter.demo.components.M3AfterSample
+import com.smarttoolfactory.composebeforeafter.demo.helpers.BottomSpacer
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionDividerSpace
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionTitle
 import com.smarttoolfactory.composebeforeafter.demo.helpers.imageBitmapFromRes
@@ -170,10 +171,6 @@ internal fun BeforeAfterLayoutDemo() {
             overlayStyle = OverlayStyle(thumbPositionPercent = 60f),
         )
 
-        // FIXME There is a bug with Exoplayer2 and setting Modifier.graphicsLayer
-        //  If you find an answer feel free to open a PR or answer question below
-        // https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used
-
         SectionDividerSpace()
 
         SectionTitle(text = "Video")
@@ -181,6 +178,7 @@ internal fun BeforeAfterLayoutDemo() {
         BeforeAfterLayout(
             modifier = Modifier
                 .fillMaxSize()
+                .clip(RoundedCornerShape(10.dp))
                 .aspectRatio(4 / 3f),
             beforeContent = {
                 ExoPlayerUsingTextureView(
@@ -196,6 +194,8 @@ internal fun BeforeAfterLayoutDemo() {
             onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
             onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
+
+        BottomSpacer()
     }
 }
 

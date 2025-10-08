@@ -36,6 +36,7 @@ import com.smarttoolfactory.beforeafter.OverlayStyle
 import com.smarttoolfactory.composebeforeafter.R
 import com.smarttoolfactory.composebeforeafter.demo.components.ContentScaleSelectionMenu
 import com.smarttoolfactory.composebeforeafter.demo.components.InsideHorizontalPagerDemo
+import com.smarttoolfactory.composebeforeafter.demo.helpers.BottomSpacer
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionDividerSpace
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionTitle
 import com.smarttoolfactory.composebeforeafter.demo.helpers.imageBitmapFromRes
@@ -182,5 +183,7 @@ internal fun BeforeAfterImageDemo() {
             afterImage = imageAfter3,
             contentScale = contentScale,
         )
+
+        BottomSpacer()
     }
 }

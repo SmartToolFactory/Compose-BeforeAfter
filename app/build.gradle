@@ -47,4 +47,5 @@ dependencies {
 
     // For media playback using ExoPlayer
     implementation libs.androidx.media3.exoplayer
+    implementation libs.androidx.media3.ui.compose
 }

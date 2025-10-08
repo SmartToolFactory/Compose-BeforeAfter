@@ -3,6 +3,7 @@ package com.smarttoolfactory.composebeforeafter.demo.helpers
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +35,15 @@ internal fun SectionTitle(
         fontWeight = FontWeight.Bold,
         color = color,
         modifier = Modifier.padding(8.dp),
+    )
+}
+
+@Composable
+internal fun BottomSpacer() {
+    Spacer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(16.dp),
     )
 }
 
