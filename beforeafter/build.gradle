@@ -1,11 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
-
     alias(libs.plugins.kotlin.android)
-
     alias(libs.plugins.compose.compiler)
-
     alias(libs.plugins.dokkatoo.html)
+    alias(libs.plugins.maven.publish)
 }
 
 apply from: file("../common-config.gradle")
@@ -15,6 +13,23 @@ android {
 
     defaultConfig {
         consumerProguardFiles "consumer-rules.pro"
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+            }
+        }
     }
 }
 
