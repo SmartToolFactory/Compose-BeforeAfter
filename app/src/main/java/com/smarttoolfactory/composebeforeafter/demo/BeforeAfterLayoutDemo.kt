@@ -171,10 +171,6 @@ internal fun BeforeAfterLayoutDemo() {
             overlayStyle = OverlayStyle(thumbPositionPercent = 60f),
         )
 
-        // FIXME There is a bug with Exoplayer2 and setting Modifier.graphicsLayer
-        //  If you find an answer feel free to open a PR or answer question below
-        // https://stackoverflow.com/questions/73061216/exoplayer2-with-before-after-videos-changes-first-video-when-clip-and-shape-used
-
         SectionDividerSpace()
 
         SectionTitle(text = "Video")
@@ -182,6 +178,7 @@ internal fun BeforeAfterLayoutDemo() {
         BeforeAfterLayout(
             modifier = Modifier
                 .fillMaxSize()
+                .clip(RoundedCornerShape(10.dp))
                 .aspectRatio(4 / 3f),
             beforeContent = {
                 ExoPlayerUsingTextureView(
