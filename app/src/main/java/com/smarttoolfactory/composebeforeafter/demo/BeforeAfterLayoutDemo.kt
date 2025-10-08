@@ -43,6 +43,7 @@ import com.smarttoolfactory.beforeafter.util.ExoPlayerUsingTextureView
 import com.smarttoolfactory.composebeforeafter.R
 import com.smarttoolfactory.composebeforeafter.demo.components.M2BeforeSample
 import com.smarttoolfactory.composebeforeafter.demo.components.M3AfterSample
+import com.smarttoolfactory.composebeforeafter.demo.helpers.BottomSpacer
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionDividerSpace
 import com.smarttoolfactory.composebeforeafter.demo.helpers.SectionTitle
 import com.smarttoolfactory.composebeforeafter.demo.helpers.imageBitmapFromRes
@@ -196,6 +197,8 @@ internal fun BeforeAfterLayoutDemo() {
             onProgressStart = { progress -> println("Slider move: Start | Progress: $progress") },
             onProgressEnd = { progress -> println("Slider move: End | Progress: $progress") },
         )
+
+        BottomSpacer()
     }
 }
 
