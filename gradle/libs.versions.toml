@@ -3,7 +3,7 @@
 #region ---- Kotlin version dependent
 # https://github.com/JetBrains/kotlin/releases
 composeExtendedGestures = "4.0.0"
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 # https://github.com/google/ksp/releases
 ksp = "2.3.0"
 #endregion
