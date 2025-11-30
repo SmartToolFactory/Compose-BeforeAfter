@@ -17,7 +17,7 @@ jobs:
       USERNAME: "SmartToolFactory"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set BASE_URL Variable
         run: echo "BASE_URL=https://jitpack.io/api/builds/com.github.${USERNAME}/${SDK_NAME}" >> $GITHUB_ENV
