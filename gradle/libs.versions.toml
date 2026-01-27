@@ -23,7 +23,7 @@ lifecycleViewmodelCompose = "2.10.0"
 material = "1.13.0"
 #endregion
 
-media3 = "1.9.0"
+media3 = "1.9.1"
 
 modernstoragePhotopicker = "1.0.0-alpha06"
 
