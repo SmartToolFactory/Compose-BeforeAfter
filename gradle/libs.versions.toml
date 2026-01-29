@@ -5,7 +5,7 @@
 composeExtendedGestures = "4.0.0"
 kotlin = "2.3.0"
 # https://github.com/google/ksp/releases
-ksp = "2.3.4"
+ksp = "2.3.5"
 #endregion
 
 #region ---- Android Core
