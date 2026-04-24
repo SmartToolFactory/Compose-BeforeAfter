@@ -17,7 +17,7 @@ $dokka.location:com.smarttoolfactory.beforeafter//BeforeLabel/androidx.compose.f
 $dokka.location:com.smarttoolfactory.beforeafter//DimensionSubcomposeLayout/#androidx.compose.ui.Modifier#kotlin.Boolean#kotlin.Function0[kotlin.Unit]#kotlin.Function1[androidx.compose.ui.geometry.Size,kotlin.Unit]/PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/-dimension-subcompose-layout.html
 $dokka.location:com.smarttoolfactory.beforeafter//rememberZoomState/#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Any?#kotlin.Any?/PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/remember-zoom-state.html
 $dokka.location:com.smarttoolfactory.beforeafter//rememberZoomState/#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Any?/PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/remember-zoom-state.html
-$dokka.location:com.smarttoolfactory.beforeafter//rememberZoomState/#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Array[kotlin.Any?]/PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/remember-zoom-state.html
+$dokka.location:com.smarttoolfactory.beforeafter//rememberZoomState/#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#vararg(kotlin.Any?)/PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/remember-zoom-state.html
 $dokka.location:com.smarttoolfactory.beforeafter/BeforeAfterImageScope///PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/-before-after-image-scope/index.html
 $dokka.location:com.smarttoolfactory.beforeafter/BeforeAfterImageScope/position/#/PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/-before-after-image-scope/position.html
 $dokka.location:com.smarttoolfactory.beforeafter/BeforeAfterImageScopeImpl///PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/-before-after-image-scope-impl/index.html
@@ -77,4 +77,3 @@ $dokka.location:com.smarttoolfactory.beforeafter/ZoomState/zoom/#/PointingToDecl
 $dokka.location:com.smarttoolfactory.beforeafter/ZoomState/zoomData/#/PointingToDeclaration/-compose--before-after/com.smarttoolfactory.beforeafter/-zoom-state/zoom-data.html
 com.smarttoolfactory.beforeafter
 com.smarttoolfactory.beforeafter.util
-
