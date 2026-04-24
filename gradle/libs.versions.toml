@@ -27,7 +27,7 @@ media3 = "1.10.0"
 
 modernstoragePhotopicker = "1.0.0-alpha06"
 
-dokkatoo = "2.4.0"
+dokka = "2.2.0"
 
 [libraries]
 
@@ -86,5 +86,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
-dokkatoo-html = { id = "dev.adamko.dokkatoo-html", version.ref = "dokkatoo" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 maven-publish = { id = "maven-publish" }
