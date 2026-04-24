@@ -2,7 +2,7 @@ android {
     compileSdk 36
 
     defaultConfig {
-        minSdk 21
+        minSdk 23
         targetSdk 36
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -17,10 +17,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
 
     packagingOptions {

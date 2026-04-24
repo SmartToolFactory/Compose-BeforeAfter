@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.dokkatoo.html)
+    alias(libs.plugins.dokka)
     alias(libs.plugins.maven.publish)
 }
 
@@ -44,13 +43,13 @@ dependencies {
 }
 
 
-dokkatoo {
-    moduleName.set("Compose-BeforeAfter")
-
-    dokkatooPublications.configureEach {
-        suppressObviousFunctions.set(true)
-        suppressInheritedMembers.set(false)
-        outputDirectory = new File(projectDir, "../docs")
+dokka {
+    dokkaPublications {
+        html {
+            moduleName.set("Compose-BeforeAfter")
+            suppressObviousFunctions.set(true)
+            suppressInheritedMembers.set(false)
+            outputDirectory.set(layout.projectDirectory.dir("../docs"))
+        }
     }
-
 }
