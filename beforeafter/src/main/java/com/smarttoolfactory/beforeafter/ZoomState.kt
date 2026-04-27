@@ -165,16 +165,17 @@ open class ZoomState internal constructor(
 ) {
     internal val zoomMin = minZoom.coerceAtLeast(.5f)
     internal val zoomMax = maxZoom.coerceAtLeast(1f)
-    internal val zoomInitial = initialZoom.coerceIn(zoomMin, zoomMax)
-    internal val rotationInitial = initialRotation % 360
 
     internal val animatablePan = Animatable(Offset.Zero, Offset.VectorConverter)
-    internal val animatableZoom = Animatable(zoomInitial)
-    internal val animatableRotation = Animatable(rotationInitial)
 
     init {
         require(zoomMax >= zoomMin)
     }
+
+    internal val zoomInitial = initialZoom.coerceIn(zoomMin, zoomMax)
+    internal val rotationInitial = initialRotation % 360
+    internal val animatableZoom = Animatable(zoomInitial)
+    internal val animatableRotation = Animatable(rotationInitial)
 
     val pan: Offset
         get() = animatablePan.value
