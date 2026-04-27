@@ -17,9 +17,9 @@ import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
 @OptIn(UnstableApi::class)
 @Composable
 fun ExoPlayerUsingTextureView(modifier: Modifier = Modifier, uri: String) {
-    val context = LocalContext.current
-    val exoPlayer = remember(context) {
-        ExoPlayer.Builder(context).build()
+    val appContext = LocalContext.current.applicationContext
+    val exoPlayer = remember(appContext) {
+        ExoPlayer.Builder(appContext).build()
     }
 
     LaunchedEffect(exoPlayer, uri) {
@@ -44,6 +44,5 @@ fun ExoPlayerUsingTextureView(modifier: Modifier = Modifier, uri: String) {
         }
     }
 }
-
 
 
