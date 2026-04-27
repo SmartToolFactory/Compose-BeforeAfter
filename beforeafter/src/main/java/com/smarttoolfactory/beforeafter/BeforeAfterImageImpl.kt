@@ -193,7 +193,12 @@ internal fun BeforeAfterImageImpl(
             )
         }
 
-        val touchModifier = Modifier.pointerInput(Unit) {
+        val touchModifier = Modifier.pointerInput(
+            boxWidth,
+            onProgressChange,
+            onProgressStart,
+            onProgressEnd,
+        ) {
             detectMotionEvents(
                 onDown = {
                     val position = it.position
