@@ -31,3 +31,9 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           curl "${BASE_URL}/master-SNAPSHOT"
+
+      - name: Trigger Jitpack Build for Latest Master Commit
+        if: github.ref == 'refs/heads/master'
+        run: |
+          SHORT_COMMIT_ID="$(git rev-parse --short=10 HEAD)"
+          curl "${BASE_URL}/${SHORT_COMMIT_ID}"
