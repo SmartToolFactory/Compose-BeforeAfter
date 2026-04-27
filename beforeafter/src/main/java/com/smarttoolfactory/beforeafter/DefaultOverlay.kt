@@ -161,7 +161,7 @@ class OverlayStyle(
     val thumbTintColor: Color = Color.Gray,
     val thumbShape: Shape = CircleShape,
     val thumbElevation: Dp = 2.dp,
-    @DrawableRes val thumbResource: Int = R.drawable.baseline_swap_horiz_24,
+    @param:DrawableRes val thumbResource: Int = R.drawable.baseline_swap_horiz_24,
     val thumbSize: Dp = 36.dp,
-    @FloatRange(from = 0.0, to = 100.0) val thumbPositionPercent: Float = 50f,
+    @param:FloatRange(from = 0.0, to = 100.0) val thumbPositionPercent: Float = 50f,
 )
