@@ -25,6 +25,8 @@ allprojects {
 
 **Step 2:** Add the dependency
 
+### Release version
+
 ```gradle
 dependencies {
     implementation 'com.github.SmartToolFactory:Compose-BeforeAfter:<version>'
@@ -32,6 +34,16 @@ dependencies {
 ```
 
 where `<version>` is one available in [![](https://www.jitpack.io/v/SmartToolFactory/Compose-BeforeAfter.svg)](https://www.jitpack.io/#SmartToolFactory/Compose-BeforeAfter)
+
+### Snapshot version
+
+To use the latest `master` build from [JitPack](https://www.jitpack.io/#SmartToolFactory/Compose-BeforeAfter/master-SNAPSHOT):
+
+```gradle
+dependencies {
+    implementation 'com.github.SmartToolFactory:Compose-BeforeAfter:master-SNAPSHOT'
+}
+```
 
 ## BeforeAfterImage
 
