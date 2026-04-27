@@ -140,6 +140,12 @@ internal fun ImageScope.getScaledImageBitmap(
 
     val scaledBitmap =
         remember(bitmap, rect, imageWidth, imageHeight, contentScale) {
+            val androidBitmap = bitmap.asAndroidBitmap()
+            val left = rect.left.coerceIn(0, androidBitmap.width - 1)
+            val top = rect.top.coerceIn(0, androidBitmap.height - 1)
+            val width = rect.width.coerceIn(1, androidBitmap.width - left)
+            val height = rect.height.coerceIn(1, androidBitmap.height - top)
+
             // This bitmap is needed when we crop original bitmap due to scaling mode
             // and aspect ratio result of cropping
             // We might have center section of the image after cropping, and
@@ -147,11 +153,11 @@ internal fun ImageScope.getScaledImageBitmap(
             // complex calculation for srcOffset and srcSide along side with touch offset
             // or we can create a new bitmap that only contains area bounded by rectangle
             Bitmap.createBitmap(
-                bitmap.asAndroidBitmap(),
-                rect.left,
-                rect.top,
-                rect.width,
-                rect.height
+                androidBitmap,
+                left,
+                top,
+                width,
+                height
             ).asImageBitmap()
         }
     return scaledBitmap
