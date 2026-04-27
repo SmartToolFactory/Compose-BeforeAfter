@@ -13,9 +13,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,14 +57,10 @@ internal fun DefaultOverlay(
     val thumbSize = overlayStyle.thumbSize
     val thumbPositionPercent = overlayStyle.thumbPositionPercent
 
-    val shadow by remember {
-        derivedStateOf {
-            if (thumbBackgroundColor == Color.Transparent) {
-                0.dp
-            } else {
-                thumbElevation
-            }
-        }
+    val shadow = if (thumbBackgroundColor == Color.Transparent) {
+        0.dp
+    } else {
+        thumbElevation
     }
 
     var thumbPosX = position.x
