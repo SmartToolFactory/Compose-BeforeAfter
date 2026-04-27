@@ -87,7 +87,7 @@ internal fun DefaultOverlay(
         thumbPosY = if (verticalThumbMove) {
             (thumbPosY - verticalOffset).coerceIn(thumbMinY, thumbMaxY)
         } else {
-            (imageHeightInPx * thumbPositionPercent / 100f) - verticalOffset
+            (imageHeightInPx * thumbPositionPercent.coerceIn(0f, 100f) / 100f) - verticalOffset
         }
     }
 
