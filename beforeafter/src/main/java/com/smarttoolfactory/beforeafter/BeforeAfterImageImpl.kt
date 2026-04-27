@@ -391,8 +391,16 @@ private fun ImageImpl(
                 // Get actual pan value
                 val pan = (maxX - translateX) / zoom
 
-                val srcOffsetX = ((pan + touchPosition) * bitmapWidth / width).toInt()
-                val dstOffsetX = (pan + touchPosition).toInt()
+                val srcOffsetX =
+                    ((pan + touchPosition) * bitmapWidth / width)
+                        .toInt()
+                        .coerceIn(0, bitmapWidth - 1)
+                val dstOffsetX =
+                    (pan + touchPosition)
+                        .toInt()
+                        .coerceIn(0, width - 1)
+                val revealSrcSize = IntSize(bitmapWidth - srcOffsetX, bitmapHeight)
+                val revealDstSize = IntSize(width - dstOffsetX, height)
 
                 if (contentOrder == ContentOrder.BeforeAfter) {
                     drawImage(
@@ -405,9 +413,9 @@ private fun ImageImpl(
                     )
                     drawImage(
                         afterImage,
-                        srcSize = IntSize(bitmapWidth, bitmapHeight),
+                        srcSize = revealSrcSize,
                         srcOffset = IntOffset(srcOffsetX, 0),
-                        dstSize = IntSize(width, height),
+                        dstSize = revealDstSize,
                         dstOffset = IntOffset(dstOffsetX, 0),
                         alpha = alpha,
                         colorFilter = colorFilter,
@@ -424,9 +432,9 @@ private fun ImageImpl(
                     )
                     drawImage(
                         beforeImage,
-                        srcSize = IntSize(bitmapWidth, bitmapHeight),
+                        srcSize = revealSrcSize,
                         srcOffset = IntOffset(srcOffsetX, 0),
-                        dstSize = IntSize(width, height),
+                        dstSize = revealDstSize,
                         dstOffset = IntOffset(dstOffsetX, 0),
                         alpha = alpha,
                         colorFilter = colorFilter,
