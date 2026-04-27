@@ -200,7 +200,8 @@ open class ZoomState internal constructor(
         gestureZoom: Float,
         gestureRotate: Float = 1f,
     ) {
-        val zoom = (zoom * gestureZoom).coerceIn(zoomMin, zoomMax)
+        val updatedZoom = (zoom * gestureZoom).coerceIn(zoomMin, zoomMax)
+        val targetZoom = if (zoomEnabled) updatedZoom else zoom
         val rotation =
             if (rotationEnabled) {
                 rotation + gestureRotate
@@ -210,15 +211,15 @@ open class ZoomState internal constructor(
 
         if (panEnabled) {
             val offset = pan
-            var newOffset = offset + gesturePan.times(zoom)
+            var newOffset = offset + gesturePan.times(targetZoom)
             val boundPan = limitPan && !rotationEnabled
 
             if (boundPan) {
                 val maxX =
-                    (size.width * (zoom - 1) / 2f)
+                    (size.width * (targetZoom - 1) / 2f)
                         .coerceAtLeast(0f)
                 val maxY =
-                    (size.height * (zoom - 1) / 2f)
+                    (size.height * (targetZoom - 1) / 2f)
                         .coerceAtLeast(0f)
                 newOffset =
                     Offset(
@@ -230,7 +231,7 @@ open class ZoomState internal constructor(
         }
 
         if (zoomEnabled) {
-            snapZoomTo(zoom)
+            snapZoomTo(updatedZoom)
         }
 
         if (rotationEnabled) {
