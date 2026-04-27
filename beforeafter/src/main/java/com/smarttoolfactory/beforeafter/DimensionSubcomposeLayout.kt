@@ -49,8 +49,8 @@ fun DimensionSubcomposeLayout(
         var maxHeight = 0
 
         mainPlaceables.forEach { placeable: Placeable ->
-            maxWidth += placeable.width
-            maxHeight = placeable.height
+            maxWidth = maxOf(maxWidth, placeable.width)
+            maxHeight = maxOf(maxHeight, placeable.height)
         }
 
         val dependentPlaceables: List<Placeable> = subcompose(SlotsEnum.Dependent) {
@@ -75,4 +75,3 @@ fun DimensionSubcomposeLayout(
         }
     }
 }
-
