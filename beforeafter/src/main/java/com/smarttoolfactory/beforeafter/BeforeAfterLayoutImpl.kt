@@ -123,8 +123,8 @@ internal fun Layout(
                             onProgressStart?.invoke(
                                 scaleToUserValue(rawOffset.x)
                             )
+                            it.consume()
                         }
-                        it.consume()
                     },
                     onMove = {
                         if (isHandleTouched) {
@@ -136,13 +136,13 @@ internal fun Layout(
                         }
                     },
                     onUp = {
-                        if(isHandleTouched) {
+                        if (isHandleTouched) {
                             onProgressEnd?.invoke(
                                 scaleToUserValue(rawOffset.x)
                             )
+                            it.consume()
                         }
                         isHandleTouched = false
-                        it.consume()
                     }
                 )
             }
