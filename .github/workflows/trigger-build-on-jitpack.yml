@@ -9,25 +9,35 @@ on:
     tags:
       - "*"
 
+concurrency:
+  group: jitpack-${{ github.workflow }}-${{ github.ref_type == 'branch' && github.ref_name || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: {}
     env:
       SDK_NAME: "Compose-BeforeAfter"
       USERNAME: "SmartToolFactory"
+      BASE_URL: "https://jitpack.io/api/builds/com.github.SmartToolFactory/Compose-BeforeAfter"
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Set BASE_URL Variable
-        run: echo "BASE_URL=https://jitpack.io/api/builds/com.github.${USERNAME}/${SDK_NAME}" >> $GITHUB_ENV
-
-      - name: Trigger Jitpack Build for Tagged Release
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Trigger JitPack build
         run: |
-          curl "${BASE_URL}/${github.ref_name}"
+          set -euo pipefail
 
-      - name: Trigger Jitpack Build for Master-SNAPSHOT
-        if: github.ref == 'refs/heads/master'
-        run: |
-          curl "${BASE_URL}/master-SNAPSHOT"
+          trigger_build() {
+            local version="$1"
+            curl --fail --silent --show-error --location \
+              --retry 3 --retry-all-errors \
+              --connect-timeout 10 --max-time 60 \
+              "${BASE_URL}/${version}"
+          }
+
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            trigger_build "${GITHUB_REF_NAME}"
+            exit 0
+          fi
+
+          trigger_build "master-SNAPSHOT"
+          trigger_build "${GITHUB_SHA::10}"

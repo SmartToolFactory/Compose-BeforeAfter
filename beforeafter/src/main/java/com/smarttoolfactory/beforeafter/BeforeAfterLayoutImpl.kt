@@ -105,7 +105,12 @@ internal fun Layout(
                 )
             }
 
-            val touchModifier = Modifier.pointerInput(Unit) {
+            val touchModifier = Modifier.pointerInput(
+                boxWidth,
+                onProgressChange,
+                onProgressStart,
+                onProgressEnd,
+            ) {
                 detectMotionEvents(
                     onDown = {
                         val position = it.position
@@ -118,8 +123,8 @@ internal fun Layout(
                             onProgressStart?.invoke(
                                 scaleToUserValue(rawOffset.x)
                             )
+                            it.consume()
                         }
-                        it.consume()
                     },
                     onMove = {
                         if (isHandleTouched) {
@@ -131,13 +136,13 @@ internal fun Layout(
                         }
                     },
                     onUp = {
-                        if(isHandleTouched) {
+                        if (isHandleTouched) {
                             onProgressEnd?.invoke(
                                 scaleToUserValue(rawOffset.x)
                             )
+                            it.consume()
                         }
                         isHandleTouched = false
-                        it.consume()
                     }
                 )
             }

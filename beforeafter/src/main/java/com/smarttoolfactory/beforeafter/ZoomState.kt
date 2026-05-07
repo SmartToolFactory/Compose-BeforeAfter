@@ -127,7 +127,7 @@ fun rememberZoomState(
     limitPan: Boolean = false,
     vararg keys: Any?,
 ): ZoomState {
-    return remember(keys) {
+    return remember(*keys) {
         ZoomState(
             initialZoom = initialZoom,
             initialRotation = initialRotation,
@@ -165,16 +165,17 @@ open class ZoomState internal constructor(
 ) {
     internal val zoomMin = minZoom.coerceAtLeast(.5f)
     internal val zoomMax = maxZoom.coerceAtLeast(1f)
-    internal val zoomInitial = initialZoom.coerceIn(zoomMin, zoomMax)
-    internal val rotationInitial = initialRotation % 360
 
     internal val animatablePan = Animatable(Offset.Zero, Offset.VectorConverter)
-    internal val animatableZoom = Animatable(zoomInitial)
-    internal val animatableRotation = Animatable(rotationInitial)
 
     init {
         require(zoomMax >= zoomMin)
     }
+
+    internal val zoomInitial = initialZoom.coerceIn(zoomMin, zoomMax)
+    internal val rotationInitial = initialRotation % 360
+    internal val animatableZoom = Animatable(zoomInitial)
+    internal val animatableRotation = Animatable(rotationInitial)
 
     val pan: Offset
         get() = animatablePan.value
@@ -199,7 +200,8 @@ open class ZoomState internal constructor(
         gestureZoom: Float,
         gestureRotate: Float = 1f,
     ) {
-        val zoom = (zoom * gestureZoom).coerceIn(zoomMin, zoomMax)
+        val updatedZoom = (zoom * gestureZoom).coerceIn(zoomMin, zoomMax)
+        val targetZoom = if (zoomEnabled) updatedZoom else zoom
         val rotation =
             if (rotationEnabled) {
                 rotation + gestureRotate
@@ -209,15 +211,15 @@ open class ZoomState internal constructor(
 
         if (panEnabled) {
             val offset = pan
-            var newOffset = offset + gesturePan.times(zoom)
+            var newOffset = offset + gesturePan.times(targetZoom)
             val boundPan = limitPan && !rotationEnabled
 
             if (boundPan) {
                 val maxX =
-                    (size.width * (zoom - 1) / 2f)
+                    (size.width * (targetZoom - 1) / 2f)
                         .coerceAtLeast(0f)
                 val maxY =
-                    (size.height * (zoom - 1) / 2f)
+                    (size.height * (targetZoom - 1) / 2f)
                         .coerceAtLeast(0f)
                 newOffset =
                     Offset(
@@ -229,7 +231,7 @@ open class ZoomState internal constructor(
         }
 
         if (zoomEnabled) {
-            snapZoomTo(zoom)
+            snapZoomTo(updatedZoom)
         }
 
         if (rotationEnabled) {

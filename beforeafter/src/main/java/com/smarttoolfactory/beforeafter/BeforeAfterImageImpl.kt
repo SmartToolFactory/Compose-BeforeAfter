@@ -193,7 +193,12 @@ internal fun BeforeAfterImageImpl(
             )
         }
 
-        val touchModifier = Modifier.pointerInput(Unit) {
+        val touchModifier = Modifier.pointerInput(
+            boxWidth,
+            onProgressChange,
+            onProgressStart,
+            onProgressEnd,
+        ) {
             detectMotionEvents(
                 onDown = {
                     val position = it.position
@@ -206,8 +211,8 @@ internal fun BeforeAfterImageImpl(
                         onProgressStart?.invoke(
                             scaleToUserValue(rawOffset.x)
                         )
+                        it.consume()
                     }
-                    it.consume()
                 },
                 onMove = {
                     if (isHandleTouched) {
@@ -219,13 +224,13 @@ internal fun BeforeAfterImageImpl(
                     }
                 },
                 onUp = {
-                    if(isHandleTouched) {
+                    if (isHandleTouched) {
                         onProgressEnd?.invoke(
                             scaleToUserValue(rawOffset.x)
                         )
+                        it.consume()
                     }
                     isHandleTouched = false
-                    it.consume()
                 }
             )
         }
@@ -325,8 +330,8 @@ private fun ImageLayout(
         translateX = translateX,
         zoom = zoom,
         alpha = alpha,
-        width = imageWidth.toInt(),
-        height = imageHeight.toInt(),
+        width = imageWidth.toInt().coerceAtLeast(1),
+        height = imageHeight.toInt().coerceAtLeast(1),
         contentOrder = contentOrder,
         colorFilter = colorFilter,
         filterQuality = filterQuality,
@@ -386,8 +391,16 @@ private fun ImageImpl(
                 // Get actual pan value
                 val pan = (maxX - translateX) / zoom
 
-                val srcOffsetX = ((pan + touchPosition) * bitmapWidth / width).toInt()
-                val dstOffsetX = (pan + touchPosition).toInt()
+                val srcOffsetX =
+                    ((pan + touchPosition) * bitmapWidth / width)
+                        .toInt()
+                        .coerceIn(0, bitmapWidth - 1)
+                val dstOffsetX =
+                    (pan + touchPosition)
+                        .toInt()
+                        .coerceIn(0, width - 1)
+                val revealSrcSize = IntSize(bitmapWidth - srcOffsetX, bitmapHeight)
+                val revealDstSize = IntSize(width - dstOffsetX, height)
 
                 if (contentOrder == ContentOrder.BeforeAfter) {
                     drawImage(
@@ -400,9 +413,9 @@ private fun ImageImpl(
                     )
                     drawImage(
                         afterImage,
-                        srcSize = IntSize(bitmapWidth, bitmapHeight),
+                        srcSize = revealSrcSize,
                         srcOffset = IntOffset(srcOffsetX, 0),
-                        dstSize = IntSize(width, height),
+                        dstSize = revealDstSize,
                         dstOffset = IntOffset(dstOffsetX, 0),
                         alpha = alpha,
                         colorFilter = colorFilter,
@@ -419,9 +432,9 @@ private fun ImageImpl(
                     )
                     drawImage(
                         beforeImage,
-                        srcSize = IntSize(bitmapWidth, bitmapHeight),
+                        srcSize = revealSrcSize,
                         srcOffset = IntOffset(srcOffsetX, 0),
-                        dstSize = IntSize(width, height),
+                        dstSize = revealDstSize,
                         dstOffset = IntOffset(dstOffsetX, 0),
                         alpha = alpha,
                         colorFilter = colorFilter,

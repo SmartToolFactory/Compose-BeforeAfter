@@ -32,23 +32,28 @@ internal fun getScaledBitmapRect(
     bitmapWidth: Int,
     bitmapHeight: Int
 ): IntRect {
+    val safeImageWidth = imageWidth.coerceAtLeast(1f)
+    val safeImageHeight = imageHeight.coerceAtLeast(1f)
+    val safeBoxWidth = boxWidth.coerceAtLeast(1)
+    val safeBoxHeight = boxHeight.coerceAtLeast(1)
+
     // Get scale of box to width of the image
     // We need a rect that contains Bitmap bounds to pass if any child requires it
     // For a image with 100x100 px with 300x400 px container and image with crop 400x400px
     // So we need to pass top left as 0,50 and size
-    val scaledBitmapX = boxWidth / imageWidth
-    val scaledBitmapY = boxHeight / imageHeight
+    val scaledBitmapX = safeBoxWidth / safeImageWidth
+    val scaledBitmapY = safeBoxHeight / safeImageHeight
 
     val topLeft = IntOffset(
-        x = (bitmapWidth * (imageWidth - boxWidth) / imageWidth / 2)
+        x = (bitmapWidth * (safeImageWidth - safeBoxWidth) / safeImageWidth / 2)
             .coerceAtLeast(0f).toInt(),
-        y = (bitmapHeight * (imageHeight - boxHeight) / imageHeight / 2)
+        y = (bitmapHeight * (safeImageHeight - safeBoxHeight) / safeImageHeight / 2)
             .coerceAtLeast(0f).toInt()
     )
 
     val size = IntSize(
-        width = (bitmapWidth * scaledBitmapX).toInt().coerceAtMost(bitmapWidth),
-        height = (bitmapHeight * scaledBitmapY).toInt().coerceAtMost(bitmapHeight)
+        width = (bitmapWidth * scaledBitmapX).toInt().coerceIn(1, bitmapWidth),
+        height = (bitmapHeight * scaledBitmapY).toInt().coerceIn(1, bitmapHeight)
     )
 
     return IntRect(offset = topLeft, size = size)
