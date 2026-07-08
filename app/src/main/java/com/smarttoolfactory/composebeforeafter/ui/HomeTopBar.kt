@@ -2,11 +2,9 @@ package com.smarttoolfactory.composebeforeafter.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabPosition
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -18,22 +16,19 @@ import kotlinx.coroutines.launch
 fun HomeTopBar(pagerState: PagerState) {
     val coroutineScope = rememberCoroutineScope()
 
-    TabRow(
+    SecondaryTabRow(
         modifier = Modifier.fillMaxWidth(),
-        // Our selected tab is our current page
         selectedTabIndex = pagerState.currentPage,
-        // Override the indicator, using the provided pagerTabIndicatorOffset modifier
-        indicator = { tabPositions: List<TabPosition> ->
+        indicator = {
             TabRowDefaults.SecondaryIndicator(
                 modifier =
                     Modifier.tabIndicatorOffset(
-                        tabPositions[pagerState.currentPage],
+                        selectedTabIndex = pagerState.currentPage,
                     ),
                 height = 4.dp,
             )
         },
     ) {
-        // Add tabs for all of our pages
         tabList.forEachIndexed { index, title ->
             Tab(
                 text = { Text(title) },
