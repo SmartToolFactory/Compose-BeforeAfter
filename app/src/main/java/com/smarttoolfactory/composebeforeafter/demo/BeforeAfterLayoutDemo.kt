@@ -39,7 +39,7 @@ import com.smarttoolfactory.beforeafter.BeforeAfterLayout
 import com.smarttoolfactory.beforeafter.BeforeLabel
 import com.smarttoolfactory.beforeafter.ContentOrder
 import com.smarttoolfactory.beforeafter.OverlayStyle
-import com.smarttoolfactory.beforeafter.util.ExoPlayerUsingTextureView
+import com.smarttoolfactory.composebeforeafter.demo.components.ExoPlayerUsingTextureView
 import com.smarttoolfactory.composebeforeafter.R
 import com.smarttoolfactory.composebeforeafter.demo.components.M2BeforeSample
 import com.smarttoolfactory.composebeforeafter.demo.components.M3AfterSample
@@ -247,4 +247,3 @@ private fun AfterComposable(progress: Float) {
         )
     }
 }
-
