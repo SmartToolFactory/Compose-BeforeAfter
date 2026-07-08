@@ -30,9 +30,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.setProgress
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -103,10 +106,22 @@ internal fun BeforeAfterImageImpl(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable BeforeAfterImageScope.() -> Unit = {}
 ) {
-    val semantics = if (contentDescription != null) {
+    val semantics = if (contentDescription != null || onProgressChange != null) {
         Modifier.semantics {
-            this.contentDescription = contentDescription
-            this.role = Role.Image
+            contentDescription?.let { this.contentDescription = it }
+            if (onProgressChange != null) {
+                progressBarRangeInfo = ProgressBarRangeInfo(
+                    current = progress.coerceIn(0f, 100f),
+                    range = 0f..100f,
+                    steps = 0,
+                )
+                setProgress { requestedProgress ->
+                    onProgressChange(requestedProgress.coerceIn(0f, 100f))
+                    true
+                }
+            } else {
+                this.role = Role.Image
+            }
         }
     } else {
         Modifier
@@ -156,22 +171,17 @@ internal fun BeforeAfterImageImpl(
 
         // Sales and interpolates from offset from dragging to user value in valueRange
         fun scaleToUserValue(offset: Float) =
-            scale(0f, boxWidth, offset, 0f, 100f)
+            scale(0f, boxWidth, offset.coerceIn(0f, boxWidth), 0f, 100f)
 
         // Scales user value using valueRange to position on x axis on screen
         fun scaleToOffset(userValue: Float) =
-            scale(0f, 100f, userValue, 0f, boxWidth)
+            scale(0f, 100f, userValue.coerceIn(0f, 100f), 0f, boxWidth)
 
-        var rawOffset by remember {
-            mutableStateOf(
-                Offset(
-                    x = scaleToOffset(progress),
-                    y = imageHeight.coerceAtMost(boxHeight) / 2f,
-                )
-            )
-        }
-
-        rawOffset = rawOffset.copy(x = scaleToOffset(progress))
+        var handleY by remember { mutableStateOf(imageHeight.coerceAtMost(boxHeight) / 2f) }
+        val rawOffset = Offset(
+            x = scaleToOffset(progress),
+            y = handleY,
+        )
 
         var isHandleTouched by remember { mutableStateOf(false) }
 
@@ -213,15 +223,15 @@ internal fun BeforeAfterImageImpl(
                         )
                         it.consume()
                     }
-                },
-                onMove = {
-                    if (isHandleTouched) {
-                        rawOffset = it.position
-                        onProgressChange?.invoke(
-                            scaleToUserValue(rawOffset.x)
-                        )
-                        it.consume()
-                    }
+                    },
+                    onMove = {
+                        if (isHandleTouched) {
+                            handleY = it.position.y
+                            onProgressChange?.invoke(
+                                scaleToUserValue(it.position.x)
+                            )
+                            it.consume()
+                        }
                 },
                 onUp = {
                     if (isHandleTouched) {
@@ -372,10 +382,12 @@ private fun ImageImpl(
 
             // First add translation for crop and other content scale
             // then get user touch position on any zoom level to get raw value
-            val touchPosition =
-                (width - canvasWidth) / 2f + (position.x / zoom)
-                    .coerceIn(0f, canvasWidth)
-                    .toInt()
+            val touchPosition = (
+                (width - canvasWidth) / 2f +
+                    (position.x / zoom).coerceIn(0f, canvasWidth)
+                )
+                .toInt()
+                .coerceIn(0, width)
 
             // Translate to left or down when Image size is bigger than this canvas.
             // ImageSize is bigger when scale modes like Crop is used which enlarges image

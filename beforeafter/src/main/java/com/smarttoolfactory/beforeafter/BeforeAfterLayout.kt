@@ -3,14 +3,42 @@ package com.smarttoolfactory.beforeafter
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.DpSize
+
+/** Stateful convenience overload for [BeforeAfterLayout]. */
+@Composable
+fun BeforeAfterLayout(
+    modifier: Modifier = Modifier,
+    state: BeforeAfterState,
+    enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
+    enableZoom: Boolean = true,
+    contentOrder: ContentOrder = ContentOrder.BeforeAfter,
+    overlayStyle: OverlayStyle = OverlayStyle(),
+    beforeContent: @Composable () -> Unit,
+    afterContent: @Composable () -> Unit,
+    beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
+    afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
+) {
+    BeforeAfterLayout(
+        modifier = modifier,
+        progress = state.progress,
+        onProgressChange = { state.progress = it },
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
+        enableProgressWithTouch = enableProgressWithTouch,
+        enableZoom = enableZoom,
+        contentOrder = contentOrder,
+        overlayStyle = overlayStyle,
+        beforeContent = beforeContent,
+        afterContent = afterContent,
+        beforeLabel = beforeLabel,
+        afterLabel = afterLabel,
+    )
+}
 
 /**
  * A composable that lays out and draws a given [beforeContent] and [afterContent]
@@ -29,6 +57,9 @@ import androidx.compose.ui.unit.DpSize
  * @param afterLabel label for [afterContent]. It's [AfterLabel] by default
  *
  */
+@Deprecated(
+    message = "Use the overload with BeforeAfterState or the controlled progress API.",
+)
 @Composable
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
@@ -43,7 +74,7 @@ fun BeforeAfterLayout(
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
 ) {
-    var progress by remember { mutableFloatStateOf(50f) }
+    val state = rememberBeforeAfterState()
 
     Layout(
         modifier = modifier,
@@ -51,9 +82,9 @@ fun BeforeAfterLayout(
         afterContent = afterContent,
         beforeLabel = beforeLabel,
         afterLabel = afterLabel,
-        progress = progress,
+        progress = state.progress,
         onProgressChange = {
-            progress = it
+            state.progress = it
         },
         onProgressStart = onProgressStart,
         onProgressEnd = onProgressEnd,
@@ -150,6 +181,10 @@ fun BeforeAfterLayout(
  * @param overlay Composable for drawing overlay over this Composable. It returns dimensions
  * of ancestor and touch position
  */
+@Deprecated(
+    message = "Use the overload with BeforeAfterState or the controlled progress API.",
+    replaceWith = ReplaceWith("BeforeAfterLayout(state = rememberBeforeAfterState(), beforeContent = beforeContent, afterContent = afterContent)"),
+)
 @Composable
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
@@ -164,7 +199,7 @@ fun BeforeAfterLayout(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable ((DpSize, Offset) -> Unit)?
 ) {
-    var progress by remember { mutableFloatStateOf(50f) }
+    val state = rememberBeforeAfterState()
 
     Layout(
         modifier = modifier,
@@ -172,9 +207,9 @@ fun BeforeAfterLayout(
         afterContent = afterContent,
         beforeLabel = beforeLabel,
         afterLabel = afterLabel,
-        progress = progress,
+        progress = state.progress,
         onProgressChange = {
-            progress = it
+            state.progress = it
         },
         onProgressEnd = onProgressEnd,
         onProgressStart  = onProgressStart,

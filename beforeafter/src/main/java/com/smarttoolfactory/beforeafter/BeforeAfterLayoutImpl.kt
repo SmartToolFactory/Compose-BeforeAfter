@@ -68,22 +68,17 @@ internal fun Layout(
 
             // Sales and interpolates from offset from dragging to user value in valueRange
             fun scaleToUserValue(offset: Float) =
-                scale(0f, boxWidth, offset, 0f, 100f)
+                scale(0f, boxWidth, offset.coerceIn(0f, boxWidth), 0f, 100f)
 
             // Scales user value using valueRange to position on x axis on screen
             fun scaleToOffset(userValue: Float) =
-                scale(0f, 100f, userValue, 0f, boxWidth)
+                scale(0f, 100f, userValue.coerceIn(0f, 100f), 0f, boxWidth)
 
-            var rawOffset by remember {
-                mutableStateOf(
-                    Offset(
-                        x = scaleToOffset(progress),
-                        y = boxHeight / 2f,
-                    )
-                )
-            }
-
-            rawOffset = rawOffset.copy(x = scaleToOffset(progress))
+            var handleY by remember { mutableStateOf(boxHeight / 2f) }
+            val rawOffset = Offset(
+                x = scaleToOffset(progress),
+                y = handleY,
+            )
 
             var isHandleTouched by remember { mutableStateOf(false) }
 
@@ -128,9 +123,9 @@ internal fun Layout(
                     },
                     onMove = {
                         if (isHandleTouched) {
-                            rawOffset = it.position
+                            handleY = it.position.y
                             onProgressChange?.invoke(
-                                scaleToUserValue(rawOffset.x)
+                                scaleToUserValue(it.position.x)
                             )
                             it.consume()
                         }

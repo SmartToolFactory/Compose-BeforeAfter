@@ -145,7 +145,7 @@ internal fun DefaultOverlay(
  * It's between [0f-100f] to set thumb's vertical position in layout
  */
 @Immutable
-class OverlayStyle(
+data class OverlayStyle(
     val dividerColor: Color = Color.White,
     val dividerBrush: Brush? = null,
     val dividerWidth: Dp = 1.5.dp,
