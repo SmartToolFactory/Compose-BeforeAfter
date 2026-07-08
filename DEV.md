@@ -1,8 +1,13 @@
-# Developer Guide
+# Developer guide
 
 Developer setup, dependency coordinates, API reference snippets, and usage examples for Compose Before-After.
 
 [Back to README](README.md)
+
+## Requirements
+
+- JDK 17 or newer
+- Android SDK Platform 37
 
 ## Gradle Setup
 
@@ -60,9 +65,27 @@ dependencies {
 
 ## BeforeAfterImage
 
-Image that takes two `ImageBitmaps as parameter and displays them based on specified order.
-By default Labels and Overlay is provided and overload function that accept other Composables
-as overlay to customize
+`BeforeAfterImage` takes two `ImageBitmap` values and draws them in the selected order.
+The default overloads provide labels and an overlay. Other overloads accept a composable overlay.
+
+### State and migration
+
+Use a controlled `progress`/`onProgressChange` pair when the caller owns comparison state. Progress
+is always constrained to `0f..100f`. For local state, use `rememberBeforeAfterState` and pass it to
+the stateful overload:
+
+```kotlin
+val state = rememberBeforeAfterState(initialProgress = 50f)
+
+BeforeAfterImage(
+    state = state,
+    beforeImage = imageBefore,
+    afterImage = imageAfter,
+)
+```
+
+The legacy overloads that do not accept `progress` or `state` are deprecated. They remain available
+for one migration cycle and delegate to `BeforeAfterState` internally.
 
 ```kotlin
 @Composable
@@ -71,6 +94,8 @@ fun BeforeAfterImage(
     beforeImage: ImageBitmap,
     afterImage: ImageBitmap,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     overlayStyle: OverlayStyle = OverlayStyle(),
@@ -96,6 +121,8 @@ fun BeforeAfterImage(
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((progress: Float) -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     overlayStyle: OverlayStyle = OverlayStyle(),
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
@@ -105,17 +132,7 @@ fun BeforeAfterImage(
 )
 ```
 
-overloads has default `DefaultOverlay`
-
-```kotlin
-@Composable
-internal fun DefaultOverlay(
-    width: Dp,
-    height: Dp,
-    position: Offset,
-    overlayStyle: OverlayStyle
-)
-```
+The first two overloads use the built-in default overlay. Use an `overlay` lambda when you need a custom overlay.
 
 ```kotlin
 @Composable
@@ -124,6 +141,8 @@ fun BeforeAfterImage(
     beforeImage: ImageBitmap,
     afterImage: ImageBitmap,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     alignment: Alignment = Alignment.Center,
@@ -147,10 +166,14 @@ fun BeforeAfterImage(
     beforeImage: ImageBitmap,
     afterImage: ImageBitmap,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((progress: Float) -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     alignment: Alignment = Alignment.Center,
     contentScale: ContentScale = ContentScale.Fit,
     contentDescription: String? = null,
@@ -163,7 +186,7 @@ fun BeforeAfterImage(
 )
 ```
 
-has `overlay`parameters to add another Composable to draw overlay
+The `overlay` parameter adds another composable at the image position.
 
 ### Usage
 
@@ -191,36 +214,44 @@ BeforeAfterImage(
     beforeImage = imageBefore3,
     afterImage = imageAfter3,
     progress = progress,
-    onProgressChange = {},
+    onProgressChange = { progress = it },
     contentScale = contentScale,
 )
 ```
 
 ### Parameters
 
-- **beforeImage** image that show initial progress
-- **afterImage** image that show final progress
-- **enableProgressWithTouch** flag to enable drag and change progress with touch
-- **enableZoom** when enabled images are zoomable and pannable
-- **contentOrder** order of images to be drawn
-- **alignment** determines where image will be aligned inside `BoxWithConstraints`
-- **contentScale** how image should be scaled inside Canvas to match parent dimensions.
-- `ContentScale.Fit` for instance maintains src ratio and scales image to fit inside the parent.
-- **alpha** Opacity to be applied to `beforeImage` from 0.0f to 1.0f representing fully transparent to fully opaque respectively
-- **colorFilter** ColorFilter to apply to the `beforeImage` when drawn into the destination
-- **filterQuality** Sampling algorithm applied to the `beforeImage` when it is scaled and drawn into the destination. The default is `FilterQuality.Low` which scales using a bilinear sampling algorithm
-- **overlay** is a Composable that can be matched at exact position where `beforeImage` is drawn. This is useful for drawing thumbs, cropping or another layout that should match position with the image that is scaled is drawn
+- `beforeImage` and `afterImage` are the images to compare.
+- `progress` ranges from `0f` to `100f` when using a controlled overload.
+- `enableProgressWithTouch` enables slider dragging; `enableZoom` enables pinch zoom and pan.
+- `contentOrder`, `alignment`, and `contentScale` control drawing behavior.
+- `alpha`, `colorFilter`, and `filterQuality` apply to image rendering.
+- `overlay` draws a custom composable at the image position.
 
 ## BeforeAfterLayout
 
-Layout can draw any Composable, image, or video as before and after layout and can be zoomed and
-panned when [enableZoom] is **true** and returns a callback to animate before/after progress
+`BeforeAfterLayout` draws any composable, image, or video as before and after content. It can zoom
+and pan when `enableZoom` is `true`, and controlled overloads let callers animate progress.
+
+It also accepts `BeforeAfterState` for local progress ownership:
+
+```kotlin
+val state = rememberBeforeAfterState()
+
+BeforeAfterLayout(
+    state = state,
+    beforeContent = { BeforeComposable() },
+    afterContent = { AfterComposable() },
+)
+```
 
 ```kotlin
 @Composable
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     overlayStyle: OverlayStyle = OverlayStyle(),
@@ -231,13 +262,56 @@ fun BeforeAfterLayout(
 )
 ```
 
-and
+### Custom layout overlays
+
+Two overloads accept a custom overlay. The overlay receives the content size and the current touch
+position.
 
 ```kotlin
 @Composable
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
+    enableZoom: Boolean = true,
+    contentOrder: ContentOrder = ContentOrder.BeforeAfter,
+    beforeContent: @Composable () -> Unit,
+    afterContent: @Composable () -> Unit,
+    beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
+    afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
+    overlay: @Composable ((DpSize, Offset) -> Unit)?,
+)
+```
+
+```kotlin
+@Composable
+fun BeforeAfterLayout(
+    modifier: Modifier = Modifier,
+    @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
+    onProgressChange: ((progress: Float) -> Unit)? = null,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
+    enableProgressWithTouch: Boolean = true,
+    enableZoom: Boolean = true,
+    contentOrder: ContentOrder = ContentOrder.BeforeAfter,
+    beforeContent: @Composable () -> Unit,
+    afterContent: @Composable () -> Unit,
+    beforeLabel: @Composable (BoxScope.() -> Unit)? = { BeforeLabel(contentOrder = contentOrder) },
+    afterLabel: @Composable (BoxScope.() -> Unit)? = { AfterLabel(contentOrder = contentOrder) },
+    overlay: @Composable ((DpSize, Offset) -> Unit)?,
+)
+```
+
+### Controlled layout progress
+
+```kotlin
+@Composable
+fun BeforeAfterLayout(
+    modifier: Modifier = Modifier,
+    enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
@@ -255,7 +329,7 @@ fun BeforeAfterLayout(
 ### Customize
 
 ```kotlin
-        BeforeAfterLayout(
+BeforeAfterLayout(
     modifier = Modifier
         .shadow(1.dp, RoundedCornerShape(10.dp))
         .fillMaxWidth()
@@ -337,7 +411,8 @@ BeforeAfterLayout(
 
 ### Display before and after videos with Exoplayer
 
-There is `ExoPlayerUsingTextureView` composable that you can use to display before and after videos.
+The demo app contains an `ExoPlayerUsingTextureView` example. It is intentionally not part of the
+library artifact; applications should own their Media3 dependency and player lifecycle.
 
 ```kotlin
 BeforeAfterLayout(
@@ -345,12 +420,12 @@ BeforeAfterLayout(
         .fillMaxSize()
         .aspectRatio(4 / 3f),
     beforeContent = {
-        ExoPlayerUsingTextureView(
+        VideoPlayer(
             uri = "asset:///floodplain_dirty.mp4"
         )
     },
     afterContent = {
-        ExoPlayerUsingTextureView(
+        VideoPlayer(
             uri = "asset:///floodplain_clean.mp4"
         )
     },
@@ -359,6 +434,31 @@ BeforeAfterLayout(
 ```
 
 > [!NOTE]
-> If you would like the ability to customize and build your own VideoPlayer composable using Exoplayer, then take a look at the implementation of `ExoPlayerUsingTextureView` composable. You can duplicate the composable and modify the behaviour.
->
-> Only thing to take care of is that `BeforeAfterLayout` requires Exoplayer that works with a TextureView.
+> Provide a player composable backed by `TextureView` so Compose transforms work correctly. The
+> demo app's `ExoPlayerUsingTextureView` is one reference implementation.
+
+## Local development
+
+Run focused library checks:
+
+```bash
+./gradlew :beforeafter:testDebugUnitTest
+./gradlew :beforeafter:compileDebugAndroidTestKotlin
+./gradlew :beforeafter:assembleDebug
+```
+
+Unit tests live in `beforeafter/src/test`; Compose interaction tests live in
+`beforeafter/src/androidTest` and require an emulator or device to execute:
+
+```bash
+./gradlew :beforeafter:connectedDebugAndroidTest
+```
+
+Run the full local verification suite:
+
+```bash
+./gradlew lint test
+./gradlew :beforeafter:dokkaGenerate
+```
+
+The Dokka task refreshes the tracked API reference in `docs/` after public API or KDoc changes.
