@@ -33,6 +33,8 @@ afterEvaluate {
 }
 
 dependencies {
+    implementation libs.androidx.animation.core
+    implementation libs.androidx.foundation
     implementation libs.compose.extended.gestures
 
     implementation libs.androidx.runtime
