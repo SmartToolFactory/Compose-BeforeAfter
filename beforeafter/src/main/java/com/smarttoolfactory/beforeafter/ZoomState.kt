@@ -3,11 +3,13 @@ package com.smarttoolfactory.beforeafter
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntSize
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * * Create and [remember] the [ZoomState] based on the currently appropriate transform
@@ -152,7 +154,7 @@ fun rememberZoomState(
  * @param panEnabled when set to true pan is enabled
  * @param rotationEnabled when set to true rotation is enabled
  */
-@Immutable
+@Stable
 open class ZoomState internal constructor(
     initialZoom: Float = 1f,
     initialRotation: Float = 0f,
@@ -167,6 +169,7 @@ open class ZoomState internal constructor(
     internal val zoomMax = maxZoom.coerceAtLeast(1f)
 
     internal val animatablePan = Animatable(Offset.Zero, Offset.VectorConverter)
+    private val updateMutex = Mutex()
 
     init {
         require(zoomMax >= zoomMin)
@@ -199,7 +202,7 @@ open class ZoomState internal constructor(
         gesturePan: Offset,
         gestureZoom: Float,
         gestureRotate: Float = 1f,
-    ) {
+    ) = updateMutex.withLock {
         val updatedZoom = (zoom * gestureZoom).coerceIn(zoomMin, zoomMax)
         val targetZoom = if (zoomEnabled) updatedZoom else zoom
         val rotation =
