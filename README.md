@@ -6,7 +6,7 @@ Composables to display Images, or Composables as before and after composables to
 differences or animate progress between 2 layouts or Composables with overlay and
 customization options and progress observe properties for animating before-after progress
 
-https://github.com/user-attachments/assets/60a3b755-046f-4683-b3eb-cd89fb728d64
+<video src="demo.mp4" height=480></video>
 
 ## Documentation
 
