@@ -5,10 +5,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Canvas
@@ -18,6 +14,49 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
+
+/**
+ * Stateful convenience overload for [BeforeAfterImage].
+ *
+ * Prefer the overload that takes `progress` and `onProgressChange` when the caller owns state.
+ */
+@Composable
+fun BeforeAfterImage(
+    modifier: Modifier = Modifier,
+    state: BeforeAfterState,
+    beforeImage: ImageBitmap,
+    afterImage: ImageBitmap,
+    enableProgressWithTouch: Boolean = true,
+    onProgressStart: ((progress: Float) -> Unit)? = null,
+    onProgressEnd: ((progress: Float) -> Unit)? = null,
+    enableZoom: Boolean = true,
+    contentOrder: ContentOrder = ContentOrder.BeforeAfter,
+    overlayStyle: OverlayStyle = OverlayStyle(),
+    beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
+    afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
+    contentScale: ContentScale = ContentScale.Fit,
+    alignment: Alignment = Alignment.Center,
+    contentDescription: String? = null,
+) {
+    BeforeAfterImage(
+        modifier = modifier,
+        beforeImage = beforeImage,
+        afterImage = afterImage,
+        enableProgressWithTouch = enableProgressWithTouch,
+        enableZoom = enableZoom,
+        contentOrder = contentOrder,
+        progress = state.progress,
+        onProgressChange = { state.progress = it },
+        onProgressStart = onProgressStart,
+        onProgressEnd = onProgressEnd,
+        overlayStyle = overlayStyle,
+        beforeLabel = beforeLabel,
+        afterLabel = afterLabel,
+        contentScale = contentScale,
+        alignment = alignment,
+        contentDescription = contentDescription,
+    )
+}
 
 /**
  * A composable that lays out and draws a given [beforeImage] and [afterImage] at given [contentOrder]
@@ -32,10 +71,10 @@ import androidx.compose.ui.layout.ContentScale
  * @param onProgressStart callback to be called when user starts dragging the slider with touch
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
+ * @param overlayStyle styling values for [DefaultOverlay] to set divider color, thumb shape, size,
  * elevation and other properties
  * @param contentOrder order of images to be drawn
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -44,6 +83,10 @@ import androidx.compose.ui.layout.ContentScale
  * @param contentScale how image should be scaled inside Canvas to match parent dimensions.
  * [ContentScale.Fit] for instance maintains src ratio and scales image to fit inside the parent.
  */
+@Deprecated(
+    message = "Use the overload with BeforeAfterState or the controlled progress API.",
+    replaceWith = ReplaceWith("BeforeAfterImage(state = rememberBeforeAfterState(), beforeImage = beforeImage, afterImage = afterImage)"),
+)
 @Composable
 fun BeforeAfterImage(
     modifier: Modifier = Modifier,
@@ -61,7 +104,7 @@ fun BeforeAfterImage(
     alignment: Alignment = Alignment.Center,
     contentDescription: String? = null,
 ) {
-    var progress by remember { mutableFloatStateOf(50f) }
+    val state = rememberBeforeAfterState()
 
     BeforeAfterImageImpl(
         modifier = modifier,
@@ -70,9 +113,9 @@ fun BeforeAfterImage(
         enableProgressWithTouch = enableProgressWithTouch,
         enableZoom = enableZoom,
         contentOrder = contentOrder,
-        progress = progress,
+        progress = state.progress,
         onProgressChange = {
-            progress = it
+            state.progress = it
         },
         onProgressStart = onProgressStart,
         onProgressEnd = onProgressEnd,
@@ -102,19 +145,18 @@ fun BeforeAfterImage(
  * @param afterImage image that show final progress
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
  * @param enableZoom when enabled images are zoomable and pannable
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
+ * @param overlayStyle styling values for [DefaultOverlay] to set divider color, thumb shape, size,
  * elevation and other properties
  * @param contentOrder order of images to be drawn
  * @param progress progress value that will be used to show progress
  * @param onProgressChange callback that will be called when progress value changes
  * @param onProgressStart callback to be called when user starts dragging the slider with touch
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size, elevation and other properties
  * @param beforeLabel text that will be shown on top of image
  * @param afterLabel text that will be shown on bottom of image
  * @param contentScale how image should be scaled inside Canvas to match parent dimensions.
-  * [ContentScale.Fit] for instance maintains src ratio and scales image to fit inside the parent.
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * [ContentScale.Fit] for instance maintains src ratio and scales image to fit inside the parent.
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -178,11 +220,11 @@ fun BeforeAfterImage(
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
- * @param progress progress value between 0.0f and 1.0f representing progress of image
+ * @param progress progress value between 0f and 100f representing progress of image
  * @param onProgressChange callback that is called when progress value changes
  * @param onProgressStart callback to be called when user starts dragging the slider with touch
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -259,7 +301,7 @@ fun BeforeAfterImage(
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -277,6 +319,9 @@ fun BeforeAfterImage(
  * This is useful for drawing thumbs, cropping or another layout that should match position
  * with the image that is scaled is drawn
  */
+@Deprecated(
+    message = "Use the overload with BeforeAfterState or the controlled progress API.",
+)
 @Composable
 fun BeforeAfterImage(
     modifier: Modifier = Modifier,
@@ -297,15 +342,15 @@ fun BeforeAfterImage(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable BeforeAfterImageScope.() -> Unit,
 ) {
-    var progress by remember { mutableFloatStateOf(50f) }
+    val state = rememberBeforeAfterState()
 
     BeforeAfterImageImpl(
         modifier = modifier,
         beforeImage = beforeImage,
         afterImage = afterImage,
-        progress = progress,
+        progress = state.progress,
         onProgressChange = {
-            progress = it
+            state.progress = it
         },
         onProgressStart = onProgressStart,
         onProgressEnd = onProgressEnd,

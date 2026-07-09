@@ -20,6 +20,9 @@ android {
 dependencies {
     implementation projects.beforeafter
 
+    // Material 2 comparison sample
+    implementation libs.androidx.material
+
     // Lifecycle
     implementation libs.androidx.lifecycle.runtime.ktx
 
@@ -39,9 +42,6 @@ dependencies {
 
     // Material Design 3 for Compose
     implementation libs.material3
-
-    // Photo Picker
-    implementation(libs.modernstorage.photopicker)
 
     // For media playback using ExoPlayer
     implementation libs.androidx.media3.exoplayer

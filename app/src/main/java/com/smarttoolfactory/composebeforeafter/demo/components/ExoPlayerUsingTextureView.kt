@@ -1,4 +1,4 @@
-package com.smarttoolfactory.beforeafter.util
+package com.smarttoolfactory.composebeforeafter.demo.components
 
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
@@ -16,19 +16,17 @@ import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
 
 @OptIn(UnstableApi::class)
 @Composable
-fun ExoPlayerUsingTextureView(modifier: Modifier = Modifier, uri: String) {
+internal fun ExoPlayerUsingTextureView(modifier: Modifier = Modifier, uri: String) {
     val appContext = LocalContext.current.applicationContext
     val exoPlayer = remember(appContext) {
         ExoPlayer.Builder(appContext).build()
     }
 
     LaunchedEffect(exoPlayer, uri) {
-        with(exoPlayer) {
-            setMediaItem(MediaItem.fromUri(uri))
-            repeatMode = Player.REPEAT_MODE_ALL
-            prepare()
-            playWhenReady = true
-        }
+        exoPlayer.setMediaItem(MediaItem.fromUri(uri))
+        exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
+        exoPlayer.prepare()
+        exoPlayer.playWhenReady = true
     }
 
     PlayerSurface(
@@ -37,12 +35,7 @@ fun ExoPlayerUsingTextureView(modifier: Modifier = Modifier, uri: String) {
         surfaceType = SURFACE_TYPE_TEXTURE_VIEW,
     )
 
-    // Clean up the ExoPlayer when the composable is disposed
     DisposableEffect(exoPlayer) {
-        onDispose {
-            exoPlayer.release()
-        }
+        onDispose(exoPlayer::release)
     }
 }
-
-

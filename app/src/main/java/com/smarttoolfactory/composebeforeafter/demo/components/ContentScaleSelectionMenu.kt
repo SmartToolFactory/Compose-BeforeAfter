@@ -9,8 +9,9 @@ internal fun ContentScaleSelectionMenu(
     selectedContentScale: ContentScale,
     onContentScaleChanged: (ContentScale) -> Unit,
 ) {
-    DropDownWidget(
+    SelectionDialogWidget(
         outlineColor = Color.LightGray,
+        title = "Content scale",
         selectedOption = stringFromContentScale(selectedContentScale),
         options =
             listOf(

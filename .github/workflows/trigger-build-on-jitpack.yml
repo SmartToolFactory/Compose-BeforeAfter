@@ -39,5 +39,4 @@ jobs:
             exit 0
           fi
 
-          trigger_build "master-SNAPSHOT"
           trigger_build "${GITHUB_SHA::10}"

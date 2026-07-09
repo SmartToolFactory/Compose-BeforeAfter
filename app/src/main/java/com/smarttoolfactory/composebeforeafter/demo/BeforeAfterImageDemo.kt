@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.ContentOrder
 import com.smarttoolfactory.beforeafter.OverlayStyle
+import com.smarttoolfactory.beforeafter.rememberBeforeAfterState
 import com.smarttoolfactory.composebeforeafter.R
 import com.smarttoolfactory.composebeforeafter.demo.components.ContentScaleSelectionMenu
 import com.smarttoolfactory.composebeforeafter.demo.components.InsideHorizontalPagerDemo
@@ -48,7 +49,7 @@ internal fun BeforeAfterImageDemo() {
         modifier =
         Modifier
             .fillMaxSize()
-            .padding(10.dp)
+            .padding(horizontal = 16.dp, vertical = 10.dp)
             .verticalScroll(rememberScrollState()),
     ) {
         val imageBefore = imageBitmapFromRes(R.drawable.image_before_after_shoes_a)
@@ -70,12 +71,14 @@ internal fun BeforeAfterImageDemo() {
 
         SectionTitle(text = "Order")
 
+        val orderState = rememberBeforeAfterState()
         BeforeAfterImage(
             modifier =
             Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
+            state = orderState,
             beforeImage = imageBefore,
             afterImage = imageAfter,
             contentScale = contentScale,
@@ -96,12 +99,14 @@ internal fun BeforeAfterImageDemo() {
 
         SectionDividerSpace()
 
+        val reverseOrderState = rememberBeforeAfterState()
         BeforeAfterImage(
             modifier =
             Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
+            state = reverseOrderState,
             beforeImage = imageBefore,
             afterImage = imageAfter,
             contentOrder = ContentOrder.AfterBefore,
@@ -115,12 +120,14 @@ internal fun BeforeAfterImageDemo() {
             text = "Zoom(Pinch gesture)",
         )
 
+        val zoomState = rememberBeforeAfterState()
         BeforeAfterImage(
             modifier =
             Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
+            state = zoomState,
             beforeImage = imageBefore2,
             afterImage = imageAfter2,
             contentOrder = ContentOrder.AfterBefore,
@@ -161,7 +168,7 @@ internal fun BeforeAfterImageDemo() {
             beforeImage = imageBefore3,
             afterImage = imageAfter3,
             progress = progress,
-            onProgressChange = {},
+            enableProgressWithTouch = false,
             contentScale = contentScale,
             beforeLabel = {},
             afterLabel = {},

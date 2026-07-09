@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,24 +70,23 @@ internal fun Layout(
 
             // Sales and interpolates from offset from dragging to user value in valueRange
             fun scaleToUserValue(offset: Float) =
-                scale(0f, boxWidth, offset, 0f, 100f)
+                scale(0f, boxWidth, offset.coerceIn(0f, boxWidth), 0f, 100f)
 
             // Scales user value using valueRange to position on x axis on screen
             fun scaleToOffset(userValue: Float) =
-                scale(0f, 100f, userValue, 0f, boxWidth)
+                scale(0f, 100f, userValue.coerceIn(0f, 100f), 0f, boxWidth)
 
-            var rawOffset by remember {
-                mutableStateOf(
-                    Offset(
-                        x = scaleToOffset(progress),
-                        y = boxHeight / 2f,
-                    )
-                )
-            }
-
-            rawOffset = rawOffset.copy(x = scaleToOffset(progress))
+            var handleY by remember { mutableFloatStateOf(boxHeight / 2f) }
+            val rawOffset = Offset(
+                x = scaleToOffset(progress),
+                y = handleY,
+            )
 
             var isHandleTouched by remember { mutableStateOf(false) }
+            val currentProgress by rememberUpdatedState(progress)
+            val currentOnProgressChange by rememberUpdatedState(onProgressChange)
+            val currentOnProgressStart by rememberUpdatedState(onProgressStart)
+            val currentOnProgressEnd by rememberUpdatedState(onProgressEnd)
 
             val zoomState = rememberZoomState(limitPan = true)
             val coroutineScope = rememberCoroutineScope()
@@ -105,45 +106,39 @@ internal fun Layout(
                 )
             }
 
-            val touchModifier = Modifier.pointerInput(
-                boxWidth,
-                onProgressChange,
-                onProgressStart,
-                onProgressEnd,
-            ) {
+            val touchModifier = Modifier.pointerInput(boxWidth) {
+                var dragProgress = 0f
+
                 detectMotionEvents(
                     onDown = {
                         val position = it.position
                         val xPos = position.x
+                        val handleX = scaleToOffset(currentProgress)
 
                         isHandleTouched =
-                            ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
+                            ((handleX - xPos) * (handleX - xPos) < 5000)
 
                         if (isHandleTouched) {
-                            onProgressStart?.invoke(
-                                scaleToUserValue(rawOffset.x)
-                            )
+                            dragProgress = scaleToUserValue(handleX)
+                            currentOnProgressStart?.invoke(dragProgress)
                             it.consume()
                         }
                     },
                     onMove = {
                         if (isHandleTouched) {
-                            rawOffset = it.position
-                            onProgressChange?.invoke(
-                                scaleToUserValue(rawOffset.x)
-                            )
+                            dragProgress = scaleToUserValue(it.position.x)
+                            handleY = it.position.y
+                            currentOnProgressChange?.invoke(dragProgress)
                             it.consume()
                         }
                     },
                     onUp = {
                         if (isHandleTouched) {
-                            onProgressEnd?.invoke(
-                                scaleToUserValue(rawOffset.x)
-                            )
+                            currentOnProgressEnd?.invoke(dragProgress)
                             it.consume()
                         }
                         isHandleTouched = false
-                    }
+                    },
                 )
             }
 
@@ -165,32 +160,26 @@ internal fun Layout(
                 this.update(zoomState)
             }
 
-            val zoom = zoomState.zoom
-            val pan = zoomState.pan
             val handlePosition = rawOffset.x
 
-            val shapeBefore by remember(handlePosition, zoom, pan) {
-                mutableStateOf(
-                    GenericShape { size: Size, _: LayoutDirection ->
-                        moveTo(0f, 0f)
-                        lineTo(handlePosition, 0f)
-                        lineTo(handlePosition, size.height)
-                        lineTo(0f, size.height)
-                        close()
-                    }
-                )
+            val shapeBefore = remember(handlePosition) {
+                GenericShape { size: Size, _: LayoutDirection ->
+                    moveTo(0f, 0f)
+                    lineTo(handlePosition, 0f)
+                    lineTo(handlePosition, size.height)
+                    lineTo(0f, size.height)
+                    close()
+                }
             }
 
-            val shapeAfter by remember(handlePosition, zoom, pan) {
-                mutableStateOf(
-                    GenericShape { size: Size, _: LayoutDirection ->
-                        moveTo(handlePosition, 0f)
-                        lineTo(size.width, 0f)
-                        lineTo(size.width, size.height)
-                        lineTo(handlePosition, size.height)
-                        close()
-                    }
-                )
+            val shapeAfter = remember(handlePosition) {
+                GenericShape { size: Size, _: LayoutDirection ->
+                    moveTo(handlePosition, 0f)
+                    lineTo(size.width, 0f)
+                    lineTo(size.width, size.height)
+                    lineTo(handlePosition, size.height)
+                    close()
+                }
             }
 
             val parentModifier = Modifier

@@ -4,11 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -25,13 +26,14 @@ internal fun Label(
     fontSize: TextUnit = 14.sp,
     text: String
 ) {
-    Text(
+    BasicText(
         text = text,
-        color = textColor,
-        fontSize = fontSize,
-        fontWeight = fontWeight,
-        modifier = modifier
-
+        modifier = modifier,
+        style = TextStyle(
+            color = textColor,
+            fontSize = fontSize,
+            fontWeight = fontWeight,
+        ),
     )
 }
 

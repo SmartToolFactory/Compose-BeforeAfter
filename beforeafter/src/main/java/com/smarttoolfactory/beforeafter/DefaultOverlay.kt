@@ -3,6 +3,7 @@ package com.smarttoolfactory.beforeafter
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -112,10 +113,10 @@ internal fun DefaultOverlay(
             )
         }
 
-        Icon(
+        Image(
             painter = painterResource(id = thumbResource),
             contentDescription = null,
-            tint = thumbTintColor,
+            colorFilter = ColorFilter.tint(thumbTintColor),
             modifier = Modifier
                 .offset {
                     IntOffset(thumbPosX.toInt(), thumbPosY.toInt())
@@ -133,19 +134,19 @@ internal fun DefaultOverlay(
  * Values for styling [DefaultOverlay]
  *  @param verticalThumbMove when true thumb can move vertically based on user touch
  * @param dividerColor color of divider line
- * @param dividerBrush brush to set color gradiant in divider line
+ * @param dividerBrush brush to set the color gradient in the divider line
  * @param dividerWidth width of divider line
- * @param thumbBackgroundColor background color of thumb [Icon]
- * @param thumbTintColor tint color of thumb [Icon]
- * @param thumbShape shape of thumb [Icon]
- * @param thumbElevation elevation of thumb [Icon]
+ * @param thumbBackgroundColor background color of the thumb icon
+ * @param thumbTintColor tint color of the thumb icon
+ * @param thumbShape shape of the thumb icon
+ * @param thumbElevation elevation of the thumb icon
  * @param thumbResource drawable resource that should be used with thumb
  * @param thumbSize size of the thumb in dp
  * @param thumbPositionPercent vertical position of thumb if [verticalThumbMove] is false
  * It's between [0f-100f] to set thumb's vertical position in layout
  */
 @Immutable
-class OverlayStyle(
+data class OverlayStyle(
     val dividerColor: Color = Color.White,
     val dividerBrush: Brush? = null,
     val dividerWidth: Dp = 1.5.dp,

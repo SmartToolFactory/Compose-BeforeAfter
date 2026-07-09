@@ -25,8 +25,6 @@ material = "1.14.0"
 
 media3 = "1.10.1"
 
-modernstoragePhotopicker = "1.0.0-alpha06"
-
 dokka = "2.2.0"
 
 [libraries]
@@ -35,6 +33,7 @@ dokka = "2.2.0"
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 android-tools-common = { module = "com.android.tools:common", version.ref = "androidTools" }
 androidx-compose-ui-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-animation-core = { module = "androidx.compose.animation:animation-core" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 
@@ -53,7 +52,6 @@ compose-extended-gestures = { module = "com.github.SmartToolFactory:Compose-Exte
 compose-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 material3 = { module = "androidx.compose.material3:material3" }
-modernstorage-photopicker = { module = "com.google.modernstorage:modernstorage-photopicker", version.ref = "modernstoragePhotopicker" }
 symbol-processing-gradle-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 #----- end
 

@@ -6,16 +6,21 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Canvas
@@ -30,14 +35,18 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.setProgress
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import com.smarttoolfactory.beforeafter.util.getParentSize
 import com.smarttoolfactory.beforeafter.util.getScaledBitmapRect
 import com.smarttoolfactory.beforeafter.util.scale
@@ -62,7 +71,7 @@ import kotlinx.coroutines.launch
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -103,10 +112,22 @@ internal fun BeforeAfterImageImpl(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable BeforeAfterImageScope.() -> Unit = {}
 ) {
-    val semantics = if (contentDescription != null) {
+    val semantics = if (contentDescription != null || onProgressChange != null) {
         Modifier.semantics {
-            this.contentDescription = contentDescription
-            this.role = Role.Image
+            contentDescription?.let { this.contentDescription = it }
+            if (onProgressChange != null) {
+                progressBarRangeInfo = ProgressBarRangeInfo(
+                    current = progress.coerceIn(0f, 100f),
+                    range = 0f..100f,
+                    steps = 0,
+                )
+                setProgress { requestedProgress ->
+                    onProgressChange(requestedProgress.coerceIn(0f, 100f))
+                    true
+                }
+            } else {
+                this.role = Role.Image
+            }
         }
     } else {
         Modifier
@@ -121,9 +142,9 @@ internal fun BeforeAfterImageImpl(
         val bitmapWidth = beforeImage.width
         val bitmapHeight = beforeImage.height
 
-        val parenSize = getParentSize(bitmapWidth, bitmapHeight)
-        val boxWidth: Float = parenSize.width.toFloat()
-        val boxHeight: Float = parenSize.height.toFloat()
+        val parentSize = getParentSize(bitmapWidth, bitmapHeight)
+        val boxWidth: Float = parentSize.width.toFloat()
+        val boxHeight: Float = parentSize.height.toFloat()
 
         // Src is Bitmap, Dst is the container(Image) that Bitmap will be displayed
         val srcSize = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat())
@@ -156,24 +177,23 @@ internal fun BeforeAfterImageImpl(
 
         // Sales and interpolates from offset from dragging to user value in valueRange
         fun scaleToUserValue(offset: Float) =
-            scale(0f, boxWidth, offset, 0f, 100f)
+            scale(0f, boxWidth, offset.coerceIn(0f, boxWidth), 0f, 100f)
 
         // Scales user value using valueRange to position on x axis on screen
         fun scaleToOffset(userValue: Float) =
-            scale(0f, 100f, userValue, 0f, boxWidth)
+            scale(0f, 100f, userValue.coerceIn(0f, 100f), 0f, boxWidth)
 
-        var rawOffset by remember {
-            mutableStateOf(
-                Offset(
-                    x = scaleToOffset(progress),
-                    y = imageHeight.coerceAtMost(boxHeight) / 2f,
-                )
-            )
-        }
-
-        rawOffset = rawOffset.copy(x = scaleToOffset(progress))
+        var handleY by remember { mutableFloatStateOf(imageHeight.coerceAtMost(boxHeight) / 2f) }
+        val rawOffset = Offset(
+            x = scaleToOffset(progress),
+            y = handleY,
+        )
 
         var isHandleTouched by remember { mutableStateOf(false) }
+        val currentProgress by rememberUpdatedState(progress)
+        val currentOnProgressChange by rememberUpdatedState(onProgressChange)
+        val currentOnProgressStart by rememberUpdatedState(onProgressStart)
+        val currentOnProgressEnd by rememberUpdatedState(onProgressEnd)
 
         val zoomState = rememberZoomState(limitPan = true)
         val coroutineScope = rememberCoroutineScope()
@@ -193,41 +213,35 @@ internal fun BeforeAfterImageImpl(
             )
         }
 
-        val touchModifier = Modifier.pointerInput(
-            boxWidth,
-            onProgressChange,
-            onProgressStart,
-            onProgressEnd,
-        ) {
+        val touchModifier = Modifier.pointerInput(boxWidth) {
+            var dragProgress = 0f
+
             detectMotionEvents(
                 onDown = {
                     val position = it.position
                     val xPos = position.x
+                    val handleX = scaleToOffset(currentProgress)
 
                     isHandleTouched =
-                        ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
+                        ((handleX - xPos) * (handleX - xPos) < 5000)
 
                     if (isHandleTouched) {
-                        onProgressStart?.invoke(
-                            scaleToUserValue(rawOffset.x)
-                        )
+                        dragProgress = scaleToUserValue(handleX)
+                        currentOnProgressStart?.invoke(dragProgress)
                         it.consume()
                     }
                 },
                 onMove = {
                     if (isHandleTouched) {
-                        rawOffset = it.position
-                        onProgressChange?.invoke(
-                            scaleToUserValue(rawOffset.x)
-                        )
+                        dragProgress = scaleToUserValue(it.position.x)
+                        handleY = it.position.y
+                        currentOnProgressChange?.invoke(dragProgress)
                         it.consume()
                     }
                 },
                 onUp = {
                     if (isHandleTouched) {
-                        onProgressEnd?.invoke(
-                            scaleToUserValue(rawOffset.x)
-                        )
+                        currentOnProgressEnd?.invoke(dragProgress)
                         it.consume()
                     }
                     isHandleTouched = false
@@ -363,6 +377,24 @@ private fun ImageImpl(
     val bitmapWidth = beforeImage.width
     val bitmapHeight = beforeImage.height
 
+    val beforeShape = GenericShape { size: Size, _: LayoutDirection ->
+        val handlePosition = position.x.coerceIn(0f, size.width)
+        moveTo(0f, 0f)
+        lineTo(handlePosition, 0f)
+        lineTo(handlePosition, size.height)
+        lineTo(0f, size.height)
+        close()
+    }
+
+    val afterShape = GenericShape { size: Size, _: LayoutDirection ->
+        val handlePosition = position.x.coerceIn(0f, size.width)
+        moveTo(handlePosition, 0f)
+        lineTo(size.width, 0f)
+        lineTo(size.width, size.height)
+        lineTo(handlePosition, size.height)
+        close()
+    }
+
     Box {
 
         Canvas(modifier = modifier) {
@@ -372,10 +404,12 @@ private fun ImageImpl(
 
             // First add translation for crop and other content scale
             // then get user touch position on any zoom level to get raw value
-            val touchPosition =
-                (width - canvasWidth) / 2f + (position.x / zoom)
-                    .coerceIn(0f, canvasWidth)
-                    .toInt()
+            val touchPosition = (
+                (width - canvasWidth) / 2f +
+                    (position.x / zoom).coerceIn(0f, canvasWidth)
+                )
+                .toInt()
+                .coerceIn(0, width)
 
             // Translate to left or down when Image size is bigger than this canvas.
             // ImageSize is bigger when scale modes like Crop is used which enlarges image
@@ -444,11 +478,17 @@ private fun ImageImpl(
             }
         }
 
-        if (contentOrder == ContentOrder.BeforeAfter) {
+        val beforeModifier = Modifier
+            .fillMaxSize()
+            .clip(if (contentOrder == ContentOrder.BeforeAfter) beforeShape else afterShape)
+        val afterModifier = Modifier
+            .fillMaxSize()
+            .clip(if (contentOrder == ContentOrder.BeforeAfter) afterShape else beforeShape)
+
+        Box(modifier = beforeModifier) {
             beforeLabel()
-            afterLabel()
-        } else {
-            beforeLabel()
+        }
+        Box(modifier = afterModifier) {
             afterLabel()
         }
     }
