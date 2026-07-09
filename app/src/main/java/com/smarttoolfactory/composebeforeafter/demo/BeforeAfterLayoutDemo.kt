@@ -56,7 +56,7 @@ internal fun BeforeAfterLayoutDemo() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)
+            .padding(horizontal = 16.dp, vertical = 10.dp)
             .verticalScroll(rememberScrollState()),
     ) {
         val imageBefore = imageBitmapFromRes(R.drawable.image_before_after_shoes_a)
