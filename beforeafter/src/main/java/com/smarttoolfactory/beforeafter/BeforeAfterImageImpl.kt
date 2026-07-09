@@ -6,7 +6,9 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Canvas
@@ -42,6 +45,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import com.smarttoolfactory.beforeafter.util.getParentSize
 import com.smarttoolfactory.beforeafter.util.getScaledBitmapRect
 import com.smarttoolfactory.beforeafter.util.scale
@@ -372,6 +376,24 @@ private fun ImageImpl(
     val bitmapWidth = beforeImage.width
     val bitmapHeight = beforeImage.height
 
+    val beforeShape = GenericShape { size: Size, _: LayoutDirection ->
+        val handlePosition = position.x.coerceIn(0f, size.width)
+        moveTo(0f, 0f)
+        lineTo(handlePosition, 0f)
+        lineTo(handlePosition, size.height)
+        lineTo(0f, size.height)
+        close()
+    }
+
+    val afterShape = GenericShape { size: Size, _: LayoutDirection ->
+        val handlePosition = position.x.coerceIn(0f, size.width)
+        moveTo(handlePosition, 0f)
+        lineTo(size.width, 0f)
+        lineTo(size.width, size.height)
+        lineTo(handlePosition, size.height)
+        close()
+    }
+
     Box {
 
         Canvas(modifier = modifier) {
@@ -455,11 +477,17 @@ private fun ImageImpl(
             }
         }
 
-        if (contentOrder == ContentOrder.BeforeAfter) {
+        val beforeModifier = Modifier
+            .fillMaxSize()
+            .clip(if (contentOrder == ContentOrder.BeforeAfter) beforeShape else afterShape)
+        val afterModifier = Modifier
+            .fillMaxSize()
+            .clip(if (contentOrder == ContentOrder.BeforeAfter) afterShape else beforeShape)
+
+        Box(modifier = beforeModifier) {
             beforeLabel()
-            afterLabel()
-        } else {
-            beforeLabel()
+        }
+        Box(modifier = afterModifier) {
             afterLabel()
         }
     }
