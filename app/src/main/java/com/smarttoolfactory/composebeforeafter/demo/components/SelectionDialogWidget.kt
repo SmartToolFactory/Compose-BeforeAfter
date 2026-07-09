@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,19 +23,20 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.composebeforeafter.demo.helpers.noRippleClickable
 
 @Composable
-fun DropDownWidget(
+fun SelectionDialogWidget(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Transparent,
     outlineColor: Color = Color.Transparent,
     outlineStrokeWidth: Dp = 1.dp,
     padding: Dp = 16.dp,
+    title: String? = null,
     options: List<String>,
     selectedOption: String,
     onSelected: (String) -> Unit,
 ) {
     require(options.isNotEmpty()) { "options must not be empty" }
 
-    var expanded by remember { mutableStateOf(false) }
+    var dialogVisible by remember { mutableStateOf(false) }
     var selectedIndex by remember(options, selectedOption) {
         mutableIntStateOf(options.indexOf(selectedOption).coerceIn(0, options.lastIndex))
     }
@@ -49,7 +48,7 @@ fun DropDownWidget(
                     width = outlineStrokeWidth,
                     color = outlineColor,
                     shape = RoundedCornerShape(8.dp),
-                ).noRippleClickable { expanded = !expanded }
+                ).noRippleClickable { dialogVisible = true }
                 .wrapContentSize(),
         contentAlignment = Alignment.TopStart,
     ) {
@@ -58,24 +57,19 @@ fun DropDownWidget(
             modifier =
                 Modifier
                     .padding(padding)
-                    .fillMaxWidth()
-                    .noRippleClickable(onClick = { expanded = true }),
+                    .fillMaxWidth(),
         )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            options.forEachIndexed { index, s ->
-                DropdownMenuItem(
-                    text = { Text(text = s) },
-                    onClick = {
-                        selectedIndex = index
-                        expanded = false
-                        onSelected(s)
-                    },
-                )
-            }
+        if (dialogVisible) {
+            RadioSelectionDialog(
+                title = title,
+                options = options,
+                selectedIndex = selectedIndex,
+                onOptionSelected = { index ->
+                    selectedIndex = index
+                    onSelected(options[index])
+                },
+                onDismissRequest = { dialogVisible = false },
+            )
         }
     }
 }
@@ -83,7 +77,7 @@ fun DropDownWidget(
 @Preview
 @Composable
 private fun Preview() {
-    DropDownWidget(
+    SelectionDialogWidget(
         backgroundColor = Color.LightGray,
         outlineColor = Color.Gray,
         outlineStrokeWidth = 2.dp,
