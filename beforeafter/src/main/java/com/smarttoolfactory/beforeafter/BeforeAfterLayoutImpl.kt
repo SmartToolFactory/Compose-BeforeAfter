@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -75,7 +76,7 @@ internal fun Layout(
             fun scaleToOffset(userValue: Float) =
                 scale(0f, 100f, userValue.coerceIn(0f, 100f), 0f, boxWidth)
 
-            var handleY by remember { mutableStateOf(boxHeight / 2f) }
+            var handleY by remember { mutableFloatStateOf(boxHeight / 2f) }
             val rawOffset = Offset(
                 x = scaleToOffset(progress),
                 y = handleY,
@@ -159,32 +160,26 @@ internal fun Layout(
                 this.update(zoomState)
             }
 
-            val zoom = zoomState.zoom
-            val pan = zoomState.pan
             val handlePosition = rawOffset.x
 
-            val shapeBefore by remember(handlePosition, zoom, pan) {
-                mutableStateOf(
-                    GenericShape { size: Size, _: LayoutDirection ->
-                        moveTo(0f, 0f)
-                        lineTo(handlePosition, 0f)
-                        lineTo(handlePosition, size.height)
-                        lineTo(0f, size.height)
-                        close()
-                    }
-                )
+            val shapeBefore = remember(handlePosition) {
+                GenericShape { size: Size, _: LayoutDirection ->
+                    moveTo(0f, 0f)
+                    lineTo(handlePosition, 0f)
+                    lineTo(handlePosition, size.height)
+                    lineTo(0f, size.height)
+                    close()
+                }
             }
 
-            val shapeAfter by remember(handlePosition, zoom, pan) {
-                mutableStateOf(
-                    GenericShape { size: Size, _: LayoutDirection ->
-                        moveTo(handlePosition, 0f)
-                        lineTo(size.width, 0f)
-                        lineTo(size.width, size.height)
-                        lineTo(handlePosition, size.height)
-                        close()
-                    }
-                )
+            val shapeAfter = remember(handlePosition) {
+                GenericShape { size: Size, _: LayoutDirection ->
+                    moveTo(handlePosition, 0f)
+                    lineTo(size.width, 0f)
+                    lineTo(size.width, size.height)
+                    lineTo(handlePosition, size.height)
+                    close()
+                }
             }
 
             val parentModifier = Modifier

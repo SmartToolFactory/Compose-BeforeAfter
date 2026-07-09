@@ -18,7 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 /**
  * Stateful convenience overload for [BeforeAfterImage].
  *
- * Prefer the overload that takes [progress] and [onProgressChange] when the caller owns state.
+ * Prefer the overload that takes `progress` and `onProgressChange` when the caller owns state.
  */
 @Composable
 fun BeforeAfterImage(
@@ -71,10 +71,10 @@ fun BeforeAfterImage(
  * @param onProgressStart callback to be called when user starts dragging the slider with touch
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
+ * @param overlayStyle styling values for [DefaultOverlay] to set divider color, thumb shape, size,
  * elevation and other properties
  * @param contentOrder order of images to be drawn
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -145,19 +145,18 @@ fun BeforeAfterImage(
  * @param afterImage image that show final progress
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
  * @param enableZoom when enabled images are zoomable and pannable
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
+ * @param overlayStyle styling values for [DefaultOverlay] to set divider color, thumb shape, size,
  * elevation and other properties
  * @param contentOrder order of images to be drawn
  * @param progress progress value that will be used to show progress
  * @param onProgressChange callback that will be called when progress value changes
  * @param onProgressStart callback to be called when user starts dragging the slider with touch
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size, elevation and other properties
  * @param beforeLabel text that will be shown on top of image
  * @param afterLabel text that will be shown on bottom of image
  * @param contentScale how image should be scaled inside Canvas to match parent dimensions.
-  * [ContentScale.Fit] for instance maintains src ratio and scales image to fit inside the parent.
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * [ContentScale.Fit] for instance maintains src ratio and scales image to fit inside the parent.
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -221,11 +220,11 @@ fun BeforeAfterImage(
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
- * @param progress progress value between 0.0f and 1.0f representing progress of image
+ * @param progress progress value between 0f and 100f representing progress of image
  * @param onProgressChange callback that is called when progress value changes
  * @param onProgressStart callback to be called when user starts dragging the slider with touch
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -302,7 +301,7 @@ fun BeforeAfterImage(
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,

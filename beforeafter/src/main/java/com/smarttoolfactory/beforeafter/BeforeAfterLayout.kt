@@ -49,7 +49,7 @@ fun BeforeAfterLayout(
  * @param onProgressEnd callback to be called when user ends dragging the slider with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
+ * @param overlayStyle styling values for [DefaultOverlay] to set divider color, thumb shape, size,
  * elevation and other properties
  * @param beforeContent content to be drawn as before Composable
  * @param afterContent content to be drawn as after Composable
@@ -115,7 +115,7 @@ fun BeforeAfterLayout(
  * @param contentOrder order of composables to be drawn
  * @param progress current position or progress of before/after
  * @param onProgressChange current position or progress of before/after
- * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
+ * @param overlayStyle styling values for [DefaultOverlay] to set divider color, thumb shape, size,
  * elevation and other properties
  * @param beforeContent content to be drawn as before Composable
  * @param afterContent content to be drawn as after Composable

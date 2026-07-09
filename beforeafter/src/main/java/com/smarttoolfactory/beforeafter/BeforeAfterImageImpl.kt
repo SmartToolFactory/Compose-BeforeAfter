@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -70,7 +71,7 @@ import kotlinx.coroutines.launch
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
  * @param enableZoom when enabled images are zoomable and pannable
  * @param contentOrder order of images to be drawn
- * @param alignment determines where image will be aligned inside [BoxWithConstraints]
+ * @param alignment determines where image will be aligned inside `BoxWithConstraints`
  * This is observable when bitmap image/width ratio differs from [Canvas] that draws [ImageBitmap]
  * @param contentDescription text used by accessibility services to describe what this image
  * represents. This should always be provided unless this image is used for decorative purposes,
@@ -141,9 +142,9 @@ internal fun BeforeAfterImageImpl(
         val bitmapWidth = beforeImage.width
         val bitmapHeight = beforeImage.height
 
-        val parenSize = getParentSize(bitmapWidth, bitmapHeight)
-        val boxWidth: Float = parenSize.width.toFloat()
-        val boxHeight: Float = parenSize.height.toFloat()
+        val parentSize = getParentSize(bitmapWidth, bitmapHeight)
+        val boxWidth: Float = parentSize.width.toFloat()
+        val boxHeight: Float = parentSize.height.toFloat()
 
         // Src is Bitmap, Dst is the container(Image) that Bitmap will be displayed
         val srcSize = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat())
@@ -182,7 +183,7 @@ internal fun BeforeAfterImageImpl(
         fun scaleToOffset(userValue: Float) =
             scale(0f, 100f, userValue.coerceIn(0f, 100f), 0f, boxWidth)
 
-        var handleY by remember { mutableStateOf(imageHeight.coerceAtMost(boxHeight) / 2f) }
+        var handleY by remember { mutableFloatStateOf(imageHeight.coerceAtMost(boxHeight) / 2f) }
         val rawOffset = Offset(
             x = scaleToOffset(progress),
             y = handleY,

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.IntSize
 /**
  * Get Rectangle of [ImageBitmap] with [bitmapWidth] and [bitmapHeight] that is drawn inside
  * Canvas with [imageWidth] and [imageHeight]. [boxWidth] and [boxHeight] belong
- * to [BoxWithConstraints] that contains Canvas.
+ * to `BoxWithConstraints` that contains Canvas.
  *  @param boxWidth width of the parent container
  *  @param boxHeight height of the parent container
  *  @param imageWidth width of the [Canvas] that draws [ImageBitmap]
