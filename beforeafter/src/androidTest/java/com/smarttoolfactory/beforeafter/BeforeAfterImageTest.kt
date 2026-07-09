@@ -85,4 +85,36 @@ class BeforeAfterImageTest {
             assertEquals(75f, ended ?: error("No end callback"), 1f)
         }
     }
+
+    @Test
+    fun controlledApi_continuesDraggingFromStartEdge() {
+        var progress by mutableFloatStateOf(0f)
+        var lastCallback: Float? = null
+
+        composeRule.setContent {
+            BeforeAfterImage(
+                modifier = Modifier.testTag("comparison").then(Modifier.size(200.dp)),
+                beforeImage = before,
+                afterImage = after,
+                progress = progress,
+                onProgressChange = {
+                    lastCallback = it
+                    progress = it
+                },
+                contentDescription = "comparison",
+            )
+        }
+
+        composeRule.onNodeWithTag("comparison")
+            .performTouchInput {
+                down(Offset(5f, 100f))
+                moveTo(Offset(50f, 100f))
+                moveTo(Offset(100f, 100f))
+                up()
+            }
+
+        composeRule.runOnIdle {
+            assertEquals(50f, lastCallback ?: error("No progress callback"), 1f)
+        }
+    }
 }

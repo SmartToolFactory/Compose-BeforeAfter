@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -184,6 +185,10 @@ internal fun BeforeAfterImageImpl(
         )
 
         var isHandleTouched by remember { mutableStateOf(false) }
+        val currentProgress by rememberUpdatedState(progress)
+        val currentOnProgressChange by rememberUpdatedState(onProgressChange)
+        val currentOnProgressStart by rememberUpdatedState(onProgressStart)
+        val currentOnProgressEnd by rememberUpdatedState(onProgressEnd)
 
         val zoomState = rememberZoomState(limitPan = true)
         val coroutineScope = rememberCoroutineScope()
@@ -203,41 +208,35 @@ internal fun BeforeAfterImageImpl(
             )
         }
 
-        val touchModifier = Modifier.pointerInput(
-            boxWidth,
-            onProgressChange,
-            onProgressStart,
-            onProgressEnd,
-        ) {
+        val touchModifier = Modifier.pointerInput(boxWidth) {
+            var dragProgress = 0f
+
             detectMotionEvents(
                 onDown = {
                     val position = it.position
                     val xPos = position.x
+                    val handleX = scaleToOffset(currentProgress)
 
                     isHandleTouched =
-                        ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
+                        ((handleX - xPos) * (handleX - xPos) < 5000)
 
                     if (isHandleTouched) {
-                        onProgressStart?.invoke(
-                            scaleToUserValue(rawOffset.x)
-                        )
+                        dragProgress = scaleToUserValue(handleX)
+                        currentOnProgressStart?.invoke(dragProgress)
                         it.consume()
                     }
-                    },
-                    onMove = {
-                        if (isHandleTouched) {
-                            handleY = it.position.y
-                            onProgressChange?.invoke(
-                                scaleToUserValue(it.position.x)
-                            )
-                            it.consume()
-                        }
+                },
+                onMove = {
+                    if (isHandleTouched) {
+                        dragProgress = scaleToUserValue(it.position.x)
+                        handleY = it.position.y
+                        currentOnProgressChange?.invoke(dragProgress)
+                        it.consume()
+                    }
                 },
                 onUp = {
                     if (isHandleTouched) {
-                        onProgressEnd?.invoke(
-                            scaleToUserValue(rawOffset.x)
-                        )
+                        currentOnProgressEnd?.invoke(dragProgress)
                         it.consume()
                     }
                     isHandleTouched = false
