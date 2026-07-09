@@ -9,8 +9,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,6 +17,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
+import com.smarttoolfactory.beforeafter.rememberBeforeAfterState
 
 @Composable
 internal fun InsideHorizontalPagerDemo(
@@ -27,13 +26,6 @@ internal fun InsideHorizontalPagerDemo(
     contentScale: ContentScale,
 ) {
     val pagerState = rememberPagerState { 3 }
-
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }
-            .collect { currentPage ->
-                pagerState.animateScrollToPage(currentPage)
-            }
-    }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -54,6 +46,7 @@ internal fun InsideHorizontalPagerDemo(
                     Modifier
                         .fillMaxSize()
                         .aspectRatio(4 / 3f),
+                state = rememberBeforeAfterState(),
                 beforeImage = beforeImage,
                 afterImage = afterImage,
                 contentScale = contentScale,

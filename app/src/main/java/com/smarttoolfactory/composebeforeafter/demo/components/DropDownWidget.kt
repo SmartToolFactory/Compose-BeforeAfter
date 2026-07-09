@@ -35,9 +35,12 @@ fun DropDownWidget(
     selectedOption: String,
     onSelected: (String) -> Unit,
 ) {
+    require(options.isNotEmpty()) { "options must not be empty" }
+
     var expanded by remember { mutableStateOf(false) }
-    val selectedOptionIndex = options.indexOf(selectedOption).coerceIn(0, options.size - 1)
-    var selectedIndex by remember { mutableIntStateOf(selectedOptionIndex) }
+    var selectedIndex by remember(options, selectedOption) {
+        mutableIntStateOf(options.indexOf(selectedOption).coerceIn(0, options.lastIndex))
+    }
     Box(
         modifier =
             modifier

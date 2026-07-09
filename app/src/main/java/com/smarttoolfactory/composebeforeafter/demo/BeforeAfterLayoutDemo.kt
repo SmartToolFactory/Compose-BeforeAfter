@@ -39,6 +39,7 @@ import com.smarttoolfactory.beforeafter.BeforeAfterLayout
 import com.smarttoolfactory.beforeafter.BeforeLabel
 import com.smarttoolfactory.beforeafter.ContentOrder
 import com.smarttoolfactory.beforeafter.OverlayStyle
+import com.smarttoolfactory.beforeafter.rememberBeforeAfterState
 import com.smarttoolfactory.composebeforeafter.demo.components.ExoPlayerUsingTextureView
 import com.smarttoolfactory.composebeforeafter.R
 import com.smarttoolfactory.composebeforeafter.demo.components.M2BeforeSample
@@ -66,11 +67,13 @@ internal fun BeforeAfterLayoutDemo() {
 
         SectionTitle(text = "Customization")
 
+        val customizationState = rememberBeforeAfterState()
         BeforeAfterLayout(
             modifier = Modifier
                 .shadow(1.dp, RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
+            state = customizationState,
             beforeContent = {
                 DemoImage(imageBitmap = imageBefore)
             },
@@ -93,11 +96,13 @@ internal fun BeforeAfterLayoutDemo() {
 
         SectionTitle(text = "Zoom (Pinch gesture)")
 
+        val zoomState = rememberBeforeAfterState()
         BeforeAfterLayout(
             modifier = Modifier
                 .shadow(1.dp, RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f),
+            state = zoomState,
             beforeContent = {
                 DemoImage(imageBitmap = imageBefore2)
             },
@@ -153,8 +158,10 @@ internal fun BeforeAfterLayoutDemo() {
 
         SectionTitle(text = "Layout")
 
+        val layoutState = rememberBeforeAfterState()
         BeforeAfterLayout(
             modifier = Modifier.fillMaxWidth(),
+            state = layoutState,
             beforeContent = {
                 M2BeforeSample()
             },
@@ -175,11 +182,13 @@ internal fun BeforeAfterLayoutDemo() {
 
         SectionTitle(text = "Video")
 
+        val videoState = rememberBeforeAfterState()
         BeforeAfterLayout(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(10.dp))
                 .aspectRatio(4 / 3f),
+            state = videoState,
             beforeContent = {
                 ExoPlayerUsingTextureView(
                     uri = "asset:///floodplain_dirty.mp4",
