@@ -21,7 +21,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://jitpack.io'
+            content {
+                includeGroup 'com.github.SmartToolFactory'
+            }
+        }
     }
 }
 ```
@@ -41,23 +46,13 @@ dependencies {
 
 where `<version>` is one available in [![](https://www.jitpack.io/v/SmartToolFactory/Compose-BeforeAfter.svg)](https://www.jitpack.io/#SmartToolFactory/Compose-BeforeAfter)
 
-### Snapshot version
-
-To use the latest `master` build from [JitPack](https://www.jitpack.io/#SmartToolFactory/Compose-BeforeAfter/master-SNAPSHOT):
-
-```gradle
-dependencies {
-    implementation 'com.github.SmartToolFactory:Compose-BeforeAfter:master-SNAPSHOT'
-}
-```
-
 ### Commit version
 
-To use a specific commit from [JitPack](https://www.jitpack.io/#SmartToolFactory/Compose-BeforeAfter/2dc478ceb9):
+For a reproducible build, use an immutable commit SHA from [JitPack](https://www.jitpack.io/#SmartToolFactory/Compose-BeforeAfter):
 
 ```gradle
 dependencies {
-    implementation 'com.github.SmartToolFactory:Compose-BeforeAfter:2dc478ceb9'
+    implementation 'com.github.SmartToolFactory:Compose-BeforeAfter:<commit-sha>'
 }
 ```
 
@@ -85,7 +80,8 @@ BeforeAfterImage(
 ```
 
 The legacy overloads that do not accept `progress` or `state` are deprecated. They remain available
-for one migration cycle and delegate to `BeforeAfterState` internally.
+for source compatibility and delegate to `BeforeAfterState` internally. Prefer the stateful or
+controlled overloads for new code.
 
 ```kotlin
 @Composable
@@ -166,8 +162,6 @@ fun BeforeAfterImage(
     beforeImage: ImageBitmap,
     afterImage: ImageBitmap,
     enableProgressWithTouch: Boolean = true,
-    onProgressStart: ((progress: Float) -> Unit)? = null,
-    onProgressEnd: ((progress: Float) -> Unit)? = null,
     enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
