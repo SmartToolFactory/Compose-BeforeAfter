@@ -23,7 +23,7 @@ lifecycleViewmodelCompose = "2.11.0"
 material = "1.14.0"
 #endregion
 
-media3 = "1.10.1"
+media3 = "1.11.0"
 
 dokka = "2.2.0"
 
