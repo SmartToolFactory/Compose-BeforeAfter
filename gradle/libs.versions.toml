@@ -25,7 +25,7 @@ material = "1.14.0"
 
 media3 = "1.11.1"
 
-dokka = "2.2.0"
+dokka = "2.3.0"
 
 [libraries]
 
